@@ -1,0 +1,29 @@
+Use Case Scenario
+Investor sells a crypto
+
+Context: Investor chooses to sell a crypto they currently own. 
+
+Primary Flow: 
+1. Investor chooses to sell a crypto from investor's portfolio. 
+2. System detects request to sell a crypto.
+3. System displays total amount the crypto will be sold on with deductions and net pay.
+4. System verifies the ownership of crypto of the entered amount. 
+5. System displays a confirmation page and requires to confirm the sale of crypto.
+6. Investor confirms the sale. 
+7. System displays lists of account the payment to be added to or add a new account. 
+8. Investor chooses an account. 
+9. System checks if the account is valid or not. 
+10. System asserts the account is valid. The transaction is successful.
+11. System displays the bill of sale and estimated time of amount deposit.
+12. System removes the crypto from investor's portfolio. 
+
+Alternative flow:
+I. Investor cancels the sale.
+A5. System detects the cancellation of sale.
+A6. System displays the sale has been cancelled notification. 
+A7. Returns to investor's portfolio.
+
+II. Investor chooses invalid account
+A9. System asserts the account is invalid. Transaction failed. 
+A10. System displays the transaction failed information. 
+A11. Returns to primary flow step 8.

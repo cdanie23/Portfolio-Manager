@@ -1,0 +1,37 @@
+Use Case Scenario
+Investor Chooses to trade a crypto
+
+Context: Investor can trade crypto for a crypto or transfer crypto as a method of payment for a purchase. 
+
+Primary Flow: 
+1. Investor accesses the investor's portfolio. 
+2. From investor's portfolio, investor chooses a crypto to trade. 
+3. System detects a trade request. 
+4. System displays a form with fields for amount (required to fill) and memo (optional).
+5. System verifies ownership of trade worth the inserted amount. 
+6. System displays confirmation of transfer request. 
+7. Investor confirms the transfer. 
+8. System displays the form to add the receiver of trade. 
+9. Investor enters the receiver information. 
+10. System confirms the receiver information. 
+11. System displays confirmation of transfer to the enter receiver. 
+12. Investor confirms the transfer. 
+13. System transfers the crypto to the receivers accounts. 
+14. System displays the transfer successful notification. 
+15. System removes the number of crypto transferred from the investor's portfolio. 
+
+Alternative Flow:
+I. Investor enters invalid amount. 
+A5. System detects the invalid amount entered. 
+A6. System displays invalid amount entered notification. 
+A7. Returns to primary flow step 4.
+
+II. Investor cancels the transfer. 
+A8. System detects cancellation of transfer. 
+A9. System displays cancellation notification. 
+A10. Returns to the primary flow step 1.
+
+III. Investor enters wrong receiver information. 
+A10. System detects wrong information provided. 
+A11. System detects the receiver doesn't exist notification. 
+A12. Returns to the primary flow step 8.

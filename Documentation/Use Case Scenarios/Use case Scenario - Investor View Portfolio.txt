@@ -1,0 +1,17 @@
+Use case Scenario
+Investor View Portfolio
+
+Context: Investor signs in and can view their personal portfolio now. 
+
+Primary Flow:
+1. Investor chooses to view portfolio.
+2. System detects portfolio viewing requests. 
+3. System displays investor portfolio including current holdings with profit/loss calculated by subtracting the bought price from current price.
+4. System also displays available options for investor owned cryptos (buy, sell, trade).
+5. Investor selects a crypto from the list of holdings. 
+6. System detects a choice made. 
+7. System displays graph and change on price on the crypto. 
+8. System calculates and displays profit/loss if the crypto is sold right now. 
+9. System additionally predicts if the crypto price is going to increase or decrease. 
+
+

@@ -1,0 +1,31 @@
+Use Case Scenario
+Investor buys a crypto
+
+Context: Investor chooses to buy a crypto from the list of available crypto currencies. 
+
+Primary flow:
+1. Investor chooses to buy a crypto. 
+2. System detects request to buy a crypto.
+3. System displays a form with amount in USD to buy the crypto with. 
+4. Investor enters the amount. 
+5. System detects the amount and verifies it. 
+6. System displays method of payment (card, bank account or digital wallet).
+7. Investor chooses a method of payment. 
+8. System checks if the mode of payment is valid or invalid. 
+9. System asserts the mode of payment is valid. The transaction is successful.
+10. Investor now owns the crypto bought. 
+11. System moves the bought crypto to investor's portfolio. 
+
+Alternative flow:
+I. Investor enters out of range amount. 
+A5. System detects the amount and asserts invalid amount.  
+A6. System displays invalid amount. Limit exceeded or limit not met notification. 
+A7. Returns to primary flow step 4.
+
+II. Investor chooses invalid method of payment. 
+A9. System asserts the mode of payment is invalid. Transaction failed. 
+A10. System displays the transaction failed information. 
+A11. Returns to primary flow step 7.
+
+
+

@@ -1,0 +1,15 @@
+Use case Scenario
+User View Current Trends
+
+Context: User access the webpage of the portfolio manager system. The home page displays few information without needing to login. 
+
+Primary Flow: 
+1. User access the webpage.
+2. System displays the home page of the portfolio manager. 
+3. User chooses to view current crypto currency prices. 
+4. System detects user request to view cryptocurrency prices.
+5. System displays current crypto currencies price. 
+6. User chooses a crypto currency from the list of cryptocurrencies. 
+7. System detects a crypto choice. 
+8. System displays graph on price change of selected crypto. 
+9. System also displays predicted growth or loss of the selected crypto for a specified time (a day, a week, a month).

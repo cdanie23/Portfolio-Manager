@@ -1,0 +1,12 @@
+Use Case Scenario
+Investor views current trends
+Context: Investor can view the same webpage to check current crypto trends.
+
+Primary Flow:  
+1. Investor chooses to view current crypto currency prices. 
+2. System detects user request to view cryptocurrency prices.
+3. System displays current crypto currencies price. 
+4. Investor chooses a crypto currency from the list of cryptocurrencies. 
+5. System detects a crypto choice. 
+6. System displays graph on price change of selected crypto. 
+7. System also displays predicted growth or loss of the selected crypto for a specified time (a day, a week, a month).

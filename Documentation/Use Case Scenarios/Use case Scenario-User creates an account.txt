@@ -1,0 +1,15 @@
+Use case Scenario
+User-Creates an Account
+
+Context: User has limited access in the system without needing an Account. Anything user does will be redirected to login page.
+
+Primary Flow:
+1. User selects create an account button on the homepage. 
+2. System detects account creation request.
+3. System directs to the create account webpage. 
+4. User is prompted on necessary details needed to create an account. 
+5. System verifies the necessary details have been added before moving on. 
+6. User is prompted to create a username and password for the account.
+7. System verifies the username is unique. 
+8. System verifies the password matches necessities. 
+9. User has successfully created an account.
