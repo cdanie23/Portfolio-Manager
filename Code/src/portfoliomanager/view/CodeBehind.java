@@ -30,7 +30,8 @@ public class CodeBehind {
         assert this.priceList != null : "fx:id=\"priceList\" was not injected: check your FXML file 'PortfolioManager.fxml'.";
     }
     
-    private void initializeElements() {
+    @SuppressWarnings("unused")
+	private void initializeElements() {
     	//TODO binding
     }
 }
