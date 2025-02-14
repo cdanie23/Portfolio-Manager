@@ -2,13 +2,25 @@
 
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.CodeBehind">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.CodeBehind">
   <tabs>
     <Tab text="Untitled Tab 1">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView layoutX="6.0" layoutY="164.0" prefHeight="199.0" prefWidth="358.0">
+                    <columns>
+                      <TableColumn fx:id="cryptoList" prefWidth="104.0" text="Cryptocurrency" />
+                      <TableColumn fx:id="priceList" prefWidth="95.0" text="Current Price" />
+                        <TableColumn minWidth="0.0" prefWidth="82.0" text="Volume" />
+                        <TableColumn minWidth="0.0" prefWidth="77.0" text="........" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
       </content>
     </Tab>
     <Tab text="Untitled Tab 2">
