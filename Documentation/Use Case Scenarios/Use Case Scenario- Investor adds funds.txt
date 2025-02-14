@@ -1,0 +1,19 @@
+Use Case Scenario
+Investor Add Funds
+
+Context: Investors should be able to add funds in order to buy crypto currencies. 
+
+Primary Flow:
+1. Investor decides to add funds and selects add funds button. 
+2. System detects add funds request. 
+3. System displays text box form to insert amount needed to add funds. 
+4. Investor enters the amount to be added in the text box. 
+5. System detects the entered amount and verifies entered amount is valid. 
+6. System adds funds to the investors portfolio/dashboard. 
+7. System returns to the investors portfolio with new amount. 
+
+Alternative Flow:
+I. Investor enters invalid number or string.
+A5. System detects invalid amount entered. 
+A6. System displays invalid amount entered information. 
+A7. Returns to the primary flow step 4.

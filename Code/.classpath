@@ -6,11 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.base.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.media.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.web.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
