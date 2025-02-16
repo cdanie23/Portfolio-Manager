@@ -12,8 +12,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			TabPane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/PortfolioManager.fxml"));
-			Scene scene = new Scene(root,400,400);
+			TabPane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LandingPage.fxml"));
+			Scene scene = new Scene(root,750,450);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
