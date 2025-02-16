@@ -1,5 +1,5 @@
 package portfoliomanager;
-	
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -12,6 +12,7 @@ import javafx.scene.control.TabPane;
  * @author Group 2
  * @version Spring 2025
  */
+
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -24,7 +25,7 @@ public class Main extends Application {
 			exception.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Primary Java entry point
 	 * 
