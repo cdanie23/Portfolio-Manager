@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import portfoliomanager.model.Account;
+import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
  * The sign up page code behind
@@ -51,7 +52,13 @@ public class SignUpPageCodeBehind  implements Initializable {
     	String password = this.passwordField.getText();
     	
     	Account account = new Account(email, password);
-    	this.showAlert("Signed Up!", "Account email: " + email);
+    	SignUpPageViewModel addAccount = new SignUpPageViewModel();
+    	
+    	if (addAccount.createAccount(account)) {
+    		this.showAlert("Signed Up!", "Account email: " + email);
+    	} else {
+    		this.showAlert("Error", "Email has already been used.");
+    	}
     	
     	Stage stage = (Stage) this.signUpButton.getScene().getWindow();
         stage.close();
