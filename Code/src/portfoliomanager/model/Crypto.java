@@ -1,5 +1,7 @@
 package portfoliomanager.model;
 
+import java.util.HashMap;
+
 //import java.util.HashMap;
 
 /**
@@ -12,7 +14,7 @@ public class Crypto {
 
 	private String name;
 	private Double currentPrice;
-	//private HashMap<K,V> historicalPrices;
+	private HashMap<String,Double> historicalPrices;
 	
 	/**
 	 * Instantiates a new Crypto object
@@ -28,6 +30,7 @@ public class Crypto {
 		}
 		this.name = name;
 		this.currentPrice = currentPrice;
+		this.historicalPrices = new HashMap<String,Double>();
 	}
 	
 	/** Gets the name of the crypto
@@ -72,5 +75,26 @@ public class Crypto {
 	 */
 	public void setCurrentPrice(Double currentPrice) {
 		this.currentPrice = currentPrice;
-	}	
+	}
+	
+	/** Sets the historical prices for the given crypto
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param historicalPrices
+	 */
+	public void setHistoricalPrices(HashMap<String,Double> historicalPrices) {
+		this.historicalPrices = historicalPrices;
+	}
+	
+	/** Returns the historical Prices of the crypto
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * @return the historical prices of the cryoto
+	 */
+	public HashMap<String,Double> getHistoricalPrice() {
+		return this.historicalPrices;
+	}
 }
