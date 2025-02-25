@@ -37,10 +37,6 @@ public class SignUpPageViewModel {
 	 * @return true, if successful
 	 */
 	public boolean createAccount(Account newAccount) {
-		if (newAccount.getEmail().isEmpty() || newAccount.getPassword().isEmpty()) {
-			return false;
-		}
-		
 		for (Account account : this.accounts) {
 			if (account.getEmail().equalsIgnoreCase(newAccount.getEmail())) {
 				return false;
