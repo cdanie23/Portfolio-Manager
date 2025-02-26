@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * The Account Class.
+ * @author Sam
+ * @version Spring 2025
  */
 public class Account {
 	private String email;
