@@ -3,7 +3,6 @@ package portfoliomanager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import portfoliomanager.datareader.DataReader;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 
@@ -30,18 +29,4 @@ public class Main extends Application {
 		}
 	}
 
-	/**
-	 * Primary Java entry point
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @param args command line arguments
-
-	public static void main(String[] args) {
-		//Reads the data in
-		DataReader reader  = new DataReader(FILEPATH);
-		reader.readCryptoData();
-		launch(args);
-	}
 }

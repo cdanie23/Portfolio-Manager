@@ -25,6 +25,7 @@ public class DataReader {
 
 	/**
 	 * Instantiates a Data reader object
+	 * @param filePath the path of the file to read
 	 * @throws FileNotFoundException 
 	 */
 	public DataReader(String filePath) {

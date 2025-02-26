@@ -14,7 +14,7 @@ public class Crypto {
 
 	private String name;
 	private Double currentPrice;
-	private HashMap<String,Double> historicalPrices;
+	private HashMap<String, Double> historicalPrices;
 	
 	/**
 	 * Instantiates a new Crypto object
@@ -30,7 +30,7 @@ public class Crypto {
 		}
 		this.name = name;
 		this.currentPrice = currentPrice;
-		this.historicalPrices = new HashMap<String,Double>();
+		this.historicalPrices = new HashMap<String, Double>();
 	}
 	
 	/** Gets the name of the crypto
@@ -84,7 +84,7 @@ public class Crypto {
 	 * 
 	 * @param historicalPrices
 	 */
-	public void setHistoricalPrices(HashMap<String,Double> historicalPrices) {
+	public void setHistoricalPrices(HashMap<String, Double> historicalPrices) {
 		this.historicalPrices = historicalPrices;
 	}
 	
@@ -94,7 +94,7 @@ public class Crypto {
 	 * @postcondition none
 	 * @return the historical prices of the cryoto
 	 */
-	public HashMap<String,Double> getHistoricalPrice() {
+	public HashMap<String, Double> getHistoricalPrice() {
 		return this.historicalPrices;
 	}
 }
