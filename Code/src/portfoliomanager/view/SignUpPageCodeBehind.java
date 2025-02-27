@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
@@ -33,11 +32,13 @@ public class SignUpPageCodeBehind  implements Initializable {
     private TextField passwordField;
     @FXML
     private Button signUpButton;
+    private SignUpPageViewModel addAccount;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
         this.logoImageView.setImage(image);
+        this.addAccount = new SignUpPageViewModel();
 	}
     
     @FXML
@@ -51,10 +52,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     	String email = this.emailField.getText();
     	String password = this.passwordField.getText();
     	
-    	Account account = new Account(email, password);
-    	SignUpPageViewModel addAccount = new SignUpPageViewModel();
-    	
-    	if (addAccount.createAccount(account)) {
+    	if (this.addAccount.createAccount(email, password)) {
     		this.showAlert("Signed Up!", "Account email: " + email);
     	} else {
     		this.showAlert("Error", "Email has already been used.");

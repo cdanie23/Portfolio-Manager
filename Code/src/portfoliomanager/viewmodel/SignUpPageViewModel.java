@@ -12,13 +12,15 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class SignUpPageViewModel {
-	private List<Account> accounts = new ArrayList<>();
+	private static List<Account> accounts = new ArrayList<>();
 	
 	/**
 	 * Instantiates a new sign up page view model.
 	 */
 	public SignUpPageViewModel() {
-		this.accounts.add(new Account("user@email.com", "pass123"));
+		if (SignUpPageViewModel.accounts.isEmpty()) {
+			SignUpPageViewModel.accounts.add(new Account("user@email.com", "pass123"));
+		}
 	}
 	
 	/**
@@ -27,23 +29,30 @@ public class SignUpPageViewModel {
 	 * @return the list of accounts
 	 */
 	public List<Account> getAccounts() {
-		return this.accounts;
+		return SignUpPageViewModel.accounts;
 	}
 	
 	/**
-	 * Adds created accounts to the list of accounts.
+	 * Adds the created account to the list of accounts.
 	 *
-	 * @param newAccount the new account
-	 * @return true, if successful
+	 * @param email the new account's email
+	 * @param password the new account's password
+	 * @return true, if account is added to the list of accounts
 	 */
-	public boolean createAccount(Account newAccount) {
-		for (Account account : this.accounts) {
-			if (account.getEmail().equalsIgnoreCase(newAccount.getEmail())) {
-				return false;
-			}
+	public boolean createAccount(String email, String password) {
+		for (Account account : SignUpPageViewModel.accounts) {
+	        if (account.getEmail().trim().equalsIgnoreCase(email.trim())) {
+	            return false;
+	        }
 		}
 		
-		this.accounts.add(newAccount);
+		Account newAccount = new Account(email, password);
+		SignUpPageViewModel.accounts.add(newAccount);
+		
+		System.out.println("Email " + email);
+		for (Account account : SignUpPageViewModel.accounts) {
+			System.out.println(account.getEmail());
+		}
 		
 		return true;
 	}

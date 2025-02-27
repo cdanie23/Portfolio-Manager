@@ -28,16 +28,12 @@ public class TestSignUpPageViewModel {
 	
 	@Test
 	public void testValidCreateAccount() {
-		Account account = new Account("user1@email.com", "pass123");
-		
-		assertTrue(this.page.createAccount(account));
-		assertEquals(account, this.page.getAccounts().get(1));
+		assertTrue(this.page.createAccount("user1@email.com", "pass123"));
+		assertEquals("user1@email.com", this.page.getAccounts().get(1).getEmail());
 	}
 	
 	@Test
 	public void testInvalidCreateAccountDuplicateEmail() {
-		Account account = new Account("user@email.com", "pass123");
-		
-		assertFalse(this.page.createAccount(account));
+		assertFalse(this.page.createAccount("user@email.com", "pass123"));
 	}
 }
