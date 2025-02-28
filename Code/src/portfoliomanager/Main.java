@@ -15,7 +15,6 @@ import javafx.scene.control.TabPane;
 
 
 public class Main extends Application {
-	private static final String FILEPATH = "resources/BTC-USD_data.txt";
 	@Override
 	public void start(Stage primaryStage) {
 		try {

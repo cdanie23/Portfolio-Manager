@@ -20,9 +20,11 @@ import portfoliomanager.model.CryptoCollection;
  * @version Spring 2025
  */
 public class DataReader {
+	public static final String FILEPATH = "resources/BTC-USD_data.txt";
+	
 	private String filePath;
 	private CryptoCollection cryptos;
-
+	
 	/**
 	 * Instantiates a Data reader object
 	 * @param filePath the path of the file to read

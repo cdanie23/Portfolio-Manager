@@ -3,6 +3,9 @@ package portfoliomanager.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+import portfoliomanager.model.Crypto;
+import portfoliomanager.viewmodel.LandingPageViewModel;
 
 /**
  * The code behind for the landing page of the user
@@ -26,7 +31,7 @@ import javafx.stage.Stage;
 public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
-	private ListView<?> cryptoListView;
+	private ListView<Crypto> cryptoListView;
 
 	@FXML
 	private Tab cryptoTabPage;
@@ -45,7 +50,8 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private ImageView logoImageView;
-
+	
+	private LandingPageViewModel viewModel;
 
 	@FXML
 	void logInClicked(MouseEvent event) {
@@ -71,7 +77,12 @@ public class LandingPageCodeBehind implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
         this.logoImageView.setImage(image);
-       
+        this.viewModel = new LandingPageViewModel();
+        this.setUpDataBinding();
+	}
+	
+	public void setUpDataBinding() {
+		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
 	}
 
 }

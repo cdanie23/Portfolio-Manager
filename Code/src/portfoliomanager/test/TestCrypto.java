@@ -1,7 +1,9 @@
 package portfoliomanager.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
@@ -83,5 +85,42 @@ class TestCrypto {
 			new Crypto("BTC", null);
 		});
 	}
-
+	@Test
+	void testGetOneDayPriceChange() {
+		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
+		HashMap<String, Double> historicalData = new HashMap<String, Double>();
+		historicalData.put("2025-02-23", Double.valueOf(100));
+		historicalData.put("2025-02-22", Double.valueOf(80));
+		btc.setHistoricalPrices(historicalData);
+		assertEquals(25, btc.getOneDayPriceChange(), .001);
+	}
+	@Test
+	void testPriceOneDayIncrease() {
+		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
+		HashMap<String, Double> historicalData = new HashMap<String, Double>();
+		historicalData.put("2025-02-23", Double.valueOf(100));
+		historicalData.put("2025-02-22", Double.valueOf(80));
+		btc.setHistoricalPrices(historicalData);
+		
+		assertFalse(btc.didOneDayPriceDecrease());
+	}
+	@Test
+	void testPriceOneDayDecrease() {
+		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
+		HashMap<String, Double> historicalData = new HashMap<String, Double>();
+		historicalData.put("2025-02-23", Double.valueOf(80));
+		historicalData.put("2025-02-22", Double.valueOf(100));
+		btc.setHistoricalPrices(historicalData);
+		assertTrue(btc.didOneDayPriceDecrease());
+	}
+	@Test
+	void testToString() {
+		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
+		HashMap<String, Double> historicalData = new HashMap<String, Double>();
+		historicalData.put("2025-02-23", Double.valueOf(80));
+		historicalData.put("2025-02-22", Double.valueOf(100));
+		btc.setHistoricalPrices(historicalData);
+		
+		assertTrue((String.format("%25s%68.2f%66.2f", btc.getName(), btc.getCurrentPrice(), btc.getOneDayPriceChange()) + "%").equals(btc.toString()));
+	}
 }
