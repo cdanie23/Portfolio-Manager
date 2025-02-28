@@ -3,9 +3,6 @@ package portfoliomanager.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -80,7 +77,9 @@ public class LandingPageCodeBehind implements Initializable {
         this.viewModel = new LandingPageViewModel();
         this.setUpDataBinding();
 	}
-	
+	/**
+	 * Sets up the data binding from the view model to view
+	 */
 	public void setUpDataBinding() {
 		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
 	}

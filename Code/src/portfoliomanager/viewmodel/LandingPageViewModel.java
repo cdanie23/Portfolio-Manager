@@ -4,10 +4,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import portfoliomanager.Main;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Crypto;
-import portfoliomanager.model.CryptoCollection;
 
 /**
  * The view model for the landing page
@@ -18,11 +16,14 @@ import portfoliomanager.model.CryptoCollection;
 public class LandingPageViewModel {
 	private DataReader dataReader;
 	private ObservableList<Crypto> cryptoObservableList;
-	
+	/**
+	 * Instantiates an instance of the view-model
+	 * @post this.dataReader != null, this.cryptoObservableList != null
+	 */
 	public LandingPageViewModel() {
-		dataReader = new DataReader(DataReader.FILEPATH);
+		this.dataReader = new DataReader(DataReader.FILEPATH);
 		this.dataReader.readCryptoData();
-		List<Crypto> cryptoCollection = dataReader.getCryptoCollection(); 
+		List<Crypto> cryptoCollection = this.dataReader.getCryptoCollection(); 
 		
 		this.cryptoObservableList = FXCollections.observableList(cryptoCollection);
 	}

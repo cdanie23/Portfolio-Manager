@@ -106,6 +106,10 @@ public class Crypto {
 	public boolean didOneDayPriceDecrease() {
 		return this.getOneDayPriceChange() < 0;
 	}
+	/**
+	 * Gets the one day change of price
+	 * @return the price change
+	 */
 	public double getOneDayPriceChange() {
 		//Hard coded for now since data is also hard coded
 		String currentDate = "2025-02-23";

@@ -12,7 +12,7 @@ import java.util.ListIterator;
  * @author Group 2
  * @version Spring 2025
  */
-public class CryptoCollection implements List<Crypto>{
+public class CryptoCollection implements List<Crypto> {
 	private ArrayList<Crypto> cryptos;
 	
 	/**
@@ -62,8 +62,8 @@ public class CryptoCollection implements List<Crypto>{
 	}
 
 	@Override
-	public boolean contains(Object o) {
-		return this.cryptos.contains(o);
+	public boolean contains(Object object) {
+		return this.cryptos.contains(object);
 	}
 
 	@Override
@@ -77,43 +77,43 @@ public class CryptoCollection implements List<Crypto>{
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
-		return this.cryptos.toArray(a);
+	public <T> T[] toArray(T[] array) {
+		return this.cryptos.toArray(array);
 	}
 
 	@Override
-	public boolean add(Crypto e) {
-		return this.cryptos.add(e);
+	public boolean add(Crypto crypto) {
+		return this.cryptos.add(crypto);
 	}
 
 	@Override
-	public boolean remove(Object o) {
-		return this.cryptos.remove(o);
+	public boolean remove(Object object) {
+		return this.cryptos.remove(object);
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
-		return this.cryptos.containsAll(c);
+	public boolean containsAll(Collection<?> collection) {
+		return this.cryptos.containsAll(collection);
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends Crypto> c) {
-		return this.cryptos.addAll(c);
+	public boolean addAll(Collection<? extends Crypto> collection) {
+		return this.cryptos.addAll(collection);
 	}
 
 	@Override
-	public boolean addAll(int index, Collection<? extends Crypto> c) {
-		return this.cryptos.addAll(index, c);
+	public boolean addAll(int index, Collection<? extends Crypto> collection) {
+		return this.cryptos.addAll(index, collection);
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
-		return this.cryptos.removeAll(c);
+	public boolean removeAll(Collection<?> collection) {
+		return this.cryptos.removeAll(collection);
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
-		return this.cryptos.retainAll(c);
+	public boolean retainAll(Collection<?> collection) {
+		return this.cryptos.retainAll(collection);
 	}
 
 	@Override
@@ -144,13 +144,13 @@ public class CryptoCollection implements List<Crypto>{
 	}
 
 	@Override
-	public int indexOf(Object o) {
-		return this.cryptos.indexOf(o);
+	public int indexOf(Object object) {
+		return this.cryptos.indexOf(object);
 	}
 
 	@Override
-	public int lastIndexOf(Object o) {
-		return this.cryptos.lastIndexOf(o);
+	public int lastIndexOf(Object object) {
+		return this.cryptos.lastIndexOf(object);
 	}
 
 	@Override
