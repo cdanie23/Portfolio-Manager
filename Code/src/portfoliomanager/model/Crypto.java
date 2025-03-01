@@ -15,7 +15,6 @@ public class Crypto {
 	private String name;
 	private Double currentPrice;
 	private HashMap<String, Double> historicalPrices;
-	
 	/**
 	 * Instantiates a new Crypto object
 	 * @param name the name of the crypto
@@ -31,6 +30,7 @@ public class Crypto {
 		this.name = name;
 		this.currentPrice = currentPrice;
 		this.historicalPrices = new HashMap<String, Double>();
+		
 	}
 	
 	/** Gets the name of the crypto
@@ -96,5 +96,35 @@ public class Crypto {
 	 */
 	public HashMap<String, Double> getHistoricalPrice() {
 		return this.historicalPrices;
+	}
+	
+	/**
+	 * Checks if the price decreased over one day
+	 * 
+	 * @return true or false based on the change in value over a day
+	 */
+	public boolean didOneDayPriceDecrease() {
+		return this.getOneDayPriceChange() < 0;
+	}
+	/**
+	 * Gets the one day change of price
+	 * @return the price change
+	 */
+	public double getOneDayPriceChange() {
+		//Hard coded for now since data is also hard coded
+		String currentDate = "2025-02-23";
+		String currDay = currentDate.substring(8, 10);
+		int currentDay = Integer.parseInt(currDay);
+		int prevDay = currentDay - 1;
+		String previousDay = String.valueOf(prevDay);
+		String yesterday = currentDate.replaceFirst("-[0-3][0-9]$", String.format("-%s", previousDay));
+		double yesterdaysPrice = this.historicalPrices.get(yesterday);
+		return ((this.currentPrice.doubleValue() - yesterdaysPrice) / yesterdaysPrice) * 100;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("%25s%68.2f%66.2f", this.name, this.currentPrice, this.getOneDayPriceChange()) + "%";
+	
 	}
 }
