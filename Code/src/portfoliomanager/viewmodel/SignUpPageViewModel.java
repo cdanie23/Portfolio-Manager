@@ -2,7 +2,8 @@ package portfoliomanager.viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import portfoliomanager.model.Account;
 
 /**
@@ -13,6 +14,8 @@ import portfoliomanager.model.Account;
  */
 public class SignUpPageViewModel {
 	private static List<Account> accounts = new ArrayList<>();
+	private StringProperty emailProperty;
+	private StringProperty passwordProperty;
 	
 	/**
 	 * Instantiates a new sign up page view model.
@@ -21,6 +24,32 @@ public class SignUpPageViewModel {
 		if (SignUpPageViewModel.accounts.isEmpty()) {
 			SignUpPageViewModel.accounts.add(new Account("user@email.com", "pass123"));
 		}
+		this.emailProperty = new SimpleStringProperty();
+		this.passwordProperty = new SimpleStringProperty();
+	}
+	
+	/**
+	 * Gets the emailProperty 
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the email property
+	 */
+	public StringProperty getEmailProperty() {
+		return this.emailProperty;
+	}
+	
+	/**
+	 * Gets the passwordProperty 
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the password property
+	 */
+	public StringProperty getPasswordProperty() {
+		return this.passwordProperty;
 	}
 	
 	/**
@@ -34,26 +63,16 @@ public class SignUpPageViewModel {
 	
 	/**
 	 * Adds the created account to the list of accounts.
-	 *
-	 * @param email the new account's email
-	 * @param password the new account's password
-	 * @return true, if account is added to the list of accounts
 	 */
-	public boolean createAccount(String email, String password) {
+	public void createAccount() {
+		String email = this.emailProperty.get();
+		String password = this.passwordProperty.get();
 		for (Account account : SignUpPageViewModel.accounts) {
 	        if (account.getEmail().trim().equalsIgnoreCase(email.trim())) {
-	            return false;
+	            throw new IllegalArgumentException("Account with the given email already exists, try logging in.");
 	        }
 		}
-		
 		Account newAccount = new Account(email, password);
 		SignUpPageViewModel.accounts.add(newAccount);
-		
-		System.out.println("Email " + email);
-		for (Account account : SignUpPageViewModel.accounts) {
-			System.out.println(account.getEmail());
-		}
-		
-		return true;
 	}
 }

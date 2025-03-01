@@ -39,25 +39,16 @@ public class SignUpPageCodeBehind  implements Initializable {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
         this.logoImageView.setImage(image);
         this.addAccount = new SignUpPageViewModel();
+        this.bindDataElements();
 	}
     
     @FXML
     private void handleSignUp() {
-    	if (this.emailField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
-    		this.showAlert("Error", "Email or password are empty.");
-    		
-    		return;
+    	try {
+    		this.addAccount.createAccount();
+    	} catch (Exception exception) {
+    		this.showAlert("Error", exception.getMessage());
     	}
-    	
-    	String email = this.emailField.getText();
-    	String password = this.passwordField.getText();
-    	
-    	if (this.addAccount.createAccount(email, password)) {
-    		this.showAlert("Signed Up!", "Account email: " + email);
-    	} else {
-    		this.showAlert("Error", "Email has already been used.");
-    	}
-    	
     	Stage stage = (Stage) this.signUpButton.getScene().getWindow();
         stage.close();
     }
@@ -68,5 +59,10 @@ public class SignUpPageCodeBehind  implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    private void bindDataElements() {
+        this.addAccount.getEmailProperty().bind(this.emailField.textProperty());
+        this.addAccount.getPasswordProperty().bind(this.passwordField.textProperty());
     }
 }
