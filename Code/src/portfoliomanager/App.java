@@ -10,6 +10,6 @@ public class App {
 	 * @param args the arguments to start the app with 
 	 */
 	public static void main(String[] args) {
-        Main.main(args);
+        
     }
 }
