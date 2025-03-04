@@ -13,7 +13,7 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class SignUpPageViewModel {
-	private static List<Account> accounts = new ArrayList<>();
+	private static final List<Account> accounts = new ArrayList<>();
 	private StringProperty emailProperty;
 	private StringProperty passwordProperty;
 	
@@ -21,8 +21,8 @@ public class SignUpPageViewModel {
 	 * Instantiates a new sign up page view model.
 	 */
 	public SignUpPageViewModel() {
-		if (SignUpPageViewModel.accounts.isEmpty()) {
-			SignUpPageViewModel.accounts.add(new Account("user@email.com", "pass123"));
+		if (accounts.isEmpty()) {
+			accounts.add(new Account("user@email.com", "pass123"));
 		}
 		this.emailProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
@@ -57,8 +57,8 @@ public class SignUpPageViewModel {
 	 *
 	 * @return the list of accounts
 	 */
-	public List<Account> getAccounts() {
-		return SignUpPageViewModel.accounts;
+	public static List<Account> getAccounts() {
+		return accounts;
 	}
 	
 	/**
@@ -73,6 +73,6 @@ public class SignUpPageViewModel {
 	        }
 		}
 		Account newAccount = new Account(email, password);
-		SignUpPageViewModel.accounts.add(newAccount);
+		accounts.add(newAccount);
 	}
 }

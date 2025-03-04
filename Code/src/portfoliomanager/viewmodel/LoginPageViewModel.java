@@ -1,6 +1,5 @@
 package portfoliomanager.viewmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +13,6 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class LoginPageViewModel {
-	private static List<Account> accounts = new ArrayList<>();
 	private boolean loginStatus;
 	private StringProperty emailProperty;
 	private StringProperty passwordProperty;
@@ -23,9 +21,9 @@ public class LoginPageViewModel {
 	 * Instantiates a new login page view model.
 	 */
 	public LoginPageViewModel() {
-		if (LoginPageViewModel.accounts.isEmpty()) {
-			LoginPageViewModel.accounts.add(new Account("user@email.com", "pass123"));
-		}
+		if (SignUpPageViewModel.getAccounts().isEmpty()) {
+            new SignUpPageViewModel();
+        }
 		
 		this.loginStatus = false;
 		this.emailProperty = new SimpleStringProperty();
@@ -62,7 +60,7 @@ public class LoginPageViewModel {
 	 * @return the list of accounts
 	 */
 	public List<Account> getAccounts() {
-		return LoginPageViewModel.accounts;
+		return SignUpPageViewModel.getAccounts();
 	}
 	
 	/**
@@ -81,12 +79,26 @@ public class LoginPageViewModel {
 		String email = this.emailProperty.get();
 		String password = this.passwordProperty.get();
 		
-		for (Account account : LoginPageViewModel.accounts) {
-	        if (!account.getEmail().trim().equalsIgnoreCase(email.trim()) || !account.getPassword().trim().equals(password.trim())) {
-	        	throw new IllegalArgumentException("Email or password are incorrect.");
+		List<Account> accounts = SignUpPageViewModel.getAccounts();
+		
+		System.out.println("Stored accounts at login:");
+        if (accounts.isEmpty()) {
+            System.out.println("No accounts found!");
+        } else {
+            for (Account acc : accounts) {
+                System.out.println(acc.getEmail() + " | " + acc.getPassword());
+            }
+        }
+		
+		for (Account account : accounts) {
+			System.out.println("Checking against account: " + account.getEmail() + " | " + account.getPassword());
+	        if (account.getEmail().trim().equalsIgnoreCase(email.trim()) && account.getPassword().trim().equals(password.trim())) {
+	        	this.loginStatus = true;
+	        	
+	        	return;
 	        }
 		}
 		
-		this.loginStatus = true;
+		throw new IllegalArgumentException("Email or password are incorrect.");
 	}
 }
