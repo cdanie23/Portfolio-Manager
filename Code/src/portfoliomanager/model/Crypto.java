@@ -82,7 +82,7 @@ public class Crypto {
 	 * @precondition none
 	 * @postcondition none
 	 * 
-	 * @param historicalPrices
+	 * @param historicalPrices the prices of the past
 	 */
 	public void setHistoricalPrices(HashMap<String, Double> historicalPrices) {
 		this.historicalPrices = historicalPrices;

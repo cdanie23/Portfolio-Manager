@@ -60,8 +60,8 @@ public class DataReader {
 			exception.printStackTrace();
 		}
 	}
-
-	private HashMap<String, Double> readHistoricalPrices() throws IOException {
+	
+	public HashMap<String, Double> readHistoricalPrices() throws IOException {
 		LinkedHashMap<String, Double> historicalData = new LinkedHashMap<String, Double>();
 		for (String[] row : this.readFile(this.filePath)) {
 			if (row.length == 2) {

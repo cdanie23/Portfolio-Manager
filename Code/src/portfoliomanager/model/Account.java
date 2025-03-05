@@ -11,9 +11,9 @@ import java.util.List;
 public class Account {
 	private String email;
 	private String password;
-	// Holdings, Funds, Crypto? Not sure if this will go here or a separate class for now.
-	private List<Integer> holdings;
-	
+
+	private List<Holding> holdings;
+	private double fundsAvailable;
 	/**
 	 * Instantiates a new account with given email and password.
 	 *
@@ -27,7 +27,7 @@ public class Account {
 		
 		this.email = email;
 		this.password = password;
-		this.holdings = new ArrayList<>();
+		this.holdings = new ArrayList<Holding>();
 	}
 	
 	/**
@@ -78,4 +78,20 @@ public class Account {
 		
 		this.password = newP;
 	}
+	
+	public List<Holding> getHoldings() {
+		return this.holdings;
+	}
+	
+	public boolean addHolding(Holding holding) {
+		return this.holdings.add(holding);
+	}
+	
+	public double getFundsAvailable() {
+		return this.fundsAvailable;
+	}
+	public void setFundsAvailable(double amount) {
+		this.fundsAvailable = amount;
+	}
+
 }
