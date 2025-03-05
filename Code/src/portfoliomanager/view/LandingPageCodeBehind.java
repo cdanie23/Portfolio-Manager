@@ -92,7 +92,7 @@ public class LandingPageCodeBehind implements Initializable {
 
 			Stage primaryStage = new Stage();
 			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
-			Scene scene = new Scene(root, 375, 400);
+			Scene scene = new Scene(root, 375, 420);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception exception) {

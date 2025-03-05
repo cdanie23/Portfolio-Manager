@@ -26,6 +26,10 @@ public class Main extends Application {
 			exception.printStackTrace();
 		}
 	}
+	/**
+	 * The main function 
+	 * @param args the args to start the function with
+	 */
 	
 	public static void main(String[] args) {
 		launch(args);
