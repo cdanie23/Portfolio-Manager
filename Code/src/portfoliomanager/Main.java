@@ -18,7 +18,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
 			TabPane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LandingPage.fxml"));
 			Scene scene = new Scene(root, 750, 450);
 			primaryStage.setScene(scene);
@@ -26,6 +25,14 @@ public class Main extends Application {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+	}
+	
+	/**
+	 * The startup method of our main class
+	 * @param args the args to start it with
+	 */
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 }
