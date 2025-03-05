@@ -1,19 +1,18 @@
 package portfoliomanager.view;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 
-import javafx.beans.property.ObjectProperty;
+import java.util.function.UnaryOperator;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
@@ -51,10 +50,13 @@ public class SellPageCodeBehind {
 
 	private StringProperty amountStringProperty;
 	private Stage stage;
-	@FXML
-	void initialize() {
-		
-	}
+	private ListView<Holding> holdingsListView;
+	
+	/**
+	 * Sets up the properties needed for the sell page code behind
+	 * @post confirmButton disabled, !sellCryptoLabel.textProperty().getValue().IsEmpty(), this.amountStringProperty != null,
+	 *       !this.amountHeldLabel.textProperty().isEmpty(), !this.amountLeftLabel.textProperty.isEmpty(), !this.profitLabel.textProperty().isEmpty()
+	 */
 	public void setUpCodeBehind() {
 		this.confirmButton.setDisable(true);
 		this.sellCryptoLabel.textProperty().setValue("Sell: " + this.viewModel.getHoldingToSell().getName());
@@ -78,23 +80,27 @@ public class SellPageCodeBehind {
 	@FXML
 	void confirmClicked(MouseEvent event) {
 		this.viewModel.sellCrypto();
+		this.update();
 	    this.stage.close();
 	}
-
+	
+	private void update() {
+		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getHoldings()));
+	}
+	
 	private void setUpDataBinding() {
 		this.amountStringProperty.bindBidirectional(this.viewModel.getAmountToSell());
 		
 	}
 
 	private void setUpListeners() {
-		this.amountTextBox.textProperty().addListener((arg, oldVal, newVal) -> {
+		this.amountTextBox.textProperty().addListener((_, oldVal, newVal) -> {
 			if (newVal != oldVal && !newVal.isEmpty() && Integer.parseInt(newVal) != 0) {
 				this.amountStringProperty.setValue(newVal);
 				this.amountLeftLabel.textProperty().setValue("Amount left: " + String.valueOf(this.viewModel.getAmountLeft()));
 				this.profitLabel.textProperty().setValue("Profit: " + this.viewModel.getProfit());
 				this.confirmButton.setDisable(false);
-			}
-			else {
+			} else {
 				this.confirmButton.setDisable(true);
 			}
 		});
@@ -114,17 +120,34 @@ public class SellPageCodeBehind {
                     if (value >= 0 && value <= this.viewModel.getHoldingToSell().getAmountHeld()) {
                         return change; 
                     }
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) { }
             }
             return null; 
         };
         TextFormatter<String> amountToSellFormatter = new TextFormatter<>(integerFilter);
         this.amountTextBox.setTextFormatter(amountToSellFormatter);
 	}
-
-	public void setData(Account user, List<Holding> holdings, Holding holding, StringProperty fundsAvailable) {
+	/**
+	 * Sets the data when launching the page passing information from the LandingPageCodeBehind to this
+	 * @param user the user 
+	 * @param holdings the holdings of user
+	 * @param holding the holding selected to sell
+	 * @param fundsAvailable the string property of funds available of the user
+	 * @param holdingsListView the list view of holdings from the PortfolioPage
+	 * 
+	 * @post this.holdingsListView == holdingsListView, this.viewModel != null
+	 */
+	
+	public void setData(Account user, List<Holding> holdings, Holding holding, StringProperty fundsAvailable, ListView<Holding> holdingsListView) {
+		this.holdingsListView = holdingsListView;
 		this.viewModel = new SellPageViewModel(user, holding, holdings, fundsAvailable);
 	}
+	
+	/**
+	 * Sets the stage of the Code behind
+	 * @param stage the stage to set 
+	 * @post this.stage == stage
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}

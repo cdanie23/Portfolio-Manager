@@ -20,6 +20,7 @@ public class Crypto {
 	 * @param name the name of the crypto
 	 * @param currentPrice the current price of the crypto
 	 */
+	
 	public Crypto(String name, Double currentPrice) {
 		if (name == null || name.isEmpty() || name.isBlank()) {
 			throw new IllegalArgumentException("Name of the cryptocurrency must not be null or empty.");
@@ -110,6 +111,7 @@ public class Crypto {
 	 * Gets the one day change of price
 	 * @return the price change
 	 */
+	
 	public double getOneDayPriceChange() {
 		//Hard coded for now since data is also hard coded
 		String currentDate = "2025-02-23";

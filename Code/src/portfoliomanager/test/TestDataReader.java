@@ -16,7 +16,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Crypto;
-import portfoliomanager.model.CryptoCollection;
+
 
 class TestDataReader {
 	private File tempFile;

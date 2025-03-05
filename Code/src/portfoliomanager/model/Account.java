@@ -20,6 +20,7 @@ public class Account {
 	 * @param email the email
 	 * @param password the password
 	 */
+	
 	public Account(String email, String password) {
 		if (email.isBlank() || password.isBlank()) {
 			throw new IllegalArgumentException("Email or password don't meet specified requirements.");
@@ -79,17 +80,35 @@ public class Account {
 		this.password = newP;
 	}
 	
+	/**
+	 * Gets the holding of the user
+	 * @return the holding
+	 */
 	public List<Holding> getHoldings() {
 		return this.holdings;
 	}
+	/**
+	 * Adds the holding of the user 
+	 * @param holding the holding to add
+	 * @return true or false based on if added properly
+	 */
 	
 	public boolean addHolding(Holding holding) {
 		return this.holdings.add(holding);
 	}
 	
+	/**
+	 * Gets the funds available 
+	 * @return the funds
+	 */
 	public double getFundsAvailable() {
 		return this.fundsAvailable;
 	}
+	/**
+	 * Sets the funds available
+	 * @param amount the amount to set
+	 */
+	
 	public void setFundsAvailable(double amount) {
 		this.fundsAvailable = amount;
 	}

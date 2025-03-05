@@ -13,7 +13,6 @@ import javafx.scene.control.TabPane;
  * @version Spring 2025
  */
 
-
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {

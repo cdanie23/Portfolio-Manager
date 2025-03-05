@@ -6,16 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
 import portfoliomanager.model.Holding;
-import portfoliomanager.view.SellPageCodeBehind;
 
 /**
  * The view model for the landing page
@@ -33,6 +28,7 @@ public class LandingPageViewModel {
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
 	 */
+	
 	public LandingPageViewModel() {
 	
 		this.dataReader = new DataReader(DataReader.FILEPATH);
@@ -50,9 +46,15 @@ public class LandingPageViewModel {
 	 * Gets the observable list of cryptos
 	 * @return obserable list of cryptos
 	 */
+	
 	public ObservableList<Crypto> getCryptoCollection() {
 		return FXCollections.observableList(this.cryptos);
 	}
+	/**
+	 * Gets the funds available 
+	 * @return the string property of the funds available
+	 */
+	
 	public StringProperty getFundsAvailabe() {
 		return this.fundsAvailable;
 	}
@@ -60,13 +62,17 @@ public class LandingPageViewModel {
 	 * Gets the crypto holding property
 	 * @return observable list of crypto holdings
 	 */
+	
 	public List<Holding> getCryptoHoldings() {
 		return this.holdings;
 	}
 	
+	/**
+	 * Gets the user 
+	 * @return the user
+	 */
 	public Account getUser() {
 		return this.user;
 	}
-	
 	
 }
