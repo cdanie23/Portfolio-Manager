@@ -81,17 +81,7 @@ public class LoginPageViewModel {
 		
 		List<Account> accounts = SignUpPageViewModel.getAccounts();
 		
-		System.out.println("Stored accounts at login:");
-        if (accounts.isEmpty()) {
-            System.out.println("No accounts found!");
-        } else {
-            for (Account acc : accounts) {
-                System.out.println(acc.getEmail() + " | " + acc.getPassword());
-            }
-        }
-		
 		for (Account account : accounts) {
-			System.out.println("Checking against account: " + account.getEmail() + " | " + account.getPassword());
 	        if (account.getEmail().trim().equalsIgnoreCase(email.trim()) && account.getPassword().trim().equals(password.trim())) {
 	        	this.loginStatus = true;
 	        	

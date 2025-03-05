@@ -13,7 +13,7 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class SignUpPageViewModel {
-	private static final List<Account> accounts = new ArrayList<>();
+	private static final List<Account> ACCOUNTS = new ArrayList<>();
 	private StringProperty emailProperty;
 	private StringProperty passwordProperty;
 	
@@ -21,8 +21,8 @@ public class SignUpPageViewModel {
 	 * Instantiates a new sign up page view model.
 	 */
 	public SignUpPageViewModel() {
-		if (accounts.isEmpty()) {
-			accounts.add(new Account("user@email.com", "pass123"));
+		if (ACCOUNTS.isEmpty()) {
+			ACCOUNTS.add(new Account("user@email.com", "pass123"));
 		}
 		this.emailProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
@@ -58,7 +58,7 @@ public class SignUpPageViewModel {
 	 * @return the list of accounts
 	 */
 	public static List<Account> getAccounts() {
-		return accounts;
+		return ACCOUNTS;
 	}
 	
 	/**
@@ -67,12 +67,12 @@ public class SignUpPageViewModel {
 	public void createAccount() {
 		String email = this.emailProperty.get();
 		String password = this.passwordProperty.get();
-		for (Account account : SignUpPageViewModel.accounts) {
+		for (Account account : SignUpPageViewModel.ACCOUNTS) {
 	        if (account.getEmail().trim().equalsIgnoreCase(email.trim())) {
 	            throw new IllegalArgumentException("Account with the given email already exists, try logging in.");
 	        }
 		}
 		Account newAccount = new Account(email, password);
-		accounts.add(newAccount);
+		ACCOUNTS.add(newAccount);
 	}
 }
