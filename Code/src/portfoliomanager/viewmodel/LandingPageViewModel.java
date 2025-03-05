@@ -1,21 +1,16 @@
 package portfoliomanager.viewmodel;
 
-import java.util.List;
-
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
 import portfoliomanager.model.Holding;
-import portfoliomanager.view.SellPageCodeBehind;
 
 /**
  * The view model for the landing page
@@ -27,8 +22,9 @@ public class LandingPageViewModel {
 	private DataReader dataReader;
 	private Account user;
 	private CryptoCollection cryptos;
-	private List<Holding> holdings;
+	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailable;
+	
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
@@ -44,8 +40,9 @@ public class LandingPageViewModel {
 		this.user = new Account("johndoe@gmail.com", "password");
 		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
 		this.user.addHolding(userHolding);
-		this.holdings = this.user.getHoldings();
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
+	
 	/**
 	 * Gets the observable list of cryptos
 	 * @return obserable list of cryptos
@@ -53,17 +50,35 @@ public class LandingPageViewModel {
 	public ObservableList<Crypto> getCryptoCollection() {
 		return FXCollections.observableList(this.cryptos);
 	}
+	
+	/**
+	 * Gets the string property for geting funds available
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the funds avaialble for the account
+	 */
 	public StringProperty getFundsAvailabe() {
 		return this.fundsAvailable;
 	}
+	
 	/**
 	 * Gets the crypto holding property
 	 * @return observable list of crypto holdings
 	 */
-	public List<Holding> getCryptoHoldings() {
-		return this.holdings;
+	public ListProperty<Holding> getCryptoHoldings() {
+		return this.holdingsProperty;
 	}
 	
+	/**
+	 * Gets the account of the user
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @returns the user 
+	 */
 	public Account getUser() {
 		return this.user;
 	}

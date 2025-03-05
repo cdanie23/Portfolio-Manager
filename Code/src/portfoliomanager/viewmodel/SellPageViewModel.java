@@ -1,12 +1,8 @@
 package portfoliomanager.viewmodel;
 
 import java.util.List;
-
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
-import javafx.stage.Stage;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 

@@ -79,17 +79,52 @@ public class Account {
 		this.password = newP;
 	}
 	
+	/**
+	 * Gets the holdings of the account
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the list of holdings of the account (owned cryptos)
+	 */
 	public List<Holding> getHoldings() {
 		return this.holdings;
 	}
 	
+	/**
+	 * Adds holding to the list of holdings
+	 * 
+	 * @precondition holding != null
+	 * @postcondition this.holdings.size @post = this.holdings.size @pre + 1    
+	 * 
+	 * @param holding the holding to be added to the list
+	 * @return true if added to the list
+	 * 			false if not.
+	 */
 	public boolean addHolding(Holding holding) {
 		return this.holdings.add(holding);
 	}
 	
+	/**
+	 * Gets the funds available for the account
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the funds available for the account
+	 */
 	public double getFundsAvailable() {
 		return this.fundsAvailable;
 	}
+	
+	/**
+	 * Sets the fund available for the account
+	 * 
+	 * @precondition amount == null
+	 * @postcondiiton this.fundsAvailable = amount
+	 * 
+	 * @param amount the funds available to set
+	 */
 	public void setFundsAvailable(double amount) {
 		this.fundsAvailable = amount;
 	}

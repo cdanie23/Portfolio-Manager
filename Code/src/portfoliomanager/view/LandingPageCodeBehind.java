@@ -5,10 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -123,12 +120,12 @@ public class LandingPageCodeBehind implements Initializable {
 
 	private void setUpDataBinding() {
 		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoHoldings());
 		this.totalFundsLabel.textProperty().bind(this.viewModel.getFundsAvailabe());
 
 	}
 	private void setUpListeners() {
-		this.holdingsListView.getSelectionModel().selectedItemProperty().addListener((arg, oldVal, newVal) -> {
+		this.holdingsListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
 			if (newVal != null) {
 				this.selectedHolding.setValue(newVal);
 				this.sellButton.setDisable(false);
@@ -154,7 +151,7 @@ public class LandingPageCodeBehind implements Initializable {
 			
 			
 			Stage stage = new Stage();
-			stage.setOnCloseRequest(request -> {
+			stage.setOnCloseRequest(_ -> {
 				System.out.println("closed");
 	            this.update();
 	        });

@@ -27,5 +27,9 @@ public class Main extends Application {
 			exception.printStackTrace();
 		}
 	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 }

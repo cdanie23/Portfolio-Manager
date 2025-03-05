@@ -15,6 +15,7 @@ public class Crypto {
 	private String name;
 	private Double currentPrice;
 	private HashMap<String, Double> historicalPrices;
+	
 	/**
 	 * Instantiates a new Crypto object
 	 * @param name the name of the crypto
@@ -106,6 +107,7 @@ public class Crypto {
 	public boolean didOneDayPriceDecrease() {
 		return this.getOneDayPriceChange() < 0;
 	}
+	
 	/**
 	 * Gets the one day change of price
 	 * @return the price change

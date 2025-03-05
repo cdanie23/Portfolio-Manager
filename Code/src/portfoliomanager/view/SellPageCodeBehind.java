@@ -1,17 +1,10 @@
 package portfoliomanager.view;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
-
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -87,7 +80,7 @@ public class SellPageCodeBehind {
 	}
 
 	private void setUpListeners() {
-		this.amountTextBox.textProperty().addListener((arg, oldVal, newVal) -> {
+		this.amountTextBox.textProperty().addListener((_, oldVal, newVal) -> {
 			if (newVal != oldVal && !newVal.isEmpty() && Integer.parseInt(newVal) != 0) {
 				this.amountStringProperty.setValue(newVal);
 				this.amountLeftLabel.textProperty().setValue("Amount left: " + String.valueOf(this.viewModel.getAmountLeft()));
