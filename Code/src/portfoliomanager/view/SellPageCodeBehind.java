@@ -115,7 +115,6 @@ public class SellPageCodeBehind {
 
             if (newText.matches("[0-9]*")) {
                 try {
-                
                     int value = Integer.parseInt(newText);
                     if (value >= 0 && value <= this.viewModel.getHoldingToSell().getAmountHeld()) {
                         return change; 
@@ -127,6 +126,7 @@ public class SellPageCodeBehind {
         TextFormatter<String> amountToSellFormatter = new TextFormatter<>(integerFilter);
         this.amountTextBox.setTextFormatter(amountToSellFormatter);
 	}
+	
 	/**
 	 * Sets the data when launching the page passing information from the LandingPageCodeBehind to this
 	 * @param user the user 
@@ -137,7 +137,6 @@ public class SellPageCodeBehind {
 	 * 
 	 * @post this.holdingsListView == holdingsListView, this.viewModel != null
 	 */
-	
 	public void setData(Account user, List<Holding> holdings, Holding holding, StringProperty fundsAvailable, ListView<Holding> holdingsListView) {
 		this.holdingsListView = holdingsListView;
 		this.viewModel = new SellPageViewModel(user, holding, holdings, fundsAvailable);
