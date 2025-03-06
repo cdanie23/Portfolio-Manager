@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
+import portfoliomanager.model.Holding;
 import portfoliomanager.viewmodel.BuyCryptoViewModel;
 
 /**
@@ -72,9 +75,11 @@ public class BuyCryptoCodeBehind {
      * 
      * @param user the user that tries to buy crypto
      * @param selectedCrypto the crypto to be bought
+     * @param holdingsProperty observable list of holdings
+     * @param fundsAvailable string property for the funds
      */
-    public void setData(Account user, ObjectProperty<Crypto> selectedCrypto) {
-    	this.viewModel = new BuyCryptoViewModel(user, selectedCrypto);
+    public void setData(Account user, ObjectProperty<Crypto> selectedCrypto, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
+    	this.viewModel = new BuyCryptoViewModel(user, selectedCrypto, holdingsProperty, fundsAvailable);
     	this.viewModel.getAmountProperty().bind(this.amountTextBox.textProperty());
     	this.cryptoDetails.textProperty().bind(this.viewModel.getCryptoDetailsProperty());
     }

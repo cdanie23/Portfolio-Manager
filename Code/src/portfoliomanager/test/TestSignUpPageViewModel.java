@@ -17,8 +17,8 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testValidSignUpPageViewModelConstructor() {
-		assertEquals("user@email.com", this.page.getAccounts().get(0).getEmail());
-		assertEquals("pass123", this.page.getAccounts().get(0).getPassword());
+		assertEquals("user@email.com", SignUpPageViewModel.getAccounts().get(0).getEmail());
+		assertEquals("pass123", SignUpPageViewModel.getAccounts().get(0).getPassword());
 	}
 	
 	@Test
@@ -29,9 +29,9 @@ public class TestSignUpPageViewModel {
 		
 		this.page.createAccount();
 		
-		assertAll(()-> assertEquals(2, this.page.getAccounts().size()),
-				()-> assertEquals("testuser@email.com", this.page.getAccounts().get(1).getEmail()),
-				()-> assertEquals("testPassword123", this.page.getAccounts().get(1).getPassword()));
+		assertAll(()-> assertEquals(2, SignUpPageViewModel.getAccounts().size()),
+				()-> assertEquals("testuser@email.com", SignUpPageViewModel.getAccounts().get(1).getEmail()),
+				()-> assertEquals("testPassword123", SignUpPageViewModel.getAccounts().get(1).getPassword()));
 	}
 	
 	@Test

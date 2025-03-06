@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-import javafx.collections.FXCollections;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -125,14 +123,9 @@ public class LandingPageCodeBehind implements Initializable {
 		this.buyCryptoButton.setDisable(true);
 	}
 
-	private void update() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getUser().getHoldings()));
-	}
-
 	private void setUpDataBinding() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getUser().getHoldings()));
+		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty()); 
+		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 	}
 
@@ -170,10 +163,6 @@ public class LandingPageCodeBehind implements Initializable {
 			SellPageCodeBehind controller = loader.getController();
 
 			Stage stage = new Stage();
-			stage.setOnCloseRequest(_ -> {
-				System.out.println("closed");
-				this.update();
-			});
 			controller.setData(this.viewModel.getUser(), this.viewModel.getCryptoHoldings(),
 					this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
 			controller.setUpCodeBehind();
@@ -208,11 +197,7 @@ public class LandingPageCodeBehind implements Initializable {
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
 			Stage stage = new Stage();
-			stage.setOnCloseRequest(_ -> {
-				System.out.println("closed");
-				this.update();
-			});
-			buyCryptoController.setData(this.viewModel.getUser(), this.selectedCrypto);
+			buyCryptoController.setData(this.viewModel.getUser(), this.selectedCrypto, this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
 			stage.setScene(new Scene(root));
 			stage.show();
 			

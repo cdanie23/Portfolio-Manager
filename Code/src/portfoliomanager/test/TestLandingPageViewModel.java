@@ -25,9 +25,10 @@ class TestLandingPageViewModel {
 	}
 
 	@Test
-	void testGetCryptoCollection() {
-		assertTrue(!this.viewModel.getCryptoCollection().isEmpty());
+	void testGetCryptoListProperty() {
+		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
 	}
+	
 	@Test
 	void testGetFundsAvailabe() {
 		String expected = "$0.0";
@@ -41,6 +42,10 @@ class TestLandingPageViewModel {
 		assertTrue(!this.viewModel.getCryptoHoldings().isEmpty());
 	}
 	
+	@Test
+	void testGetHoldingsProperty() {
+		assertTrue(!this.viewModel.getHoldingsProperty().get().isEmpty());
+	}
 	@Test
 	void testGetUser() {
 		Account expectedUser = this.viewModel.getUser();

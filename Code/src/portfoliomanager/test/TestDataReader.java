@@ -87,7 +87,19 @@ class TestDataReader {
         try (FileWriter writer = new FileWriter(tempFile)) {
             writer.write("Date,Price\n");
             writer.write("2024-01-01,50000\n");
-            writer.write("2024-01-02,\n");
+            writer.write("2024-01-02\n");
+        }
+        DataReader reader = new DataReader(tempFile.getAbsolutePath());
+
+        assertThrows(IllegalArgumentException.class, () -> reader.readCryptoData());
+	}
+	
+	@Test
+	void testFileContainsMoreColumn() throws IOException {
+        try (FileWriter writer = new FileWriter(tempFile)) {
+            writer.write("Date,Price\n");
+            writer.write("2024-01-01,50000\n");
+            writer.write("2024-01-02,50000,asd\n");
         }
         DataReader reader = new DataReader(tempFile.getAbsolutePath());
 
