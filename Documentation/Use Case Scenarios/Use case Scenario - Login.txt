@@ -12,14 +12,8 @@ Primary Flow:
 6. The entered information is correct. 
 7. User is signed in and transitions to be investor.
 
-
-Alternative Flow:
-I. User doesn't select sign in button but tries buy, sell or trade crypto.
-A1. User selects buy, sell or trade currency in the homepage without signing in.
-A2. System detects transactional requests. 
-A3. Returns to primary flow step 2.
-
-II. User does not enter anything in the sign in form
+Alternative flow
+II. User does not enter anything in the sign in form.
 A4. User leaves field for username and password blank.
 A5. System detects invalid username and password.
 A6. System displays invalid operation notification.
