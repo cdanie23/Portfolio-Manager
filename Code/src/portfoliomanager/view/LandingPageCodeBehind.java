@@ -69,6 +69,15 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private Button sellButton;
+	
+	@FXML
+	private Label logInPortfLabel;
+	
+	@FXML
+	private Ellipse logOutPortfButton;
+	
+	@FXML
+	private Label logOutPortfLabel;
 
 	@FXML
 	private Ellipse signUpButton;
@@ -91,6 +100,25 @@ public class LandingPageCodeBehind implements Initializable {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		this.enableLogOutButtons();
+	}
+	
+	private void disableLogOutButtons() {
+		this.logOutPortfButton.setDisable(true);
+		this.logOutPortfButton.setVisible(false);
+		this.logOutPortfLabel.setDisable(true);
+		this.logOutPortfLabel.setVisible(false);
+		this.logoutButton.setDisable(true);
+		this.logoutButton.setVisible(false);
+	}
+
+	private void enableLogOutButtons() {
+		this.logOutPortfButton.setDisable(false);
+		this.logOutPortfButton.setVisible(true);
+		this.logOutPortfLabel.setDisable(false);
+		this.logOutPortfLabel.setVisible(true);
+		this.logoutButton.setDisable(false);
+		this.logoutButton.setVisible(true);
 	}
 
 	@FXML
@@ -104,6 +132,7 @@ public class LandingPageCodeBehind implements Initializable {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		this.enableLogOutButtons();
 	}
 
 	@Override
@@ -116,7 +145,7 @@ public class LandingPageCodeBehind implements Initializable {
 		this.portfolioTabPage.setDisable(false);
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
-
+		this.disableLogOutButtons();
 	}
 
 	private void update() {
@@ -142,8 +171,8 @@ public class LandingPageCodeBehind implements Initializable {
 	}
 
 	@FXML
-	void logoutClicked(MouseEvent event) {
-
+	void logOutClicked(MouseEvent event) {
+		this.disableLogOutButtons();
 	}
 
 	@FXML
