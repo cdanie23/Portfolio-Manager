@@ -40,7 +40,6 @@ public class LandingPageViewModel {
 		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
 		this.user.addHolding(userHolding);
 		this.holdings = this.user.getHoldings();
-		
 		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
 	}
 	/**

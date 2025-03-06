@@ -60,6 +60,9 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private Button logoutButton;
+	
+	@FXML
+	private Button buyCryptoButton;
 
 	@FXML
 	private Label nameLabel;
@@ -75,8 +78,10 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private Label totalFundsLabel;
+	
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
+	private ObjectProperty<Crypto> selectedCrypto;
 
 	private LandingPageViewModel viewModel;
 
@@ -112,21 +117,22 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logoImageView.setImage(image);
 		this.viewModel = new LandingPageViewModel();
 		this.selectedHolding = new SimpleObjectProperty<Holding>();
+		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
 		this.setUpDataBinding();
 		this.portfolioTabPage.setDisable(false);
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
-
+		this.buyCryptoButton.setDisable(true);
 	}
 
 	private void update() {
 		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getUser().getHoldings()));
 	}
 
 	private void setUpDataBinding() {
 		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getUser().getHoldings()));
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 	}
 
@@ -137,6 +143,15 @@ public class LandingPageCodeBehind implements Initializable {
 				this.sellButton.setDisable(false);
 			} else {
 				this.sellButton.setDisable(true);
+			}
+		});
+		
+		this.cryptoListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
+			if (newVal != null) {
+				this.selectedCrypto.setValue(newVal);
+				this.buyCryptoButton.setDisable(false);
+			} else {
+				this.buyCryptoButton.setDisable(true);
 			}
 		});
 	}
@@ -181,6 +196,26 @@ public class LandingPageCodeBehind implements Initializable {
 			addFundController.setData(this.viewModel.getUser(), this.viewModel.getFundsAvailabe());
 			stage.setScene(new Scene(root));
 			stage.show();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	@FXML
+	void buyButtonClicked(MouseEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
+			Parent root = loader.load();
+			BuyCryptoCodeBehind buyCryptoController = loader.getController();
+			Stage stage = new Stage();
+			stage.setOnCloseRequest(_ -> {
+				System.out.println("closed");
+				this.update();
+			});
+			buyCryptoController.setData(this.viewModel.getUser(), this.selectedCrypto);
+			stage.setScene(new Scene(root));
+			stage.show();
+			
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
