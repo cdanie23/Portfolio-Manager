@@ -59,7 +59,7 @@ public class SellPageViewModel {
 	 */
 	
 	public double getAmountLeft() {
-		double amountToSell = Integer.parseInt(this.amountToSell.getValue());
+		double amountToSell = Double.parseDouble(this.amountToSell.getValue());
 		
 		return this.holdingToSell.getAmountHeld() - amountToSell;
 	}
@@ -69,7 +69,7 @@ public class SellPageViewModel {
 	 * @return the profit
 	 */
 	public double getProfit() {
-		double amountToSell = Integer.parseInt(this.amountToSell.getValue());
+		double amountToSell = Double.parseDouble(this.amountToSell.getValue());
 		return this.holdingToSell.getProfit(amountToSell);
 	}
 	/**
@@ -93,7 +93,22 @@ public class SellPageViewModel {
 		}
 		double totalFunds = this.user.getFundsAvailable() + this.getProfit();
 		this.user.setFundsAvailable(totalFunds);
-		this.fundsAvailable.setValue("Funds available: $" + totalFunds);
+		this.fundsAvailable.setValue("$" + totalFunds);
 	}
+	/**
+	 * Gets the user
+	 * @return the user
+	 */
 	
+	public Account getUser() {
+		return this.user;
+	}
+	/**
+	 * Gets the funds available property
+	 * @return the funds available
+	 */
+	
+	public StringProperty getAvailableFundsProperty() {
+		return this.fundsAvailable;
+	}
 }
