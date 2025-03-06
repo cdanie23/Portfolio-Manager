@@ -121,8 +121,7 @@ public class LandingPageCodeBehind implements Initializable {
 	private void setUpDataBinding() {
 		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
 		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
-		this.totalFundsLabel.textProperty().bind(this.viewModel.getFundsAvailabe());
-
+		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 	}
 
 	private void setUpListeners() {
@@ -168,6 +167,16 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	void addFundsClicked(MouseEvent event) {
-
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/AddFunds.fxml"));
+			Parent root = loader.load();
+			AddFundsCodeBehind addFundController = loader.getController();
+			Stage stage = new Stage();
+			addFundController.setData(this.viewModel.getUser(), this.viewModel.getFundsAvailabe());
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 }

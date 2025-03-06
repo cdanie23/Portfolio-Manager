@@ -35,7 +35,6 @@ public class LandingPageViewModel {
 		this.dataReader.readCryptoData();
 		this.cryptos = this.dataReader.getCryptoCollection(); 
 		this.fundsAvailable = new SimpleStringProperty();
-		
 		// Prepopulated for now since we don't have server
 		this.user = new Account("johndoe@gmail.com", "password");
 		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
