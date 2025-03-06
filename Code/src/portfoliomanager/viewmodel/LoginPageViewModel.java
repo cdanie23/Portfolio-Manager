@@ -1,7 +1,7 @@
 package portfoliomanager.viewmodel;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.model.Account;
@@ -12,18 +12,20 @@ import portfoliomanager.model.Account;
  * @author Sam
  * @version Spring 2025
  */
-public class SignUpPageViewModel {
-	private static final List<Account> ACCOUNTS = new ArrayList<>();
+public class LoginPageViewModel {
+	private boolean loginStatus;
 	private StringProperty emailProperty;
 	private StringProperty passwordProperty;
 	
 	/**
-	 * Instantiates a new sign up page view model.
+	 * Instantiates a new login page view model.
 	 */
-	public SignUpPageViewModel() {
-		if (ACCOUNTS.isEmpty()) {
-			ACCOUNTS.add(new Account("user@email.com", "pass123"));
-		}
+	public LoginPageViewModel() {
+		if (SignUpPageViewModel.getAccounts().isEmpty()) {
+            new SignUpPageViewModel();
+        }
+		
+		this.loginStatus = false;
 		this.emailProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
@@ -57,22 +59,36 @@ public class SignUpPageViewModel {
 	 *
 	 * @return the list of accounts
 	 */
-	public static List<Account> getAccounts() {
-		return ACCOUNTS;
+	public List<Account> getAccounts() {
+		return SignUpPageViewModel.getAccounts();
 	}
 	
 	/**
-	 * Adds the created account to the list of accounts.
+	 * Gets the status of the login state.
+	 *
+	 * @return the login status
 	 */
-	public void createAccount() {
+	public boolean getLoginStatus() {
+		return this.loginStatus;
+	}
+	
+	/**
+	 * Verifies the login information for the account.
+	 */
+	public void verifyLogin() {
 		String email = this.emailProperty.get();
 		String password = this.passwordProperty.get();
-		for (Account account : SignUpPageViewModel.ACCOUNTS) {
-	        if (account.getEmail().trim().equalsIgnoreCase(email.trim())) {
-	            throw new IllegalArgumentException("Account with the given email already exists, try logging in.");
+		
+		List<Account> accounts = SignUpPageViewModel.getAccounts();
+		
+		for (Account account : accounts) {
+	        if (account.getEmail().trim().equalsIgnoreCase(email.trim()) && account.getPassword().trim().equals(password.trim())) {
+	        	this.loginStatus = true;
+	        	
+	        	return;
 	        }
 		}
-		Account newAccount = new Account(email, password);
-		ACCOUNTS.add(newAccount);
+		
+		throw new IllegalArgumentException("Email or password are incorrect.");
 	}
 }

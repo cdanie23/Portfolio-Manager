@@ -82,14 +82,20 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	void logInClicked(MouseEvent event) {
-		System.out.println("login in clicked");
-		// TODO implement the login in process
+		try {
+			Stage primaryStage = new Stage();
+			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
+			Scene scene = new Scene(root, 375, 400);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 
 	@FXML
 	void signUpClicked(MouseEvent event) {
 		try {
-
 			Stage primaryStage = new Stage();
 			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
 			Scene scene = new Scene(root, 375, 420);
