@@ -1,0 +1,489 @@
+commit ec91ece8bc3a9fb65c4de8a7edf43f015f849b4e
+Merge: 1467824 35b0189
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Thu Mar 6 15:06:41 2025 -0500
+
+    Merge pull request #14 from cdanie23/feature-ImplementBuyCrypto
+    
+    Branch looks good implementation is solid, and test coverage is 100% nice.
+
+commit 35b0189905bdf237caace3fb14839ff2ad9a783a
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 15:04:44 2025 -0500
+
+    Updates the class diagram
+
+commit 146782408de50c0c9c0fc9730151df318b36d5a7
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Mar 6 13:52:11 2025 -0500
+
+    Update use cases
+    
+    Updated use case scenarios and diagram.
+
+commit 83ae2807c6ea8008cb924115999c00e0e7522c3a
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Mar 6 11:27:45 2025 -0500
+
+    Update Sprint 1 Backlog
+    
+    Updated Sprint 1 Backlog.xlsx
+
+commit ba91838164f64d7920f9a15286f8190f1164cae4
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Mar 6 10:15:43 2025 -0500
+
+    Fixed bugs for buying crypto feature
+    
+    Fixed bugs for buying crypto feature.
+
+commit 28e067a84feaffd082e19b315ef908393cfcb95c
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Mar 6 00:18:20 2025 -0500
+
+    Added buying feature
+    
+    Added, implemented, tested buying feature.
+
+commit 98132953dee830605823187534529c02bf1a1a6f
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Wed Mar 5 21:26:32 2025 -0500
+
+    Update Sprint 1 Backlog
+    
+    Updated the Sprint 1 Backlog
+
+commit bbe550a0ef3b983fa861e5723de210f33c5d5478
+Merge: 156d341 fa654c4
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Wed Mar 5 21:14:26 2025 -0500
+
+    Merge pull request #13 from cdanie23/feature-AddFundsImplementation
+    
+    Feature add funds implementation
+
+commit fa654c45df7459e3af4c37e028e86d0200f94d70
+Merge: 2378228 156d341
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Wed Mar 5 21:14:13 2025 -0500
+
+    Merge branch 'main' into feature-AddFundsImplementation
+
+commit 156d341692e06dcf733ab01bc936a2fc01e60ff9
+Merge: 1287e6c 0b87680
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Wed Mar 5 21:06:57 2025 -0500
+
+    Merge pull request #12 from cdanie23/feature-DesignPortfolioPage
+    
+    Feature design portfolio page
+
+commit 0b876805059cea7e93fb10f8141cddc71c966c31
+Merge: 5dc9661 1287e6c
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Wed Mar 5 21:06:38 2025 -0500
+
+    Merge branch 'main' into feature-DesignPortfolioPage
+
+commit 23782287db7214a9527a3a3dfed84f698315954a
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 5 19:53:37 2025 -0500
+
+    Implementation for adding funds
+    
+    Implemented adding funds and tested.
+
+commit 1287e6c3f5e5a7ecad71d41f11c6713d5ba0bc0d
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 5 16:46:47 2025 -0500
+
+    Updated the sprint 1 backlog
+
+commit 5dc966143bfbc8fba0acb29602bdbe5cd766687a
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 5 15:42:21 2025 -0500
+
+    Adds 100% testing for model and viewmodels
+
+commit af488f0c1ff162964791e0bd8187208e8ee42745
+Merge: c06e1b3 87a0b2b
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 5 14:31:40 2025 -0500
+
+    Merge branch 'feature-DesignPortfolioPage' of https://github.com/cdanie23/Portfolio-Manager into feature-DesignPortfolioPage
+
+commit c06e1b3e51d2f18b5e07462ee7a363dcb2a60647
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 5 14:23:49 2025 -0500
+
+     Added functionality to sell a partial amount of the holding and fixed
+     checkstyle warnings.
+
+commit 91621294ee5987aa61e08bf3a2fc318f569f016f
+Merge: 9653392 a69d76f
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 5 14:05:59 2025 -0500
+
+    Merge pull request #11 from cdanie23/feature-ImplementLoginPage
+    
+    Implement Login Page Functionality. Well tested and has proper coverage.
+
+commit 87a0b2bf37b65fa6ee3a5adc8c45058ceae5f7df
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 5 13:18:05 2025 -0500
+
+    Updated holdingslistview to be bidirectional
+    
+    Updated listview binding to be bidirectional.
+
+commit db19a7f131092fef88e5ab232cbaff9ff0685495
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Mar 4 22:27:40 2025 -0500
+
+    Adds functionality for the portfolio page. Still missing critical
+    components.
+
+commit a69d76f1015fab943bb8317378da0e0682385e0b
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Tue Mar 4 19:28:35 2025 -0500
+
+    Finish Login Page Testing
+    
+    Finished integrating Login Page and Sign Up Page as well as ensuring 100% test coverage.
+
+commit a96f327a32e87783830478c08c27ed71e78ca5df
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Tue Mar 4 10:53:29 2025 -0500
+
+    Integrate Sign Up Page and Login Page
+    
+    Integrated the Sign Up and Login pages so the user can login once creating an account, or login with the default created account for testing purposes.
+
+commit ceef7d2d5177a7525891b68a6b93515d5cf29d92
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Tue Mar 4 00:07:04 2025 -0500
+
+    Implement Basic Login Page Functionality
+    
+    Implemented basic functionality of Login Page along with simple junit tests.
+
+commit 9653392b18f44ae8ceaf10c5c4b278ee07219264
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Mon Mar 3 23:17:06 2025 -0500
+
+    Update Sprint 1 Backlog
+    
+    Updated Sprint 1 Backlog
+
+commit bcd8773116efde633831c07c87a08b609f006ec5
+Merge: e39f6b5 851fae3
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Sat Mar 1 20:02:04 2025 -0500
+
+    Merge pull request #10 from cdanie23/feature-ImplementSignUpFunctionality
+    
+    Feature implement sign up functionality
+
+commit 851fae383902a1387711962b38abcccb02f2afe8
+Merge: 3e62f7b e39f6b5
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Sat Mar 1 20:01:16 2025 -0500
+
+    Merge branch 'main' into feature-ImplementSignUpFunctionality
+
+commit e39f6b5bb19c4eb925dfa9011840d09b01254271
+Merge: e755f73 f4772fd
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sat Mar 1 18:03:02 2025 -0500
+
+    Merge pull request #9 from cdanie23/feature-IntegrateDataInView
+    
+    Integrated the crypto data to be shown on the landing page
+
+commit f4772fd0a4e1610290b8b2ff53606126995c9ba6
+Merge: c5ec443 e755f73
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sat Mar 1 18:00:34 2025 -0500
+
+    Merged main to the feature-Branch
+    
+    Integrates model with view using MVVM architecture. Passes all the test cases with necessary coverage.
+
+commit 3e62f7b353c1bc80c03b7c128ae85753c6424043
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sat Mar 1 14:14:05 2025 -0500
+
+    Updated sign up page view model
+    
+    Updated sign up page view model to utilize bindings for data.
+
+commit c5ec443f15d4c6fe7753b45fee97f449103abd20
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Feb 28 18:47:33 2025 -0500
+
+    Fixed checkstyle warnings
+
+commit a12d02ac64bb94145aab741483b73658fa099468
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Feb 28 18:40:21 2025 -0500
+
+    Integrated the data to be shown on the view
+
+commit e755f7367b15d7b03a7ad144344a3a4cb50b2927
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Thu Feb 27 15:02:46 2025 -0500
+
+    Update Sprint 1 Backlog
+    
+    Updated Sprint 1 Backlog to add completed task and write down hours left.
+
+commit 037e29252b006612decdb03581140ac98e40d7cc
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Thu Feb 27 11:05:05 2025 -0500
+
+    Update Sign Up Page
+    
+    Updated sign up page code behind and view model to create better separation between classes.
+
+commit f9961588123b23cb05568361bf0160ed6330d4e8
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Feb 25 21:33:52 2025 -0500
+
+    Fixes build path issues by making the resources folder a source folder
+
+commit 754c244de394718b41413c9ac0cac7488aac328e
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Feb 25 21:25:11 2025 -0500
+
+    Updates the sprint 1 backlog
+
+commit 76c5d61e28e7dde37db08a25c0788f22692868cd
+Merge: 5eb7e8c dcd3ac3
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Tue Feb 25 21:10:55 2025 -0500
+
+    Merge the data reader and crypto data classes into main
+    
+    Feature data reader was well documented with minor checkstyle issues. The data classes and reader allow for all needed functionality of them. As well as provide 100% test coverage.
+
+commit dcd3ac38571e4835d6684db4c85a40321b2b01d2
+Merge: ebc64ee 5eb7e8c
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Feb 25 20:56:18 2025 -0500
+
+    Merge remote-tracking branch 'origin' into feature-DataReader
+    All test pass and coding structure is well documented and meets the
+    necessary functionality needed.
+
+commit c10919fd7f306ca19cb4075982bff9478cce77f0
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Mon Feb 24 23:04:56 2025 -0500
+
+    Implement View Model Tests
+    
+    Implemented basic Sign Up Page View Model JUnit tests with 100% code coverage.
+
+commit ebc64ee3eef621111df9977a6d4f497b9ff23505
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Mon Feb 24 17:56:35 2025 -0500
+
+    Implemented and test DataReader
+    
+    Implements and tests data reader to read crypto data in. Only one type of crypto.
+
+commit 74e2e54a3982f8f5d5fbd6bfa4f773a8d573ca07
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Mon Feb 24 15:15:46 2025 -0500
+
+    Added hashmap for historical prices
+    
+    Added hashmap for historical prices of the crypto.
+
+commit de63898d5305f7ee640cac840564c775a0581315
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Mon Feb 24 14:41:29 2025 -0500
+
+    Implement Temporary "Server" Solution
+    
+    Implemented a temporary "server" solution using a pre-populated ArrayList and basic email checking to complete sign up functionality.
+
+commit 6f907f08dd5d616e6e081063b8f919a7e9cc31e8
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Mon Feb 24 12:21:31 2025 -0500
+
+    Implement Sign Up Functionality
+    
+    Implemented some functionality for the Sign Up page. Server implementation is needed to save account information. Password encryption is not currently implemented.
+
+commit 5eb7e8c073097de2eb4ab4704c791b967dc0b441
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Feb 20 10:58:23 2025 -0500
+
+    Updated sprint backlog
+    
+    Updated sprint backlog
+
+commit da592408ff4ad33c3999ca02501963bb78173711
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Wed Feb 19 13:04:57 2025 -0500
+
+    Update Sprint 1 Backlog
+    
+    Updated Sprint 1 Backlog with completed task, implementing the Account class, and the next planned task, integrating the login process with the view.
+
+commit d86cfbb2bdefdcde54d4444f0fb7e33208b8b6cb
+Merge: ce34ad4 2a6338f
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Tue Feb 18 12:31:50 2025 -0500
+
+    Merge pull request #5 from cdanie23/feature-DesignSignUpPage
+    
+    Adds the FXML file for the designed sign up page and the code behind
+
+commit 2a6338f71220d275eacf62ecabfbc43a9e856f2a
+Merge: ace2e01 ce34ad4
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Tue Feb 18 12:29:52 2025 -0500
+
+    Merging main into DesignSignUp
+    
+    Merging updated fxml page and codebehind.
+
+commit ce34ad4ee8f1543c4f7d752e91d515c3a3ec36c8
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Mon Feb 17 22:12:36 2025 -0500
+
+    Updated the sprint 1 backlog
+
+commit ace2e0156f7c0db88d239e477a58fe3cf53e9606
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Mon Feb 17 22:01:37 2025 -0500
+
+    Adds the FXML file for the designed sign up page and the code behind
+    file that is missing implementation. Adds the logo for our company and
+    adds the sign up pages UI wireframe to the documentation.
+
+commit 8e41a20bdf431b3309b72e9c7ae34aef4b30df64
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sun Feb 16 19:06:27 2025 -0500
+
+    Update .classpath
+    
+    Mistake in classpath file during merge.
+
+commit defb559dedb409885e4f48930d2bfbb2e7ad6095
+Merge: 10a90c5 3a4f182
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sun Feb 16 17:47:54 2025 -0500
+
+    Merge pull request #3 from cdanie23/DesignLandingPage
+    
+    Design landing page merge
+
+commit 3a4f1827712a3db59e1911f158c90a3e52f3ddd0
+Merge: 1f3108f 10a90c5
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Sun Feb 16 17:46:19 2025 -0500
+
+    Merged main to the branch
+    
+    Merged changes from main to the branch.
+
+commit 25e65ce4f7d9f1257f407c40640675332b067af6
+Author: cdanie23 <colbhd@gmail.com>
+Date:   Sun Feb 16 16:41:16 2025 -0500
+
+    Adds the missing files from the merge conflict that got lost.
+
+commit 9bdc3e20b9aeb0af9a9177dd4905d4eff20e636b
+Merge: ee0478c 10a90c5
+Author: cdanie23 <colbhd@gmail.com>
+Date:   Sun Feb 16 16:33:37 2025 -0500
+
+    Merge branch 'main' into feature-ImplementCrytosDataClass
+    Fixed merge conflict, by keeping the main's excel file and resolving the conflicts from main and the codeBehind java files
+
+commit 1f3108fa37a773500436a451d6f65096bd9b7f03
+Author: cdanie23 <colbhd@gmail.com>
+Date:   Sun Feb 16 15:04:57 2025 -0500
+
+    Fixed checkstyle errors
+
+commit 10a90c59f005094e8c6dec569114ad927fa2bcc0
+Merge: ecf50a2 acf2e7a
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Sun Feb 16 14:55:25 2025 -0500
+
+    Merge pull request #2 from cdanie23/feature-Account
+    
+    Implement Account Class
+
+commit 9d255103aed90edb8248e0c4a826b06fe8816216
+Author: cdanie23 <colbhd@gmail.com>
+Date:   Sun Feb 16 14:37:42 2025 -0500
+
+    Updated the documentation and added the UI wireframe for the user's landing page.
+
+commit 882661a6cdcf197e51c71bff14fd91ed3f495af5
+Author: cdanie23 <colbhd@gmail.com>
+Date:   Sun Feb 16 14:13:57 2025 -0500
+
+    Designed the landing page
+
+commit acf2e7a2e64b67a42a5c5aa2996e6e85fc034695
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Feb 15 23:56:34 2025 -0500
+
+    Implement Account Class
+    
+    Implemented Account model class for account creation with basic unit-testing.
+
+commit ee0478ce074b37cb76f37aebb86c9a563108221c
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Feb 14 18:34:05 2025 -0500
+
+    Fixed checkstyle errors
+    
+    Fixed some checkstyle errors.
+
+commit ecf50a20b7535e7fa9a06536f76d502f60e6b68c
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Feb 14 18:00:21 2025 -0500
+
+    Revert "Implemented Crypto Data and crypto collection"
+    
+    This reverts commit e71d65836f19410753cab831e7a5475e7cac5748.
+
+commit e71d65836f19410753cab831e7a5475e7cac5748
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Feb 14 17:36:41 2025 -0500
+
+    Implemented Crypto Data and crypto collection
+    
+    Added, implemented and tested crypto data and crypto collection class.
+
+commit 9bd030f3805cd530e76abd57baefe033355d832c
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Feb 14 15:00:34 2025 -0500
+
+    Added class diagram and updated use cases
+    
+    Added class diagram and updated use case.
+
+commit c0746dbebfaa14291e8742f1148eb29521ad1192
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Feb 14 14:14:35 2025 -0500
+
+    Adds the backlog for spring 1
+
+commit 5d2e3284199ffc3d001d61b3a597a7bcaf9e7da7
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Feb 11 23:14:35 2025 -0500
+
+    Sets up a base java fx project and the documentation folder
+
+commit 50517d3b0c697e05a5df770cab1ce12d73e6143e
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Tue Feb 11 21:15:23 2025 -0500
+
+    Initial commit
