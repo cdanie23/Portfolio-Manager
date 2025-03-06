@@ -101,6 +101,7 @@ public class LandingPageCodeBehind implements Initializable {
 			exception.printStackTrace();
 		}
 		this.enableLogOutButtons();
+		this.portfolioTabPage.setDisable(false);
 	}
 	
 	private void disableLogOutButtons() {
@@ -133,6 +134,7 @@ public class LandingPageCodeBehind implements Initializable {
 			exception.printStackTrace();
 		}
 		this.enableLogOutButtons();
+		this.portfolioTabPage.setDisable(false);
 	}
 
 	@Override
@@ -142,7 +144,7 @@ public class LandingPageCodeBehind implements Initializable {
 		this.viewModel = new LandingPageViewModel();
 		this.selectedHolding = new SimpleObjectProperty<Holding>();
 		this.setUpDataBinding();
-		this.portfolioTabPage.setDisable(false);
+		this.portfolioTabPage.setDisable(true);
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
 		this.disableLogOutButtons();
@@ -173,6 +175,7 @@ public class LandingPageCodeBehind implements Initializable {
 	@FXML
 	void logOutClicked(MouseEvent event) {
 		this.disableLogOutButtons();
+		this.portfolioTabPage.setDisable(true);
 	}
 
 	@FXML
