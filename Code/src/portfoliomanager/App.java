@@ -1,4 +1,5 @@
 package portfoliomanager;
+
 /**
  * The app class
  * @author Colby
@@ -10,6 +11,6 @@ public class App {
 	 * @param args the arguments to start the app with 
 	 */
 	public static void main(String[] args) {
-		Main.main(args);
+        Main.main(args);
     }
 }

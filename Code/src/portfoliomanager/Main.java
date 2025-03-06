@@ -13,7 +13,6 @@ import javafx.scene.control.TabPane;
  * @version Spring 2025
  */
 
-
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -26,10 +25,10 @@ public class Main extends Application {
 			exception.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * The startup method of our main class
-	 * @param args the args to start it with
+	 * The main function 
+	 * @param args the args to start the function with
 	 */
 	public static void main(String[] args) {
 		launch(args);

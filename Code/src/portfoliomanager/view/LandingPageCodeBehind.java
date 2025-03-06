@@ -3,10 +3,18 @@ package portfoliomanager.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
+import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -16,7 +24,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+
 import portfoliomanager.model.Crypto;
+import portfoliomanager.model.Holding;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
 /**
@@ -28,10 +38,16 @@ import portfoliomanager.viewmodel.LandingPageViewModel;
 public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
+	private Button addFundsButton;
+
+	@FXML
 	private ListView<Crypto> cryptoListView;
 
 	@FXML
 	private Tab cryptoTabPage;
+
+	@FXML
+	private ListView<Holding> holdingsListView;
 
 	@FXML
 	private TabPane landingTabPage;
@@ -40,14 +56,28 @@ public class LandingPageCodeBehind implements Initializable {
 	private Ellipse logInButton;
 
 	@FXML
+	private ImageView logoImageView;
+
+	@FXML
+	private Button logoutButton;
+
+	@FXML
+	private Label nameLabel;
+
+	@FXML
 	private Tab portfolioTabPage;
+
+	@FXML
+	private Button sellButton;
 
 	@FXML
 	private Ellipse signUpButton;
 
 	@FXML
-	private ImageView logoImageView;
-	
+	private Label totalFundsLabel;
+	@FXML
+	private ObjectProperty<Holding> selectedHolding;
+
 	private LandingPageViewModel viewModel;
 
 	@FXML
@@ -68,7 +98,7 @@ public class LandingPageCodeBehind implements Initializable {
 		try {
 			Stage primaryStage = new Stage();
 			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
-			Scene scene = new Scene(root, 375, 400);
+			Scene scene = new Scene(root, 375, 420);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception exception) {
@@ -79,15 +109,71 @@ public class LandingPageCodeBehind implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
-        this.logoImageView.setImage(image);
-        this.viewModel = new LandingPageViewModel();
-        this.setUpDataBinding();
-	}
-	/**
-	 * Sets up the data binding from the view model to view
-	 */
-	public void setUpDataBinding() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
+		this.logoImageView.setImage(image);
+		this.viewModel = new LandingPageViewModel();
+		this.selectedHolding = new SimpleObjectProperty<Holding>();
+		this.setUpDataBinding();
+		this.portfolioTabPage.setDisable(false);
+		this.setUpListeners();
+		this.sellButton.setDisable(true);
+
 	}
 
+	private void update() {
+		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
+		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+	}
+
+	private void setUpDataBinding() {
+		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
+		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+		this.totalFundsLabel.textProperty().bind(this.viewModel.getFundsAvailabe());
+
+	}
+
+	private void setUpListeners() {
+		this.holdingsListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
+			if (newVal != null) {
+				this.selectedHolding.setValue(newVal);
+				this.sellButton.setDisable(false);
+			} else {
+				this.sellButton.setDisable(true);
+			}
+		});
+	}
+
+	@FXML
+	void logoutClicked(MouseEvent event) {
+
+	}
+
+	@FXML
+	void sellClicked(MouseEvent event) {
+		try {
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/SellPage.fxml"));
+			Parent root = loader.load();
+			SellPageCodeBehind controller = loader.getController();
+
+			Stage stage = new Stage();
+			stage.setOnCloseRequest(_ -> {
+				System.out.println("closed");
+				this.update();
+			});
+			controller.setData(this.viewModel.getUser(), this.viewModel.getCryptoHoldings(),
+					this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
+			controller.setUpCodeBehind();
+			controller.setStage(stage);
+			stage.setScene(new Scene(root));
+			stage.show();
+
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	@FXML
+	void addFundsClicked(MouseEvent event) {
+
+	}
 }

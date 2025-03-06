@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import portfoliomanager.datareader.DataReader;
-import portfoliomanager.model.CryptoCollection;
+import portfoliomanager.model.Crypto;
+
 
 class TestDataReader {
 	private File tempFile;
@@ -33,9 +35,9 @@ class TestDataReader {
         }
         DataReader dataReader = new DataReader(tempFile.getAbsolutePath());
         dataReader.readCryptoData();
-        CryptoCollection collection = dataReader.getCryptoCollection();
-        assertAll(()-> assertFalse(collection.getCryptos().isEmpty()),
-        		()-> assertEquals(50000.0, collection.getCryptos().get(0).getCurrentPrice()));
+        List<Crypto> collection = dataReader.getCryptoCollection();
+        assertAll(()-> assertFalse(collection.isEmpty()),
+        		()-> assertEquals(50000.0, collection.get(0).getCurrentPrice()));
         
 	}
 	

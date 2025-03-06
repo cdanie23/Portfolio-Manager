@@ -15,11 +15,13 @@ public class Crypto {
 	private String name;
 	private Double currentPrice;
 	private HashMap<String, Double> historicalPrices;
+	
 	/**
 	 * Instantiates a new Crypto object
 	 * @param name the name of the crypto
 	 * @param currentPrice the current price of the crypto
 	 */
+	
 	public Crypto(String name, Double currentPrice) {
 		if (name == null || name.isEmpty() || name.isBlank()) {
 			throw new IllegalArgumentException("Name of the cryptocurrency must not be null or empty.");
@@ -82,7 +84,7 @@ public class Crypto {
 	 * @precondition none
 	 * @postcondition none
 	 * 
-	 * @param historicalPrices
+	 * @param historicalPrices the prices of the past
 	 */
 	public void setHistoricalPrices(HashMap<String, Double> historicalPrices) {
 		this.historicalPrices = historicalPrices;
@@ -106,10 +108,12 @@ public class Crypto {
 	public boolean didOneDayPriceDecrease() {
 		return this.getOneDayPriceChange() < 0;
 	}
+	
 	/**
 	 * Gets the one day change of price
 	 * @return the price change
 	 */
+	
 	public double getOneDayPriceChange() {
 		//Hard coded for now since data is also hard coded
 		String currentDate = "2025-02-23";
