@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -154,11 +154,7 @@ public class LandingPageCodeBehind implements Initializable {
 		this.disableLogOutButtons();
 	}
 
-	private void update() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
-		this.buyCryptoButton.setDisable(true);
-	}
+
 
 	private void setUpDataBinding() {
 		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty()); 
