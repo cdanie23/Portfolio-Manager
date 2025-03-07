@@ -11,28 +11,28 @@ import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 
 public class TestAccount {
-	private String email;
+	private String username;
 	private String password;
 	private Account account;
 	
 	@BeforeEach
 	public void setUp() {
-		this.email = "user@email.com";
+		this.username = "user";
 		this.password = "pass123";
-		this.account = new Account(this.email, this.password);
+		this.account = new Account(this.username, this.password);
 	}
 	
 	@Test
 	public void testValidAccountConstructor() {
-		assertEquals("user@email.com", this.account.getEmail());
+		assertEquals("user", this.account.getUserName());
 		assertEquals("pass123", this.account.getPassword());
 	}
 	
 	@Test
 	public void testValidSetEmail() {
-		account.setEmail("user1@email.com");
+		account.setUserName("user1");
 		
-		assertEquals("user1@email.com", account.getEmail());
+		assertEquals("user1", account.getUserName());
 	}
 	
 	@Test
@@ -49,12 +49,12 @@ public class TestAccount {
 	
 	@Test
 	public void testInvalidAccountConstructorEmptyPassword() {
-		assertThrows(IllegalArgumentException.class, () -> new Account("user@email.com", ""));
+		assertThrows(IllegalArgumentException.class, () -> new Account("user", ""));
 	}
 	
 	@Test
 	public void testInvalidSetEmail() {
-		assertThrows(IllegalArgumentException.class, () -> account.setEmail(""));
+		assertThrows(IllegalArgumentException.class, () -> account.setUserName(""));
 	}
 	
 	@Test
@@ -68,9 +68,9 @@ public class TestAccount {
 	}
 	@Test
 	public void testGetsFundsAvailable() {
-		this.email = "user@email.com";
+		this.username = "user";
 		this.password = "pass123";
-		this.account = new Account(this.email, this.password);
+		this.account = new Account(this.username, this.password);
 		this.account.setFundsAvailable(1000);
 		
 		assertEquals(1000, this.account.getFundsAvailable());

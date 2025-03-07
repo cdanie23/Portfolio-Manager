@@ -22,7 +22,7 @@
             <Font name="Serif Regular" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="112.0" layoutY="165.0" text="Email: " textFill="#1a3e73">
+      <Label layoutX="112.0" layoutY="165.0" text="Username: " textFill="#1a3e73">
          <font>
             <Font name="Serif Regular" size="14.0" />
          </font>
@@ -32,7 +32,7 @@
             <Font name="Serif Regular" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="114.0" layoutY="208.0" promptText="johndoe@gmail.com" />
+      <TextField fx:id="usernameField" layoutX="114.0" layoutY="208.0" promptText="johndoe" />
       <TextField fx:id="passwordField" layoutX="114.0" layoutY="314.0" promptText="12345678" />
       <Button text="Sign Up" fx:id="signUpButton" layoutX="147.0" layoutY="380.0" prefHeight="25.0" prefWidth="80.0" onAction="#handleSignUp"/>
    </children>

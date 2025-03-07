@@ -9,48 +9,48 @@ import java.util.List;
  * @version Spring 2025
  */
 public class Account {
-	private String email;
+	private String username;
 	private String password;
 
 	private List<Holding> holdings;
 	private double fundsAvailable;
+	
 	/**
-	 * Instantiates a new account with given email and password.
+	 * Instantiates a new account.
 	 *
-	 * @param email the email
+	 * @param username the username
 	 * @param password the password
 	 */
-	
-	public Account(String email, String password) {
-		if (email.isBlank() || password.isBlank()) {
-			throw new IllegalArgumentException("Email or password don't meet specified requirements.");
+	public Account(String username, String password) {
+		if (username.isBlank() || password.isBlank()) {
+			throw new IllegalArgumentException("Username or password don't meet specified requirements.");
 		}
 		
-		this.email = email;
+		this.username = username;
 		this.password = password;
 		this.holdings = new ArrayList<Holding>();
 	}
 	
 	/**
-	 * Gets the email.
+	 * Gets the user name.
 	 *
-	 * @return the email
+	 * @return the user name
 	 */
-	public String getEmail() {
-		return this.email;
+	public String getUserName() {
+		return this.username;
 	}
-	
+
 	/**
-	 * Sets the email.
+	 * Sets the user name.
 	 *
-	 * @param newEmail the new email
+	 * @param newName the new user name
 	 */
-	public void setEmail(String newEmail) {
-		if (newEmail.isBlank()) {
-			throw new IllegalArgumentException("Email doesn't meet specified requirements.");
+	public void setUserName(String newName) {
+		if (newName.isBlank()) {
+			throw new IllegalArgumentException("Username doesn't meet specified requirements.");
 		}
 		
-		this.email = newEmail;
+		this.username = newName;
 	}
 	
 	/**

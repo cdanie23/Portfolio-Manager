@@ -14,7 +14,7 @@ import portfoliomanager.model.Account;
  */
 public class LoginPageViewModel {
 	private boolean loginStatus;
-	private StringProperty emailProperty;
+	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
 	
 	/**
@@ -26,20 +26,17 @@ public class LoginPageViewModel {
         }
 		
 		this.loginStatus = false;
-		this.emailProperty = new SimpleStringProperty();
+		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
 	
 	/**
-	 * Gets the emailProperty 
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @return the email property
+	 * Gets the user name property.
+	 *
+	 * @return the user name property
 	 */
-	public StringProperty getEmailProperty() {
-		return this.emailProperty;
+	public StringProperty getUserNameProperty() {
+		return this.usernameProperty;
 	}
 	
 	/**
@@ -76,19 +73,19 @@ public class LoginPageViewModel {
 	 * Verifies the login information for the account.
 	 */
 	public void verifyLogin() {
-		String email = this.emailProperty.get();
+		String username = this.usernameProperty.get();
 		String password = this.passwordProperty.get();
 		
 		List<Account> accounts = SignUpPageViewModel.getAccounts();
 		
 		for (Account account : accounts) {
-	        if (account.getEmail().trim().equalsIgnoreCase(email.trim()) && account.getPassword().trim().equals(password.trim())) {
+	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
 	        	this.loginStatus = true;
 	        	
 	        	return;
 	        }
 		}
 		
-		throw new IllegalArgumentException("Email or password are incorrect.");
+		throw new IllegalArgumentException("Username or password are incorrect.");
 	}
 }

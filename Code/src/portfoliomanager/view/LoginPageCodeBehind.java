@@ -27,7 +27,7 @@ public class LoginPageCodeBehind  implements Initializable {
     @FXML
     private Label loginLabel;
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
     @FXML
     private TextField passwordField;
     @FXML
@@ -63,7 +63,7 @@ public class LoginPageCodeBehind  implements Initializable {
     }
     
     private void bindDataElements() {
-        this.account.getEmailProperty().bind(this.emailField.textProperty());
+        this.account.getUserNameProperty().bind(this.usernameField.textProperty());
         this.account.getPasswordProperty().bind(this.passwordField.textProperty());
     }
 }

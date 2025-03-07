@@ -17,27 +17,27 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testValidSignUpPageViewModelConstructor() {
-		assertEquals("user@email.com", SignUpPageViewModel.getAccounts().get(0).getEmail());
+		assertEquals("user", SignUpPageViewModel.getAccounts().get(0).getUserName());
 		assertEquals("pass123", SignUpPageViewModel.getAccounts().get(0).getPassword());
 	}
 	
 	@Test
 	public void testCreateAccount()
 	{
-		this.page.getEmailProperty().set("testuser@email.com");
+		this.page.getUserNameProperty().set("testuser");
 		this.page.getPasswordProperty().set("testPassword123");
 		
 		this.page.createAccount();
 		
 		assertAll(()-> assertEquals(2, SignUpPageViewModel.getAccounts().size()),
-				()-> assertEquals("testuser@email.com", SignUpPageViewModel.getAccounts().get(1).getEmail()),
+				()-> assertEquals("testuser", SignUpPageViewModel.getAccounts().get(1).getUserName()),
 				()-> assertEquals("testPassword123", SignUpPageViewModel.getAccounts().get(1).getPassword()));
 	}
 	
 	@Test
 	public void testCreateAccountDuplication()
 	{
-		this.page.getEmailProperty().set("testuser@email.com");
+		this.page.getUserNameProperty().set("testuser");
 		this.page.getPasswordProperty().set("testPassword123");
 		
 		assertThrows(IllegalArgumentException.class,()->{

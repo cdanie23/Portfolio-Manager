@@ -17,7 +17,7 @@ class testAddFundsViewModel {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new Account("acc@user.com", "pass.145");
+		this.user = new Account("acc", "pass.145");
 		this.fA = new SimpleStringProperty();
 		this.vm = new AddFundsViewModel(this.user, this.fA);
 	}
@@ -25,7 +25,7 @@ class testAddFundsViewModel {
 	@Test
 	void testConstructor() {
 		assertAll(()-> assertNull(this.fA.get()),
-				()-> assertEquals("acc@user.com", this.vm.getUser().getEmail()),
+				()-> assertEquals("acc", this.vm.getUser().getUserName()),
 				()-> assertEquals("pass.145", this.vm.getUser().getPassword()),
 				()-> assertNull(this.vm.getAmountProperty().get()));		
 	}

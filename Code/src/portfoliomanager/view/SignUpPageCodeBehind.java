@@ -27,7 +27,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     @FXML
     private Label signUpLabel;
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
     @FXML
     private TextField passwordField;
     @FXML
@@ -62,7 +62,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     }
     
     private void bindDataElements() {
-        this.addAccount.getEmailProperty().bind(this.emailField.textProperty());
+        this.addAccount.getUserNameProperty().bind(this.usernameField.textProperty());
         this.addAccount.getPasswordProperty().bind(this.passwordField.textProperty());
     }
 }

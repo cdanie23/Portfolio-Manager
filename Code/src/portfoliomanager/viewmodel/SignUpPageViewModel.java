@@ -14,7 +14,7 @@ import portfoliomanager.model.Account;
  */
 public class SignUpPageViewModel {
 	private static final List<Account> ACCOUNTS = new ArrayList<>();
-	private StringProperty emailProperty;
+	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
 	
 	/**
@@ -22,22 +22,19 @@ public class SignUpPageViewModel {
 	 */
 	public SignUpPageViewModel() {
 		if (ACCOUNTS.isEmpty()) {
-			ACCOUNTS.add(new Account("user@email.com", "pass123"));
+			ACCOUNTS.add(new Account("user", "pass123"));
 		}
-		this.emailProperty = new SimpleStringProperty();
+		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
 	
 	/**
-	 * Gets the emailProperty 
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @return the email property
+	 * Gets the user name property.
+	 *
+	 * @return the user name property
 	 */
-	public StringProperty getEmailProperty() {
-		return this.emailProperty;
+	public StringProperty getUserNameProperty() {
+		return this.usernameProperty;
 	}
 	
 	/**
@@ -65,14 +62,14 @@ public class SignUpPageViewModel {
 	 * Adds the created account to the list of accounts.
 	 */
 	public void createAccount() {
-		String email = this.emailProperty.get();
+		String username = this.usernameProperty.get();
 		String password = this.passwordProperty.get();
 		for (Account account : SignUpPageViewModel.ACCOUNTS) {
-	        if (account.getEmail().trim().equalsIgnoreCase(email.trim())) {
-	            throw new IllegalArgumentException("Account with the given email already exists, try logging in.");
+	        if (account.getUserName().trim().equalsIgnoreCase(username.trim())) {
+	            throw new IllegalArgumentException("Account with the given username already exists, try logging in.");
 	        }
 		}
-		Account newAccount = new Account(email, password);
+		Account newAccount = new Account(username, password);
 		ACCOUNTS.add(newAccount);
 	}
 }

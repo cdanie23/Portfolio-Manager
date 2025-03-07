@@ -21,7 +21,7 @@ public class TestLoginPageViewModel {
 	
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
-		assertEquals("user@email.com", this.page.getAccounts().get(0).getEmail());
+		assertEquals("user", this.page.getAccounts().get(0).getUserName());
 		assertEquals("pass123", this.page.getAccounts().get(0).getPassword());
 	}
 	
@@ -38,7 +38,7 @@ public class TestLoginPageViewModel {
 	
 	@Test
 	public void testValidVerifyAccount() {
-		this.page.getEmailProperty().set("user@email.com");
+		this.page.getUserNameProperty().set("user");
 		this.page.getPasswordProperty().set("pass123");
 		
 		this.page.verifyLogin();
@@ -48,7 +48,7 @@ public class TestLoginPageViewModel {
 	
 	@Test
 	public void testInvalidVerifyAccountWrongEmail() {
-		this.page.getEmailProperty().set("user1@email.com");
+		this.page.getUserNameProperty().set("user1");
 		this.page.getPasswordProperty().set("pass123");
 		
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -58,7 +58,7 @@ public class TestLoginPageViewModel {
 	
 	@Test
 	public void testInvalidVerifyAccountWrongPassword() {
-		this.page.getEmailProperty().set("user@email.com");
+		this.page.getUserNameProperty().set("user");
 		this.page.getPasswordProperty().set("Pass123");
 		
 		assertThrows(IllegalArgumentException.class, () -> {
