@@ -63,7 +63,7 @@ class TestSellPageViewModel {
 		
 		assertEquals(8, this.viewModel.getHoldingToSell().getAmountHeld());
 		assertEquals(2000, this.viewModel.getUser().getFundsAvailable());
-		String expectedFundsAvailableDisplayed = "Funds available: $" + 2000.0;
+		String expectedFundsAvailableDisplayed = "$" + 2000.0;
 		
 		assertTrue(expectedFundsAvailableDisplayed.equals(this.viewModel.getAvailableFundsProperty().getValue()));
 	}
@@ -74,7 +74,7 @@ class TestSellPageViewModel {
 		
 		assertTrue(this.viewModel.getUser().getHoldings().isEmpty());
 		assertEquals(10000, this.viewModel.getUser().getFundsAvailable());
-		String expectedFundsAvailableDisplayed = "Funds available: $" + 10000.0;
+		String expectedFundsAvailableDisplayed = "$" + 10000.0;
 		assertTrue(expectedFundsAvailableDisplayed.equals(this.viewModel.getAvailableFundsProperty().getValue()));
 	}
 }
