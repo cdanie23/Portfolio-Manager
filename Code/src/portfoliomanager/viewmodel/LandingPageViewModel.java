@@ -27,6 +27,7 @@ public class LandingPageViewModel {
 	private List<Holding> holdings;
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailable;
+	private ListProperty<Crypto> cryptoListProperty;
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
@@ -71,6 +72,14 @@ public class LandingPageViewModel {
 	 */
 	public ListProperty<Holding> getHoldingsProperty() {
 		return this.holdingsProperty;
+	}
+	
+	/**
+	 * Gets the list property for cryptos
+	 * @return the list property for cryptos
+	 */
+	public ListProperty<Crypto> getCryptoListProperty() {
+		return this.cryptoListProperty;
 	}
 	
 	/**
