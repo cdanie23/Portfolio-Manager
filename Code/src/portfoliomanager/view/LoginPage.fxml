@@ -32,6 +32,11 @@
             <Font name="Serif Regular" size="14.0" />
          </font>
       </Label>
+      <Label layoutX="165.0" layoutY="430.0" onMousePressed="#signUpClicked" text="Sign Up" textFill="#1a3e73">
+         <font>
+            <Font name="Serif Regular" size="14.0" />
+         </font>
+      </Label>
       <TextField fx:id="usernameField" layoutX="114.0" layoutY="208.0" promptText="johndoe" />
       <TextField fx:id="passwordField" layoutX="114.0" layoutY="314.0" promptText="12345678" />
       <Button text="Login" fx:id="loginButton" layoutX="147.0" layoutY="380.0" prefHeight="25.0" prefWidth="80.0" onAction="#handleLogin"/>

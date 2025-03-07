@@ -16,6 +16,7 @@ public class SignUpPageViewModel {
 	private static final List<Account> ACCOUNTS = new ArrayList<>();
 	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
+	private StringProperty passwordConfirmProperty;
 	
 	/**
 	 * Instantiates a new sign up page view model.
@@ -26,6 +27,7 @@ public class SignUpPageViewModel {
 		}
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
+		this.passwordConfirmProperty = new SimpleStringProperty();
 	}
 	
 	/**
@@ -64,11 +66,18 @@ public class SignUpPageViewModel {
 	public void createAccount() {
 		String username = this.usernameProperty.get();
 		String password = this.passwordProperty.get();
+		String passwordConfirm = this.passwordConfirmProperty.get();
+		
+		if (!password.equals(passwordConfirm)) {
+			throw new IllegalArgumentException("Passwords do not match.");
+		}
+		
 		for (Account account : SignUpPageViewModel.ACCOUNTS) {
 	        if (account.getUserName().trim().equalsIgnoreCase(username.trim())) {
 	            throw new IllegalArgumentException("Account with the given username already exists, try logging in.");
 	        }
 		}
+		
 		Account newAccount = new Account(username, password);
 		ACCOUNTS.add(newAccount);
 	}
