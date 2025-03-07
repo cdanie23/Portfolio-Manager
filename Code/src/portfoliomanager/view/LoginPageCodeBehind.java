@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import portfoliomanager.viewmodel.LoginPageViewModel;
-import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
  * The sign up page code behind

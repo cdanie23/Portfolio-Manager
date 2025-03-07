@@ -11,5 +11,4 @@ Primary Flow:
 5. System displays current crypto currencies price. 
 6. User chooses a crypto currency from the list of cryptocurrencies. 
 7. System detects a crypto choice. 
-8. System displays graph on price change of selected crypto. 
-9. System also displays predicted growth or loss of the selected crypto for a specified time (a day, a week, a month).
+8. System also displays predicted growth or loss of the selected crypto for a specified time (a day, a week, a month).

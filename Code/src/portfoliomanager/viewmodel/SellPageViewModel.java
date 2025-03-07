@@ -85,8 +85,7 @@ public class SellPageViewModel {
 	 * Handles the action of user selling crypto
 	 */
 	public void sellCrypto() {
-		int indexOfHolding = this.holdings.indexOf(this.holdingToSell);
-		Holding holding = this.holdings.get(indexOfHolding);
+		Holding holding = this.getHoldingToSell();
 		holding.setAmountHeld(this.getAmountLeft());
 		if (holding.getAmountHeld() == 0) {
 			this.holdings.remove(holding);
