@@ -10,8 +10,5 @@ Primary Flow:
 4. System also displays available options for investor owned cryptos (buy, sell, trade).
 5. Investor selects a crypto from the list of holdings. 
 6. System detects a choice made. 
-7. System displays graph and change on price on the crypto. 
-8. System calculates and displays profit/loss if the crypto is sold right now. 
-9. System additionally predicts if the crypto price is going to increase or decrease. 
-
-
+7. System change on price on the crypto. 
+8. System calculates and displays profit/loss if the crypto is sold right now.
