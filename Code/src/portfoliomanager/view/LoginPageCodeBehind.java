@@ -13,15 +13,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import portfoliomanager.viewmodel.LoginPageViewModel;
-import portfoliomanager.viewmodel.SignUpPageViewModel;
-
 /**
  * The sign up page code behind
  * 
  * @author Colby
  * @author Sam
+ * @author Liam
  * @version Spring 2025
  */
+
 public class LoginPageCodeBehind  implements Initializable {
     @FXML
     private ImageView logoImageView;
@@ -34,6 +34,9 @@ public class LoginPageCodeBehind  implements Initializable {
     @FXML
     private Button loginButton;
     private LoginPageViewModel account;
+    
+    @FXML
+    private LandingPageCodeBehind view;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -66,5 +69,13 @@ public class LoginPageCodeBehind  implements Initializable {
     private void bindDataElements() {
         this.account.getEmailProperty().bind(this.emailField.textProperty());
         this.account.getPasswordProperty().bind(this.passwordField.textProperty());
+    }
+    
+    /** Sets the LogInPageCodeBehind's LandingPageCodeBehind
+     * @precondition nothing
+     * @param view the view
+     */
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
+    	this.view = view;
     }
 }

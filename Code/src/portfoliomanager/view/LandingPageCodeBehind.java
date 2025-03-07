@@ -59,9 +59,6 @@ public class LandingPageCodeBehind implements Initializable {
 	private ImageView logoImageView;
 
 	@FXML
-	private Button logoutButton;
-
-	@FXML
 	private Label nameLabel;
 
 	@FXML
@@ -71,21 +68,28 @@ public class LandingPageCodeBehind implements Initializable {
 	private Button sellButton;
 	
 	@FXML
-	private Label logInPortfLabel;
+	private Button buyCryptoButton;
 	
 	@FXML
-	private Ellipse logOutPortfButton;
+	private Label logInLandingLabel;
 	
 	@FXML
-	private Label logOutPortfLabel;
+	private Ellipse logOutLandingButton;
+	
+	@FXML
+	private Label logOutLandingLabel;
 
 	@FXML
 	private Ellipse signUpButton;
+	
+	@FXML
+	private Button logOutPortfolioButton;
 
 	@FXML
 	private Label totalFundsLabel;
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
+	private ObjectProperty<Crypto> selectedCrypto;
 
 	private LandingPageViewModel viewModel;
 
@@ -102,26 +106,28 @@ public class LandingPageCodeBehind implements Initializable {
 		}
 		this.enableLogOutButtons();
 		this.portfolioTabPage.setDisable(false);
+		this.buyCryptoButton.setDisable(false);
+		this.buyCryptoButton.setVisible(true);
 	}
 	
 	private void disableLogOutButtons() {
-		this.logOutPortfButton.setDisable(true);
-		this.logOutPortfButton.setVisible(false);
-		this.logOutPortfLabel.setDisable(true);
-		this.logOutPortfLabel.setVisible(false);
-		this.logoutButton.setDisable(true);
-		this.logoutButton.setVisible(false);
+		this.logOutLandingButton.setDisable(true);
+		this.logOutLandingButton.setVisible(false);
+		this.logOutLandingLabel.setDisable(true);
+		this.logOutLandingLabel.setVisible(false);
+		this.logOutPortfolioButton.setDisable(true);
+		this.logOutPortfolioButton.setVisible(false);
 	}
 
 	private void enableLogOutButtons() {
-		this.logOutPortfButton.setDisable(false);
-		this.logOutPortfButton.setVisible(true);
-		this.logOutPortfLabel.setDisable(false);
-		this.logOutPortfLabel.setVisible(true);
-		this.logoutButton.setDisable(false);
-		this.logoutButton.setVisible(true);
+		this.logOutLandingButton.setDisable(false);
+		this.logOutLandingButton.setVisible(true);
+		this.logOutLandingLabel.setDisable(false);
+		this.logOutLandingLabel.setVisible(true);
+		this.logOutPortfolioButton.setDisable(false);
+		this.logOutPortfolioButton.setVisible(true);
 	}
-
+	
 	@FXML
 	void signUpClicked(MouseEvent event) {
 		try {
@@ -135,6 +141,8 @@ public class LandingPageCodeBehind implements Initializable {
 		}
 		this.enableLogOutButtons();
 		this.portfolioTabPage.setDisable(false);
+		this.buyCryptoButton.setDisable(false);
+		this.buyCryptoButton.setVisible(true);
 	}
 
 	@Override
@@ -143,11 +151,14 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logoImageView.setImage(image);
 		this.viewModel = new LandingPageViewModel();
 		this.selectedHolding = new SimpleObjectProperty<Holding>();
+		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
 		this.setUpDataBinding();
 		this.portfolioTabPage.setDisable(true);
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
 		this.disableLogOutButtons();
+		this.buyCryptoButton.setDisable(true);
+		this.buyCryptoButton.setVisible(false);
 	}
 
 	private void update() {
@@ -170,12 +181,23 @@ public class LandingPageCodeBehind implements Initializable {
 				this.sellButton.setDisable(true);
 			}
 		});
+		
+		this.cryptoListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
+			if (newVal != null) {
+				this.selectedCrypto.setValue(newVal);
+				this.buyCryptoButton.setDisable(false);
+			} else {
+				this.buyCryptoButton.setDisable(true);
+			}
+		});
 	}
 
 	@FXML
 	void logOutClicked(MouseEvent event) {
 		this.disableLogOutButtons();
 		this.portfolioTabPage.setDisable(true);
+		this.buyCryptoButton.setDisable(false);
+		this.buyCryptoButton.setVisible(false);
 	}
 
 	@FXML
@@ -202,7 +224,7 @@ public class LandingPageCodeBehind implements Initializable {
 			exception.printStackTrace();
 		}
 	}
-
+	
 	@FXML
 	void addFundsClicked(MouseEvent event) {
 		try {
@@ -216,5 +238,45 @@ public class LandingPageCodeBehind implements Initializable {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+	}
+	
+	@FXML
+	void buyButtonClicked(MouseEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
+			Parent root = loader.load();
+			BuyCryptoCodeBehind buyCryptoController = loader.getController();
+			Stage stage = new Stage();
+			buyCryptoController.setData(this.viewModel.getUser(), this.selectedCrypto, this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+			stage.setScene(new Scene(root));
+			stage.show();
+			
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	/** Returns the landing page's log out label
+	 * 
+	 * @return this.logOutLandingLabel
+	 */
+	public Label getLandingLogOutLabel() {
+		return this.logOutLandingLabel;
+	}
+	
+	/** Returns the landing page's log out ellipse
+	 * 
+	 * @return this.logOutLandingLabel
+	 */
+	public Ellipse getLandingLogOutEllipse() {
+		return this.logOutLandingButton;
+	}
+	
+	/** Returns the portfolio page's log out button
+	 * 
+	 * @return this.logOutButton
+	 */
+	public Button getPortfolioLogOutButton() {
+		return this.logOutPortfolioButton;
 	}
 }
