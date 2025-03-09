@@ -52,6 +52,9 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private Ellipse logInButton;
+	
+	@FXML
+	private Label loginLabel;
 
 	@FXML
 	private ImageView logoImageView;
@@ -72,9 +75,6 @@ public class LandingPageCodeBehind implements Initializable {
 	private Button sellButton;
 
 	@FXML
-	private Ellipse signUpButton;
-
-	@FXML
 	private Label totalFundsLabel;
 	
 	@FXML
@@ -82,32 +82,6 @@ public class LandingPageCodeBehind implements Initializable {
 	private ObjectProperty<Crypto> selectedCrypto;
 
 	private LandingPageViewModel viewModel;
-
-	@FXML
-	void logInClicked(MouseEvent event) {
-		try {
-			Stage primaryStage = new Stage();
-			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
-			Scene scene = new Scene(root, 375, 400);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-	}
-
-	@FXML
-	void signUpClicked(MouseEvent event) {
-		try {
-			Stage primaryStage = new Stage();
-			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
-			Scene scene = new Scene(root, 375, 420);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -121,6 +95,8 @@ public class LandingPageCodeBehind implements Initializable {
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
 		this.buyCryptoButton.setDisable(true);
+		
+		this.loginLabel.setText("Login");
 	}
 
 	private void setUpDataBinding() {
@@ -147,6 +123,19 @@ public class LandingPageCodeBehind implements Initializable {
 				this.buyCryptoButton.setDisable(true);
 			}
 		});
+	}
+	
+	@FXML
+	void logInClicked(MouseEvent event) {
+		try {
+			Stage primaryStage = new Stage();
+			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
+			Scene scene = new Scene(root, 375, 400);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 
 	@FXML

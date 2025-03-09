@@ -37,7 +37,7 @@ public class LandingPageViewModel {
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 		this.fundsAvailable = new SimpleStringProperty();
 		// Prepopulated for now since we don't have server
-		this.user = new Account("johndoe@gmail.com", "password");
+		this.user = new Account("user", "pass123");
 		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
 		this.user.addHolding(userHolding);
 		this.holdings = this.user.getHoldings();

@@ -25,6 +25,7 @@ public class SignUpPageViewModel {
 		if (ACCOUNTS.isEmpty()) {
 			ACCOUNTS.add(new Account("user", "pass123"));
 		}
+		
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
@@ -52,6 +53,18 @@ public class SignUpPageViewModel {
 	}
 	
 	/**
+	 * Gets the passwordConfirmProperty 
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the passwordConfirm property
+	 */
+	public StringProperty getPasswordConfirmProperty() {
+		return this.passwordConfirmProperty;
+	}
+	
+	/**
 	 * Gets the list of accounts.
 	 *
 	 * @return the list of accounts
@@ -68,7 +81,7 @@ public class SignUpPageViewModel {
 		String password = this.passwordProperty.get();
 		String passwordConfirm = this.passwordConfirmProperty.get();
 		
-		if (!password.equals(passwordConfirm)) {
+		if (!password.trim().equals(passwordConfirm.trim())) {
 			throw new IllegalArgumentException("Passwords do not match.");
 		}
 		

@@ -66,5 +66,6 @@ public class SignUpPageCodeBehind  implements Initializable {
     private void bindDataElements() {
         this.addAccount.getUserNameProperty().bind(this.usernameField.textProperty());
         this.addAccount.getPasswordProperty().bind(this.passwordField.textProperty());
+        this.addAccount.getPasswordConfirmProperty().bind(this.passwordConfirmField.textProperty());
     }
 }
