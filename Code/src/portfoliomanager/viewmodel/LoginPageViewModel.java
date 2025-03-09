@@ -2,6 +2,7 @@ package portfoliomanager.viewmodel;
 
 import java.util.List;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.model.Account;
@@ -13,19 +14,21 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class LoginPageViewModel {
-	private boolean loginStatus;
 	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
-	
+	private ObjectProperty<Boolean> isLoggedIn;
+	private Account user;
 	/**
 	 * Instantiates a new login page view model.
+	 * @param isLoggedIn the login status of the user
 	 */
-	public LoginPageViewModel() {
+	
+	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, Account user) {
 		if (SignUpPageViewModel.getAccounts().isEmpty()) {
             new SignUpPageViewModel();
         }
-		
-		this.loginStatus = false;
+		this.user = user;
+		this.isLoggedIn = isLoggedIn;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
@@ -65,8 +68,8 @@ public class LoginPageViewModel {
 	 *
 	 * @return the login status
 	 */
-	public boolean getLoginStatus() {
-		return this.loginStatus;
+	public ObjectProperty<Boolean> getLoginStatus() {
+		return this.isLoggedIn;
 	}
 	
 	/**
@@ -80,8 +83,8 @@ public class LoginPageViewModel {
 		
 		for (Account account : accounts) {
 	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
-	        	this.loginStatus = true;
-	        	
+	        	this.isLoggedIn.setValue(true);
+	        	this.user = new Account(username, password);
 	        	return;
 	        }
 		}

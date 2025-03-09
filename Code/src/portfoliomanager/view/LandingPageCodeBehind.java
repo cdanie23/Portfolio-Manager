@@ -64,9 +64,8 @@ public class LandingPageCodeBehind implements Initializable {
 	
 	@FXML
 	private Button buyCryptoButton;
-
 	@FXML
-	private Label nameLabel;
+    private Label welcomeUsernameLabel;
 
 	@FXML
 	private Tab portfolioTabPage;
@@ -76,7 +75,10 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	private Label totalFundsLabel;
-	
+	@FXML
+    private Label portfolioNameLabel;
+	@FXML
+    private Label welcomeLabel;
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
 	private ObjectProperty<Crypto> selectedCrypto;
@@ -103,6 +105,9 @@ public class LandingPageCodeBehind implements Initializable {
 		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty()); 
 		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
+		this.welcomeLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeLabelProperty());
+		this.welcomeUsernameLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeUserNameProperty());
+		this.portfolioNameLabel.textProperty().bindBidirectional(this.viewModel.getPortfolioNameProperty());
 	}
 
 	private void setUpListeners() {
@@ -129,10 +134,18 @@ public class LandingPageCodeBehind implements Initializable {
 	void logInClicked(MouseEvent event) {
 		try {
 			Stage primaryStage = new Stage();
-			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
-			Scene scene = new Scene(root, 375, 400);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
+			Parent root = loader.load();
+			LoginPageCodeBehind controller = loader.getController();
+			Scene scene = new Scene(root, 500, 400);
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(arg0 -> {
+				System.out.println("called");
+				this.viewModel.updateForAuthenticatedUser();
+			});
+			controller.setData(this.viewModel.getIsLoggedIn(), this.viewModel.getUser());
 			primaryStage.show();
+			
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}

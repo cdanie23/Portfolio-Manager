@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
+<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
   <tabs>
     <Tab fx:id="cryptoTabPage" text="Crypto">
       <content>
@@ -20,12 +20,12 @@
                
                   <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="697.0" layoutY="42.0" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
                   
-                  <Label layoutX="287.0" layoutY="32.0" text="Welcome to">
+                  <Label fx:id="welcomeLabel" layoutX="287.0" layoutY="32.0" text="Welcome to">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="371.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
+                  <Label fx:id="welcomeUsernameLabel" layoutX="371.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>
@@ -63,7 +63,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="nameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio">
+                  <Label fx:id="portfolioNameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio">
                      <font>
                         <Font name="Serif Regular" size="18.0" />
                      </font>

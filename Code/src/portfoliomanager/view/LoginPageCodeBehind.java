@@ -1,8 +1,11 @@
 package portfoliomanager.view;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 
 /**
@@ -26,40 +31,52 @@ import portfoliomanager.viewmodel.LoginPageViewModel;
  * @author Sam
  * @version Spring 2025
  */
-public class LoginPageCodeBehind  implements Initializable {
-    @FXML
-    private ImageView logoImageView;
-    @FXML
-    private Label loginLabel;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField passwordField;
-    @FXML
-    private Button loginButton;
-    private LoginPageViewModel account;
-
+public class LoginPageCodeBehind implements Initializable {
+	@FXML
+	private ImageView logoImageView;
+	@FXML
+	private Label loginLabel;
+	@FXML
+	private TextField usernameField;
+	@FXML
+	private TextField passwordField;
+	@FXML
+	private Button loginButton;
+	private LoginPageViewModel account;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
-        this.logoImageView.setImage(image);
-        this.account = new LoginPageViewModel();
-        this.bindDataElements();
+		this.logoImageView.setImage(image);
+
 	}
-    
-    @FXML
-    private void handleLogin() {
-    	try {
-    		this.account.verifyLogin();
-    	} catch (Exception exception) {
-    		this.showAlert("Error", exception.getMessage());
-    	}
-    	
-    	Stage stage = (Stage) this.loginButton.getScene().getWindow();
-        stage.close();
-    }
-    
-    @FXML
+
+	/**
+	 * Sets the data of the controller
+	 * 
+	 * @param isLoggedIn login status of the user
+	 * @post this.account != null, data binding is setup
+	 */
+
+	public void setData(ObjectProperty<Boolean> isLoggedIn, Account user) {
+		
+		this.account = new LoginPageViewModel(isLoggedIn, user);
+		this.bindDataElements();
+	}
+
+	@FXML
+	private void handleLogin() {
+		try {
+			this.account.verifyLogin();
+		} catch (Exception exception) {
+			this.showAlert("Error", exception.getMessage());
+		}
+		Stage stage = (Stage) this.loginButton.getScene().getWindow();
+		Event.fireEvent(stage, new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+		stage.close();
+	}
+
+	@FXML
 	void signUpClicked(MouseEvent event) {
 		try {
 			Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -71,17 +88,17 @@ public class LoginPageCodeBehind  implements Initializable {
 			exception.printStackTrace();
 		}
 	}
-    
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    
-    private void bindDataElements() {
-        this.account.getUserNameProperty().bind(this.usernameField.textProperty());
-        this.account.getPasswordProperty().bind(this.passwordField.textProperty());
-    }
+
+	private void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
+
+	private void bindDataElements() {
+		this.account.getUserNameProperty().bind(this.usernameField.textProperty());
+		this.account.getPasswordProperty().bind(this.passwordField.textProperty());
+	}
 }

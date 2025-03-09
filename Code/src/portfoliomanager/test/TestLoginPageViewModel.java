@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleObjectProperty;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
@@ -16,7 +18,7 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel();
+		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"));
 	}
 	
 	@Test
@@ -31,7 +33,7 @@ public class TestLoginPageViewModel {
 		
 		assertTrue(SignUpPageViewModel.getAccounts().isEmpty());
 		
-		new LoginPageViewModel();
+		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"));
 		
 		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
 	}
@@ -43,7 +45,7 @@ public class TestLoginPageViewModel {
 		
 		this.page.verifyLogin();
 		
-		assertTrue(this.page.getLoginStatus());
+		assertTrue(this.page.getLoginStatus().getValue());
 	}
 	
 	@Test
