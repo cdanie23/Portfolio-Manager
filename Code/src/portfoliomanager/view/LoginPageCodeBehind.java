@@ -37,6 +37,7 @@ public class LoginPageCodeBehind  implements Initializable {
     
     @FXML
     private LandingPageCodeBehind view;
+    private boolean isLoggedIn;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -44,18 +45,30 @@ public class LoginPageCodeBehind  implements Initializable {
         this.logoImageView.setImage(image);
         this.account = new LoginPageViewModel();
         this.bindDataElements();
+        this.isLoggedIn = false;
 	}
     
     @FXML
     private void handleLogin() {
     	try {
     		this.account.verifyLogin();
+    		this.isLoggedIn = this.account.getLoginStatus();
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
     	
-    	Stage stage = (Stage) this.loginButton.getScene().getWindow();
-        stage.close();
+    	if (this.isLoggedIn) {
+    		Stage stage = (Stage) this.loginButton.getScene().getWindow();
+    		this.enableAccountOptions();
+    		stage.close();
+    	}
+    }
+    
+    private void enableAccountOptions() {
+    	this.view.enableLogOutButtons();
+    	this.view.enableTransactionAbility();
+    	this.view.disableLogInButton();
+    	this.view.disableSignUpButton();
     }
     
     private void showAlert(String title, String message) {

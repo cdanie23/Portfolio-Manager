@@ -30,12 +30,12 @@
                      </font>
                   </Label>
                   <Line endX="626.0" layoutX="108.0" layoutY="82.0" startX="-100.0" stroke="#007bff" />
-                  <Label layoutX="578.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
+                  <Label fx:id="logInLandingLabel" layoutX="578.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="678.0" layoutY="35.0" onMouseClicked="#signUpClicked" prefHeight="13.0" prefWidth="38.0" text="Sign up" textFill="WHITE">
+                  <Label fx:id="signUpLandingLabel" layoutX="678.0" layoutY="35.0" onMouseClicked="#signUpClicked" prefHeight="13.0" prefWidth="38.0" text="Sign up" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="12.0" />
                      </font>
