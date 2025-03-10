@@ -137,11 +137,11 @@ public class LandingPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
 			Parent root = loader.load();
 			LoginPageCodeBehind controller = loader.getController();
-			Scene scene = new Scene(root, 500, 400);
+			Scene scene = new Scene(root, 376, 471);
 			primaryStage.setScene(scene);
 			primaryStage.setOnCloseRequest(arg0 -> {
-				System.out.println("called");
 				this.viewModel.updateForAuthenticatedUser();
+				this.welcomeLabel.setLayoutX(280);
 			});
 			controller.setData(this.viewModel.getIsLoggedIn(), this.viewModel.getUser());
 			primaryStage.show();

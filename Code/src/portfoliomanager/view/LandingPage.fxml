@@ -20,12 +20,12 @@
                
                   <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="697.0" layoutY="42.0" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
                   
-                  <Label fx:id="welcomeLabel" layoutX="287.0" layoutY="32.0" text="Welcome to">
+                  <Label fx:id="welcomeLabel" layoutX="301.0" layoutY="32.0" text="Welcome to">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="welcomeUsernameLabel" layoutX="371.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
+                  <Label fx:id="welcomeUsernameLabel" layoutX="386.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>

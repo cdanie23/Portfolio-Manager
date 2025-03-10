@@ -97,7 +97,7 @@ public class LandingPageViewModel {
 		}
 	}
 	private void updateWelcomeLabels() {
-		this.welcomeLabelProperty.setValue("Welcome back");
+		this.welcomeLabelProperty.setValue("Welcome back,");
 		this.welcomeUsernameProperty.setValue(this.user.getUserName());
 		this.portfolioNameProperty.setValue(this.user.getUserName() + "'s Portfolio");
 	}

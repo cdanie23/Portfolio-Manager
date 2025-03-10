@@ -81,7 +81,7 @@ public class LoginPageCodeBehind implements Initializable {
 		try {
 			Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			Pane root = FXMLLoader.load(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
-			Scene scene = new Scene(root, 375, 420);
+			Scene scene = new Scene(root, 376, 531);
 			currentStage.setScene(scene);
 			currentStage.show();
 		} catch (Exception exception) {
