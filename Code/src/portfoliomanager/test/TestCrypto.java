@@ -123,4 +123,30 @@ class TestCrypto {
 		
 		assertTrue((String.format("%25s%68.2f%66.2f", btc.getName(), btc.getCurrentPrice(), btc.getOneDayPriceChange()) + "%").equals(btc.toString()));
 	}
+	
+	@Test
+	void testGetPriceForRange() {
+		String name = "BTC-USD";
+		Double currentPrice = 54.36;
+		Crypto crypto = new Crypto(name, currentPrice);
+		crypto.getHistoricalPrice().put("2024-01-01", 30.50);
+		crypto.getHistoricalPrice().put("2024-01-02", 31.52);
+		crypto.getHistoricalPrice().put("2024-01-03", 40.07);
+		
+		assertAll(()-> assertTrue(!crypto.getPriceForRange(2).isEmpty()),
+				()-> assertEquals(2, crypto.getPriceForRange(2).size()));
+	}
+	
+	@Test
+	void testGetPriceForRangeNegativeValue() {
+		String name = "BTC-USD";
+		Double currentPrice = 54.36;
+		Crypto crypto = new Crypto(name, currentPrice);
+		crypto.getHistoricalPrice().put("2024-01-01", 30.50);
+		crypto.getHistoricalPrice().put("2024-01-02", 31.52);
+		crypto.getHistoricalPrice().put("2024-01-03", 40.07);
+		
+		assertAll(()-> assertTrue(crypto.getPriceForRange(-1).isEmpty()),
+				()-> assertEquals(0, crypto.getPriceForRange(-1).size()));
+	}
 }
