@@ -1,5 +1,6 @@
 package portfoliomanager.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,5 +44,9 @@ public class TestSignUpPageViewModel {
 		assertThrows(IllegalArgumentException.class,()->{
 			this.page.createAccount();
 		});
+	}
+	@Test
+	public void testNotSignedIn() {
+		assertFalse(this.page.getSignedUpStatus());
 	}
  }

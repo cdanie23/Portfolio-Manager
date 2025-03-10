@@ -23,12 +23,10 @@ class TestLandingPageViewModel {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
 	@Test
-	void testGetCryptoListProperty() {
-		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
+	void testGetCryptoCollection() {
+		assertTrue(!this.viewModel.getCryptoCollection().isEmpty());
 	}
-	
 	@Test
 	void testGetFundsAvailabe() {
 		String expected = "$0.0";

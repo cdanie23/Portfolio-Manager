@@ -13,14 +13,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import portfoliomanager.viewmodel.LoginPageViewModel;
-
 /**
  * The sign up page code behind
  * 
  * @author Colby
  * @author Sam
+ * @author Liam
  * @version Spring 2025
  */
+
 public class LoginPageCodeBehind  implements Initializable {
     @FXML
     private ImageView logoImageView;
@@ -33,6 +34,10 @@ public class LoginPageCodeBehind  implements Initializable {
     @FXML
     private Button loginButton;
     private LoginPageViewModel account;
+    
+    @FXML
+    private LandingPageCodeBehind view;
+    private boolean isLoggedIn;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -40,18 +45,30 @@ public class LoginPageCodeBehind  implements Initializable {
         this.logoImageView.setImage(image);
         this.account = new LoginPageViewModel();
         this.bindDataElements();
+        this.isLoggedIn = false;
 	}
     
     @FXML
     private void handleLogin() {
     	try {
     		this.account.verifyLogin();
+    		this.isLoggedIn = this.account.getLoginStatus();
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
     	
-    	Stage stage = (Stage) this.loginButton.getScene().getWindow();
-        stage.close();
+    	if (this.isLoggedIn) {
+    		Stage stage = (Stage) this.loginButton.getScene().getWindow();
+    		this.enableAccountOptions();
+    		stage.close();
+    	}
+    }
+    
+    private void enableAccountOptions() {
+    	this.view.enableLogOutButtons();
+    	this.view.enableTransactionAbility();
+    	this.view.disableLogInButton();
+    	this.view.disableSignUpButton();
     }
     
     private void showAlert(String title, String message) {
@@ -65,5 +82,13 @@ public class LoginPageCodeBehind  implements Initializable {
     private void bindDataElements() {
         this.account.getEmailProperty().bind(this.emailField.textProperty());
         this.account.getPasswordProperty().bind(this.passwordField.textProperty());
+    }
+    
+    /** Sets the LogInPageCodeBehind's LandingPageCodeBehind
+     * @precondition nothing
+     * @param view the view
+     */
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
+    	this.view = view;
     }
 }
