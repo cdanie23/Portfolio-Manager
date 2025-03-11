@@ -153,6 +153,7 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logInButton.setVisible(false);
 		this.logInLandingLabel.setDisable(true);
 		this.logInLandingLabel.setVisible(false);
+		this.landingTabPage.getSelectionModel().select(this.portfolioTabPage);
 	}
 
 	/**
@@ -195,6 +196,7 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logOutLandingLabel.setVisible(false);
 		this.logOutPortfolioButton.setDisable(true);
 		this.logOutPortfolioButton.setVisible(false);
+		this.landingTabPage.getSelectionModel().select(this.cryptoTabPage);
 	}
 	
 	@FXML
