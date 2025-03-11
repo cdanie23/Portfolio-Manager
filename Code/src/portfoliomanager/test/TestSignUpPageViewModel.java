@@ -26,7 +26,7 @@ public class TestSignUpPageViewModel {
 	{
 		this.page.getUserNameProperty().set("testuser");
 		this.page.getPasswordProperty().set("testPassword123");
-		
+		this.page.getPasswordConfirmProperty().set("testPassword123");
 		this.page.createAccount();
 		
 		assertAll(()-> assertEquals(2, SignUpPageViewModel.getAccounts().size()),
@@ -39,7 +39,16 @@ public class TestSignUpPageViewModel {
 	{
 		this.page.getUserNameProperty().set("testuser");
 		this.page.getPasswordProperty().set("testPassword123");
-		
+		this.page.getPasswordConfirmProperty().set("testPassword123");
+		assertThrows(IllegalArgumentException.class,()->{
+			this.page.createAccount();
+		});
+	}
+	@Test
+	public void testWrongPassword() {
+		this.page.getUserNameProperty().set("testuser");
+		this.page.getPasswordProperty().set("testPassword123");
+		this.page.getPasswordConfirmProperty().set("testPassword");
 		assertThrows(IllegalArgumentException.class,()->{
 			this.page.createAccount();
 		});

@@ -52,4 +52,23 @@ class TestLandingPageViewModel {
 		
 		assertEquals(expectedUser, this.viewModel.getUser());
 	}
+	@Test
+	void testUpdateForAuthenticatedUser() {
+		this.viewModel.getIsLoggedIn().setValue(true);
+		this.viewModel.updateForAuthenticatedUser();
+		
+		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
+		assertEquals(welcomeText, "Welcome back,");
+		String welcomeUserName = this.viewModel.getWelcomeUserNameProperty().getValue();
+		assertEquals(welcomeUserName, "user");
+	}
+	@Test
+	void testPortfolioLabelProperties() {
+		this.viewModel.getIsLoggedIn().setValue(true);
+		this.viewModel.updateForAuthenticatedUser();
+		String expectedPortfolioLabel = "user's Portfolio";
+		String actual = this.viewModel.getPortfolioNameProperty().getValue();
+		
+		assertEquals(expectedPortfolioLabel, actual);
+	}
 }
