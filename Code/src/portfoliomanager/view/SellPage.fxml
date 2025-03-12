@@ -9,33 +9,33 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="245.0" prefWidth="412.0" style="-fx-background-color: #9A9A9A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.SellPageCodeBehind">
    <children>
-      <Label fx:id="sellCryptoLabel" layoutX="166.0" layoutY="23.0" text="Sell &lt;Crypto&gt;">
+      <Label fx:id="sellCryptoLabel" layoutX="148.0" layoutY="22.0" text="Sell &lt;Crypto&gt;" textFill="WHITE">
          <font>
-            <Font name="Serif Regular" size="16.0" />
+            <Font name="Century Gothic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="78.0" layoutY="102.0" text="Amount:">
+      <Label layoutX="67.0" layoutY="101.0" text="Amount:" textFill="WHITE">
          <font>
-            <Font name="Serif Regular" size="14.0" />
+            <Font name="Century Gothic" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="amountTextBox" layoutX="131.0" layoutY="97.0" />
-      <Label fx:id="profitLabel" layoutX="53.0" layoutY="171.0" text="Profit: &lt;profit&gt;" textFill="#00ff12">
+      <Label fx:id="profitLabel" layoutX="53.0" layoutY="171.0" text="Profit: &lt;profit&gt;" textFill="#40ecff">
          <font>
-            <Font name="Serif Regular" size="14.0" />
+            <Font name="Century Gothic" size="14.0" />
          </font>
       </Label>
-      <Line endX="575.0" endY="-1.52587890625E-5" layoutX="-163.0" layoutY="147.0" startX="166.00001525878906" startY="-7.62939453125E-6" stroke="#007bff" />
-      <Label fx:id="amountLeftLabel" layoutX="210.0" layoutY="171.0" text="Amount Left: &lt;Amount&gt;">
+      <Line endX="551.6666259765625" layoutX="-163.0" layoutY="147.0" startX="182.2929229736328" stroke="#007bff" />
+      <Label fx:id="amountLeftLabel" layoutX="210.0" layoutY="171.0" text="Amount Left: &lt;Amount&gt;" textFill="WHITE">
          <font>
-            <Font name="Serif Regular" size="14.0" />
+            <Font name="Century Gothic" size="14.0" />
          </font>
       </Label>
       <Button fx:id="cancelButton" layoutX="77.0" layoutY="199.0" mnemonicParsing="false" onMouseClicked="#cancelClicked" text="Cancel" textFill="#ed0505" />
       <Button fx:id="confirmButton" layoutX="255.0" layoutY="199.0" mnemonicParsing="false" onMouseClicked="#confirmClicked" text="Confirm" textFill="#0072ff" />
-      <Label fx:id="amountHeldLabel" layoutX="139.0" layoutY="62.0" text="Amount Held: &lt;Amount&gt;">
+      <Label fx:id="amountHeldLabel" layoutX="121.0" layoutY="62.0" text="Amount Held: &lt;Amount&gt;" textFill="#40ecff">
          <font>
-            <Font name="Serif Regular" size="14.0" />
+            <Font name="Century Gothic" size="14.0" />
          </font>
       </Label>
    </children>

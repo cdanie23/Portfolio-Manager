@@ -58,9 +58,7 @@ class TestLandingPageViewModel {
 		this.viewModel.updateForAuthenticatedUser();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
-		assertEquals(welcomeText, "Welcome back,");
-		String welcomeUserName = this.viewModel.getWelcomeUserNameProperty().getValue();
-		assertEquals(welcomeUserName, "user");
+		assertEquals(welcomeText, "Welcome back,"+ this.viewModel.getUser().getUserName());
 	}
 	
 	@Test
@@ -68,8 +66,7 @@ class TestLandingPageViewModel {
 		this.viewModel.getIsLoggedIn().setValue(false);
 		this.viewModel.updateForAuthenticatedUser();
 		
-		assertAll(()-> assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to "),
-		()-> assertEquals(this.viewModel.getWelcomeUserNameProperty().get(), "Crypto Vault"));
+		assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to Crypto Vault");
 	}
 	
 	@Test

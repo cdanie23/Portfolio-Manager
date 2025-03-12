@@ -182,7 +182,6 @@ public class LandingPageCodeBehind implements Initializable {
 		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 		this.welcomeLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeLabelProperty());
-		this.welcomeUsernameLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeUserNameProperty());
 		this.portfolioNameLabel.textProperty().bindBidirectional(this.viewModel.getPortfolioNameProperty());
 	}
 
