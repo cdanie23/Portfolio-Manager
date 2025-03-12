@@ -2,7 +2,6 @@ package portfoliomanager.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -27,9 +26,11 @@ public class SignUpPageCodeBehind  implements Initializable {
     @FXML
     private Label signUpLabel;
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
     @FXML
     private TextField passwordField;
+    @FXML
+    private TextField passwordConfirmField;
     @FXML
     private Button signUpButton;
     private SignUpPageViewModel addAccount;
@@ -58,7 +59,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     	if (this.isSignedUp) {
     		Stage stage = (Stage) this.signUpButton.getScene().getWindow();
     		this.enableAccountOptions();
-        	stage.close();
+    		stage.close();
     	}
     }
     
@@ -66,7 +67,6 @@ public class SignUpPageCodeBehind  implements Initializable {
     	this.view.enableLogOutButtons();
     	this.view.enableTransactionAbility();
     	this.view.disableLogInButton();
-    	this.view.disableSignUpButton();
     }
     
     private void showAlert(String title, String message) {
@@ -78,8 +78,9 @@ public class SignUpPageCodeBehind  implements Initializable {
     }
     
     private void bindDataElements() {
-        this.addAccount.getEmailProperty().bind(this.emailField.textProperty());
+        this.addAccount.getUserNameProperty().bind(this.usernameField.textProperty());
         this.addAccount.getPasswordProperty().bind(this.passwordField.textProperty());
+        this.addAccount.getPasswordConfirmProperty().bind(this.passwordConfirmField.textProperty());
     }
     
     /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind

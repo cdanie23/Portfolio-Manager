@@ -11,35 +11,30 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
+<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
   <tabs>
     <Tab fx:id="cryptoTabPage" text="Crypto">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Ellipse fx:id="signUpButton" fill="#007bff" layoutX="697.0" layoutY="42.0" onMouseClicked="#signUpClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="594.0" layoutY="42.0" onMouseClicked="#logInClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label layoutX="287.0" layoutY="32.0" text="Welcome to">
+
+                  <Label fx:id="welcomeLabel" layoutX="285.0" layoutY="30.0" text="Welcome to">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="371.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
+                     </font></Label>
+                  <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="693.0" layoutY="42.0" onMouseClicked="#logInClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label fx:id="welcomeUsernameLabel" layoutX="381.0" layoutY="30.0" text="Crypto Vault" textFill="#007bff">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>
                   </Label>
                   <Line endX="626.0" layoutX="108.0" layoutY="82.0" startX="-100.0" stroke="#007bff" />
-                  <Label fx:id="logInLandingLabel" layoutX="578.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
+                  <Label fx:id="logInLandingLabel" layoutX="677.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="signUpLandingLabel" layoutX="678.0" layoutY="35.0" onMouseClicked="#signUpClicked" prefHeight="13.0" prefWidth="38.0" text="Sign up" textFill="WHITE">
-                     <font>
-                        <Font name="Serif Regular" size="12.0" />
-                     </font>
-                  </Label>
+
                   <Label layoutX="96.0" layoutY="138.0" text="Name">
                      <font>
                         <Font name="SansSerif Regular" size="12.0" />
@@ -53,8 +48,8 @@
                   <Label layoutX="550.0" layoutY="137.0" text="24hr Price Trend" />
                   <ListView fx:id="cryptoListView" layoutX="18.0" layoutY="164.0" prefHeight="238.0" prefWidth="706.0" />
                   <ImageView fx:id="logoImageView" fitHeight="66.0" fitWidth="66.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                  <Ellipse fx:id="logOutLandingButton" fill="#5577a6" layoutX="642.0" layoutY="66.0" onMouseClicked="#logOutClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label fx:id="logOutLandingLabel" layoutX="623.0" layoutY="59.0" onMouseClicked="#logOutClicked" text="Log out" textFill="WHITE">
+                  <Ellipse fx:id="logOutLandingButton" fill="#5577a6" layoutX="694.0" layoutY="42.0" onMouseClicked="#logOutClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label fx:id="logOutLandingLabel" layoutX="675.0" layoutY="35.0" onMouseClicked="#logOutClicked" text="Log out" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="12.0" />
                      </font>
@@ -71,7 +66,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="nameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio">
+                  <Label fx:id="portfolioNameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio">
                      <font>
                         <Font name="Serif Regular" size="18.0" />
                      </font>

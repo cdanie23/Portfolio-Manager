@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-import javafx.collections.FXCollections;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +19,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
@@ -59,8 +56,11 @@ public class LandingPageCodeBehind implements Initializable {
 	private ImageView logoImageView;
 
 	@FXML
+	private Button logoutButton;
+	@FXML
+    private Label welcomeUsernameLabel;
+	@FXML
 	private Label nameLabel;
-
 	@FXML
 	private Tab portfolioTabPage;
 
@@ -78,62 +78,24 @@ public class LandingPageCodeBehind implements Initializable {
 	
 	@FXML
 	private Label logOutLandingLabel;
-	
-	@FXML
-	private Label signUpLandingLabel;
 
 	@FXML
-	private Ellipse signUpButton;
+    private Label portfolioNameLabel;
+	@FXML
+    private Label welcomeLabel;
 	
 	@FXML
 	private Button logOutPortfolioButton;
 
 	@FXML
 	private Label totalFundsLabel;
+	
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
 	private ObjectProperty<Crypto> selectedCrypto;
 	
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
-	private SignUpPageCodeBehind signUpPageCodeBehind;
-
-	@FXML
-	void logInClicked(MouseEvent event) {
-		try {
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
-			Pane root = loader.load();
-			this.loginPageCodeBehind = loader.getController();
-			this.loginPageCodeBehind.setLandingPageCodeBehind(this);
-			Scene scene = new Scene(root, 375, 400);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
-	}
-	
-	/**
-	 * Enables the sign up button
-	 */
-	public void enableSignUpButton() {
-		this.signUpButton.setDisable(false);
-		this.signUpButton.setVisible(true);
-		this.signUpLandingLabel.setDisable(false);
-		this.signUpLandingLabel.setVisible(true);
-	}
-	
-	/**
-	 * Disables the sign up button
-	 */
-	public void disableSignUpButton() {
-		this.signUpButton.setDisable(true);
-		this.signUpButton.setVisible(false);
-		this.signUpLandingLabel.setDisable(true);
-		this.signUpLandingLabel.setVisible(false);
-	}
 	
 	/**
 	 * Enables the log in button
@@ -161,7 +123,6 @@ public class LandingPageCodeBehind implements Initializable {
 	 */
 	public void enableTransactionAbility() {
 		this.portfolioTabPage.setDisable(false);
-		this.buyCryptoButton.setDisable(false);
 		this.buyCryptoButton.setVisible(true);
 	}
 	
@@ -170,7 +131,7 @@ public class LandingPageCodeBehind implements Initializable {
 	 */
 	public void disableTransactionAbility() {
 		this.portfolioTabPage.setDisable(true);
-		this.buyCryptoButton.setDisable(false);
+		this.buyCryptoButton.setDisable(true);
 		this.buyCryptoButton.setVisible(false);
 	}
 	
@@ -198,23 +159,6 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logOutPortfolioButton.setVisible(false);
 		this.landingTabPage.getSelectionModel().select(this.cryptoTabPage);
 	}
-	
-	@FXML
-	void signUpClicked(MouseEvent event) {
-		try {
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
-			Pane root = loader.load();
-			this.signUpPageCodeBehind = loader.getController();
-			this.signUpPageCodeBehind.setLandingPageCodeBehind(this);
-			Scene scene = new Scene(root, 375, 420);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
-	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -231,18 +175,15 @@ public class LandingPageCodeBehind implements Initializable {
 		this.buyCryptoButton.setDisable(true);
 		this.buyCryptoButton.setVisible(false);
 		this.loginPageCodeBehind = null;
-		this.signUpPageCodeBehind = null;
-	}
-
-	private void update() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
 	}
 
 	private void setUpDataBinding() {
-		this.cryptoListView.setItems(this.viewModel.getCryptoCollection());
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getCryptoHoldings()));
+		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty()); 
+		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
+		this.welcomeLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeLabelProperty());
+		this.welcomeUsernameLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeUserNameProperty());
+		this.portfolioNameLabel.textProperty().bindBidirectional(this.viewModel.getPortfolioNameProperty());
 	}
 
 	private void setUpListeners() {
@@ -264,13 +205,34 @@ public class LandingPageCodeBehind implements Initializable {
 			}
 		});
 	}
+	
+	@FXML
+	void logInClicked(MouseEvent event) {
+		try {
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/LoginPage.fxml"));
+			Parent root = loader.load();
+			this.loginPageCodeBehind = loader.getController();
+			this.loginPageCodeBehind.setLandingPageCodeBehind(this);
+			Scene scene = new Scene(root, 376, 471);
+			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(_ -> {
+				this.viewModel.updateForAuthenticatedUser();
+				this.welcomeLabel.setLayoutX(280);
+			});
+			this.loginPageCodeBehind.setData(this.viewModel.getIsLoggedIn(), this.viewModel.getUser());
+			primaryStage.show();
+			
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
 
 	@FXML
 	void logOutClicked(MouseEvent event) {
 		this.disableLogOutButtons();
 		this.disableTransactionAbility();
 		this.enableLogInButton();
-		this.enableSignUpButton();
 	}
 
 	@FXML
@@ -282,10 +244,6 @@ public class LandingPageCodeBehind implements Initializable {
 			SellPageCodeBehind controller = loader.getController();
 
 			Stage stage = new Stage();
-			stage.setOnCloseRequest(_ -> {
-				System.out.println("closed");
-				this.update();
-			});
 			controller.setData(this.viewModel.getUser(), this.viewModel.getCryptoHoldings(),
 					this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
 			controller.setUpCodeBehind();

@@ -27,7 +27,7 @@ class testBuyCodeViewModel {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new Account("test@user.com", "pass@word");
+		this.user = new Account("testuser", "pass@word");
 		Crypto crypto = new Crypto("a", 9.1);
 		this.selectedCrypto = new SimpleObjectProperty<Crypto> (crypto);
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
@@ -37,7 +37,7 @@ class testBuyCodeViewModel {
 	
 	@Test
 	void testConstructor() {
-		assertAll(()-> assertEquals("test@user.com", this.vm.getUser().getEmail()),
+		assertAll(()-> assertEquals("testuser", this.vm.getUser().getUserName()),
 				()-> assertEquals("pass@word", this.vm.getUser().getPassword()),
 				()-> assertEquals("a", this.vm.getSelectedCryto().get().getName()),
 				()-> assertEquals(9.1, this.vm.getSelectedCryto().get().getCurrentPrice()),

@@ -24,7 +24,7 @@ import portfoliomanager.viewmodel.BuyCryptoViewModel;
 /**
  * CodeBehind class for buy crypto fxml
  * 
- * @author Group 
+ * @author Group 2
  * @version Spring 2025
  */
 public class BuyCryptoCodeBehind {

@@ -20,12 +20,14 @@ class TestLandingPageViewModel {
 	void setUp() {
 		this.viewModel = new LandingPageViewModel();
 	}
+	
 	@AfterEach
 	void tearDown() throws Exception {
 	}
+	
 	@Test
 	void testGetCryptoCollection() {
-		assertTrue(!this.viewModel.getCryptoCollection().isEmpty());
+		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
 	}
 	@Test
 	void testGetFundsAvailabe() {
@@ -49,5 +51,34 @@ class TestLandingPageViewModel {
 		Account expectedUser = this.viewModel.getUser();
 		
 		assertEquals(expectedUser, this.viewModel.getUser());
+	}
+	@Test
+	void testUpdateForAuthenticatedUser() {
+		this.viewModel.getIsLoggedIn().setValue(true);
+		this.viewModel.updateForAuthenticatedUser();
+		
+		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
+		assertEquals(welcomeText, "Welcome back,");
+		String welcomeUserName = this.viewModel.getWelcomeUserNameProperty().getValue();
+		assertEquals(welcomeUserName, "user");
+	}
+	
+	@Test
+	void testUpdateForNonAuthenticatedUser() {
+		this.viewModel.getIsLoggedIn().setValue(false);
+		this.viewModel.updateForAuthenticatedUser();
+		
+		assertAll(()-> assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to "),
+		()-> assertEquals(this.viewModel.getWelcomeUserNameProperty().get(), "Crypto Vault"));
+	}
+	
+	@Test
+	void testPortfolioLabelProperties() {
+		this.viewModel.getIsLoggedIn().setValue(true);
+		this.viewModel.updateForAuthenticatedUser();
+		String expectedPortfolioLabel = "user's Portfolio";
+		String actual = this.viewModel.getPortfolioNameProperty().getValue();
+		
+		assertEquals(expectedPortfolioLabel, actual);
 	}
 }
