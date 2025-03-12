@@ -20,15 +20,15 @@ class TestLandingPageViewModel {
 	void setUp() {
 		this.viewModel = new LandingPageViewModel();
 	}
+	
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+	
 	@Test
-	void testGetCryptoListProperty() {
+	void testGetCryptoCollection() {
 		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
 	}
-	
 	@Test
 	void testGetFundsAvailabe() {
 		String expected = "$0.0";
