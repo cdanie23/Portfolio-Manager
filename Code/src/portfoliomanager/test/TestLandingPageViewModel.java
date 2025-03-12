@@ -62,6 +62,16 @@ class TestLandingPageViewModel {
 		String welcomeUserName = this.viewModel.getWelcomeUserNameProperty().getValue();
 		assertEquals(welcomeUserName, "user");
 	}
+	
+	@Test
+	void testUpdateForNonAuthenticatedUser() {
+		this.viewModel.getIsLoggedIn().setValue(false);
+		this.viewModel.updateForAuthenticatedUser();
+		
+		assertAll(()-> assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to "),
+		()-> assertEquals(this.viewModel.getWelcomeUserNameProperty().get(), "Crypto Vault"));
+	}
+	
 	@Test
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);

@@ -19,7 +19,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
@@ -139,7 +138,7 @@ public class LandingPageCodeBehind implements Initializable {
 			LoginPageCodeBehind controller = loader.getController();
 			Scene scene = new Scene(root, 376, 471);
 			primaryStage.setScene(scene);
-			primaryStage.setOnCloseRequest(arg0 -> {
+			primaryStage.setOnCloseRequest(_ -> {
 				this.viewModel.updateForAuthenticatedUser();
 				this.welcomeLabel.setLayoutX(280);
 			});

@@ -1,6 +1,5 @@
 package portfoliomanager.view;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -54,8 +53,11 @@ public class LoginPageCodeBehind implements Initializable {
 	/**
 	 * Sets the data of the controller
 	 * 
+	 * @precondition none
+	 * @postcondition this.account != null, data binding is setup
+	 * 
 	 * @param isLoggedIn login status of the user
-	 * @post this.account != null, data binding is setup
+	 * @param user the user that logged in the system
 	 */
 
 	public void setData(ObjectProperty<Boolean> isLoggedIn, Account user) {

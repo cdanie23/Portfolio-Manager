@@ -54,7 +54,7 @@ public class LandingPageViewModel {
 		this.user.addHolding(userHolding);
 		this.holdings = this.user.getHoldings();
 		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
-		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.holdings));
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
 	/**
 	 * Gets the welcome username property
@@ -89,6 +89,9 @@ public class LandingPageViewModel {
 		return this.fundsAvailable;
 	}
 	
+	/**
+	 * Notifies authentication
+	 */
 	public void updateForAuthenticatedUser() {
 		System.out.println("authenticated called");
 		if (this.isLoggedIn.getValue()) {
@@ -96,11 +99,16 @@ public class LandingPageViewModel {
 			System.out.println("reached");
 		}
 	}
+	
+	/**
+	 * Updates labels after logging in
+	 */
 	private void updateWelcomeLabels() {
 		this.welcomeLabelProperty.setValue("Welcome back,");
 		this.welcomeUsernameProperty.setValue(this.user.getUserName());
 		this.portfolioNameProperty.setValue(this.user.getUserName() + "'s Portfolio");
 	}
+	
 	/**
 	 * Gets the crypto holding property
 	 * @return observable list of crypto holdings
