@@ -24,13 +24,12 @@ public class LandingPageViewModel {
 	private DataReader dataReader;
 	private Account user;
 	private List<Holding> holdings;
-	private StringProperty fundsAvailable;
 	private ListProperty<Holding> holdingsProperty;
 	private ListProperty<Crypto> cryptoListProperty;
 	private ObjectProperty<Boolean> isLoggedIn;
 	private StringProperty welcomeLabelProperty;
-	private StringProperty welcomeUsernameProperty;
 	private StringProperty portfolioNameProperty;
+	private StringProperty fundsAvailable;
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
@@ -38,9 +37,7 @@ public class LandingPageViewModel {
 	
 	public LandingPageViewModel() {
 		this.welcomeLabelProperty = new SimpleStringProperty();
-		this.welcomeLabelProperty.setValue("Welcome to ");
-		this.welcomeUsernameProperty = new SimpleStringProperty();
-		this.welcomeUsernameProperty.setValue("Crypto Vault");
+		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
 		this.portfolioNameProperty = new SimpleStringProperty();
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
@@ -54,15 +51,7 @@ public class LandingPageViewModel {
 		this.user.addHolding(userHolding);
 		this.holdings = this.user.getHoldings();
 		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
-		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.holdings));
-	}
-	/**
-	 * Gets the welcome username property
-	 * @return the username property
-	 */
-	
-	public StringProperty getWelcomeUserNameProperty() {
-		return this.welcomeUsernameProperty;
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
 	/**
 	 * Gets the portfolio name property
@@ -80,6 +69,7 @@ public class LandingPageViewModel {
 	public StringProperty getWelcomeLabelProperty() {
 		return this.welcomeLabelProperty;
 	}
+	
 	/**
 	 * Gets the funds available 
 	 * @return the string property of the funds available
@@ -89,6 +79,9 @@ public class LandingPageViewModel {
 		return this.fundsAvailable;
 	}
 	
+	/**
+	 * Notifies authentication
+	 */
 	public void updateForAuthenticatedUser() {
 		System.out.println("authenticated called");
 		if (this.isLoggedIn.getValue()) {
@@ -96,15 +89,28 @@ public class LandingPageViewModel {
 			System.out.println("reached");
 		}
 	}
+	
+	/**
+	 * Updates labels after logging in
+	 */
 	private void updateWelcomeLabels() {
-		this.welcomeLabelProperty.setValue("Welcome back,");
-		this.welcomeUsernameProperty.setValue(this.user.getUserName());
+		this.welcomeLabelProperty.setValue("Welcome back," + this.user.getUserName());
 		this.portfolioNameProperty.setValue(this.user.getUserName() + "'s Portfolio");
 	}
+	
+	/**
+	 * Gets the holdings property
+	 * @return the holdings property
+	 */
+	public ListProperty<Holding> getHoldingsProperty() {
+		return this.holdingsProperty;
+	}
+	
 	/**
 	 * Gets the crypto holding property
 	 * @return observable list of crypto holdings
 	 */
+	
 	public List<Holding> getCryptoHoldings() {
 		return this.holdings;
 	}
@@ -117,14 +123,6 @@ public class LandingPageViewModel {
 		return this.user;
 	}
 	
-	/**
-	 * Gets the holdings property
-	 * @return the holdings property
-	 */
-	public ListProperty<Holding> getHoldingsProperty() {
-		return this.holdingsProperty;
-	}
-
 	/**
 	 * Gets the list property for cryptos
 	 * @return the list property for cryptos
@@ -140,5 +138,4 @@ public class LandingPageViewModel {
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
 	}
-	
 }

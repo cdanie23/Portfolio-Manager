@@ -25,6 +25,8 @@ public class TestLoginPageViewModel {
 	public void testValidLoginPageViewModelConstructor() {
 		assertEquals("user", this.page.getAccounts().get(0).getUserName());
 		assertEquals("pass123", this.page.getAccounts().get(0).getPassword());
+		assertEquals("Sam", this.page.getUser().getUserName());
+		assertEquals("pw", this.page.getUser().getPassword());
 	}
 	
 	@Test

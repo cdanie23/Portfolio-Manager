@@ -11,28 +11,20 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
+<TabPane fx:id="landingTabPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" style="-fx-background-color: #9A9A9A;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.LandingPageCodeBehind">
   <tabs>
     <Tab fx:id="cryptoTabPage" text="Crypto">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-               
-                  <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="697.0" layoutY="42.0" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+				<Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="697.0" layoutY="42.0" onMouseClicked="#logInClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
                   
-                  <Label fx:id="welcomeLabel" layoutX="267.0" layoutY="32.0" text="Welcome to" textFill="#82edff">
-                     <font>
-                        <Font name="Century Gothic Italic" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="welcomeUsernameLabel" layoutX="382.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
-                     <font>
-                        <Font name="Century Gothic Italic" size="18.0" />
+                  <Label fx:id="welcomeLabel" layoutX="252.0" layoutY="32.0" text="Welcome to Crypto Vault" textFill="#007bff">
+                     <font><Font name="Century Gothic Italic" size="18.0" />
                      </font>
                   </Label>
                   <Line endX="626.0" layoutX="108.0" layoutY="82.0" startX="-100.0" stroke="#007bff" />
-                  
-                  <Label fx:id="loginLabel" layoutX="682.0" layoutY="35.0" onMousePressed="#logInClicked" textFill="WHITE">
+                  <Label fx:id="logInLandingLabel" layoutX="677.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
@@ -54,7 +46,13 @@
                      </font></Label>
                   <ListView fx:id="cryptoListView" layoutX="18.0" layoutY="164.0" prefHeight="238.0" prefWidth="706.0" />
                   <ImageView fx:id="logoImageView" fitHeight="66.0" fitWidth="66.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="buyCryptoButton" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#buyButtonClicked" text="Buy" textFill="#007bff">
+                  <Ellipse fx:id="logOutLandingButton" fill="#5577a6" layoutX="694.0" layoutY="42.0" onMouseClicked="#logOutClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label fx:id="logOutLandingLabel" layoutX="675.0" layoutY="35.0" onMouseClicked="#logOutClicked" text="Log out" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Regular" size="12.0" />
+                     </font>
+                  </Label>
+                   <Button fx:id="buyCryptoButton" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#buyButtonClicked" text="Buy" textFill="#007bff">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -88,7 +86,8 @@
                      </font>
                   </Label>
                   <ListView fx:id="holdingsListView" layoutX="60.0" layoutY="176.0" prefHeight="200.0" prefWidth="295.0" />
-                  <Button fx:id="logoutButton" layoutX="658.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#logoutClicked" text="Log out" textFill="#007bff">
+
+                  <Button fx:id="logOutPortfolioButton" layoutX="658.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#logOutClicked" text="Log out" textFill="#007bff">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>

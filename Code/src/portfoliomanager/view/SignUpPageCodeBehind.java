@@ -2,7 +2,6 @@ package portfoliomanager.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -35,6 +34,10 @@ public class SignUpPageCodeBehind  implements Initializable {
     @FXML
     private Button signUpButton;
     private SignUpPageViewModel addAccount;
+    
+    @FXML
+    private LandingPageCodeBehind view;
+    private boolean isSignedUp;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -42,17 +45,28 @@ public class SignUpPageCodeBehind  implements Initializable {
         this.logoImageView.setImage(image);
         this.addAccount = new SignUpPageViewModel();
         this.bindDataElements();
+        this.isSignedUp = false;
 	}
     
     @FXML
     private void handleSignUp() {
     	try {
     		this.addAccount.createAccount();
+    		this.isSignedUp = this.addAccount.getSignedUpStatus();
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
-    	Stage stage = (Stage) this.signUpButton.getScene().getWindow();
-        stage.close();
+    	if (this.isSignedUp) {
+    		Stage stage = (Stage) this.signUpButton.getScene().getWindow();
+    		this.enableAccountOptions();
+    		stage.close();
+    	}
+    }
+    
+    private void enableAccountOptions() {
+    	this.view.enableLogOutButtons();
+    	this.view.enableTransactionAbility();
+    	this.view.disableLogInButton();
     }
     
     private void showAlert(String title, String message) {
@@ -67,5 +81,13 @@ public class SignUpPageCodeBehind  implements Initializable {
         this.addAccount.getUserNameProperty().bind(this.usernameField.textProperty());
         this.addAccount.getPasswordProperty().bind(this.passwordField.textProperty());
         this.addAccount.getPasswordConfirmProperty().bind(this.passwordConfirmField.textProperty());
+    }
+    
+    /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind
+     * @precondition nothing
+     * @param view the view
+     */
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
+    	this.view = view;
     }
 }

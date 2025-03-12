@@ -21,6 +21,7 @@ public class LoginPageViewModel {
 	/**
 	 * Instantiates a new login page view model.
 	 * @param isLoggedIn the login status of the user
+	 * @param user that logs in to the system
 	 */
 	
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, Account user) {
@@ -90,5 +91,17 @@ public class LoginPageViewModel {
 		}
 		
 		throw new IllegalArgumentException("Username or password are incorrect.");
+	}
+
+	/**
+	 * Gets the user
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the user that logs in to the system
+	 */
+	public Account getUser() {
+		return this.user;
 	}
 }

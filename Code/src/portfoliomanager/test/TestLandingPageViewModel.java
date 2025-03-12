@@ -20,15 +20,15 @@ class TestLandingPageViewModel {
 	void setUp() {
 		this.viewModel = new LandingPageViewModel();
 	}
+	
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+	
 	@Test
-	void testGetCryptoListProperty() {
+	void testGetCryptoCollection() {
 		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
 	}
-	
 	@Test
 	void testGetFundsAvailabe() {
 		String expected = "$0.0";
@@ -58,10 +58,17 @@ class TestLandingPageViewModel {
 		this.viewModel.updateForAuthenticatedUser();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
-		assertEquals(welcomeText, "Welcome back,");
-		String welcomeUserName = this.viewModel.getWelcomeUserNameProperty().getValue();
-		assertEquals(welcomeUserName, "user");
+		assertEquals(welcomeText, "Welcome back,"+ this.viewModel.getUser().getUserName());
 	}
+	
+	@Test
+	void testUpdateForNonAuthenticatedUser() {
+		this.viewModel.getIsLoggedIn().setValue(false);
+		this.viewModel.updateForAuthenticatedUser();
+		
+		assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to Crypto Vault");
+	}
+	
 	@Test
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);

@@ -17,6 +17,7 @@ public class SignUpPageViewModel {
 	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
 	private StringProperty passwordConfirmProperty;
+	private boolean isSignedUp;
 	
 	/**
 	 * Instantiates a new sign up page view model.
@@ -29,6 +30,7 @@ public class SignUpPageViewModel {
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
+		this.isSignedUp = false;
 	}
 	
 	/**
@@ -74,6 +76,14 @@ public class SignUpPageViewModel {
 	}
 	
 	/**
+	 * Returns the signed up status of the account
+	 * @return this.isSignedUp
+	 */
+	public boolean getSignedUpStatus() {
+		return this.isSignedUp;
+	}
+	
+	/**
 	 * Adds the created account to the list of accounts.
 	 */
 	public void createAccount() {
@@ -92,6 +102,7 @@ public class SignUpPageViewModel {
 		}
 		
 		Account newAccount = new Account(username, password);
+		this.isSignedUp = true;
 		ACCOUNTS.add(newAccount);
 	}
 }
