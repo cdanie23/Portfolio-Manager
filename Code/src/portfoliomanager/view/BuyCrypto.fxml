@@ -13,25 +13,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="652.0" style="-fx-background-color: #9A9A9A;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.BuyCryptoCodeBehind">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #9A9A9A;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="portfoliomanager.view.BuyCryptoCodeBehind">
    <children>
-      <Label layoutX="269.0" layoutY="2.0" text="Buy Crypto">
+      <Label layoutX="369.0" text="Buy Crypto">
          <font>
             <Font name="Serif Regular" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="505.0" layoutY="405.0" text="Amount:">
+      <Label layoutX="720.0" layoutY="482.0" text="Amount:">
          <font>
             <Font name="Serif Regular" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="amountTextBox" layoutX="468.0" layoutY="421.0" />
-      <Label layoutX="479.0" layoutY="375.0" text="Enter amount to buy">
+      <TextField fx:id="amountTextBox" layoutX="683.0" layoutY="498.0" />
+      <Label layoutX="694.0" layoutY="452.0" text="Enter amount to buy">
          <font>
             <Font name="Serif Regular" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="buyCryptoButton" layoutX="463.0" layoutY="469.0" mnemonicParsing="false" onAction="#buyCryptoButtonClicked" prefHeight="30.0" prefWidth="68.0" text="Buy">
+      <Button fx:id="buyCryptoButton" layoutX="678.0" layoutY="546.0" mnemonicParsing="false" onAction="#buyCryptoButtonClicked" prefHeight="30.0" prefWidth="68.0" text="Buy">
          <font>
             <Font size="14.0" />
          </font>
@@ -41,12 +41,12 @@
             <Font name="Serif Regular" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="553.0" layoutY="469.0" mnemonicParsing="false" onAction="#cancelButtonClicked" prefHeight="30.0" prefWidth="68.0" text="Cancel">
+      <Button layoutX="768.0" layoutY="546.0" mnemonicParsing="false" onAction="#cancelButtonClicked" prefHeight="30.0" prefWidth="68.0" text="Cancel">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <LineChart fx:id="lineGraph" layoutX="-8.0" layoutY="23.0" mouseTransparent="true" prefHeight="314.0" prefWidth="667.0" title="Price History">
+      <LineChart fx:id="lineGraph" layoutX="-8.0" layoutY="23.0" mouseTransparent="true" prefHeight="359.0" prefWidth="850.0" title="Price History">
         <xAxis>
           <CategoryAxis label="Date" prefHeight="0.0" prefWidth="589.0" side="BOTTOM" />
         </xAxis>
@@ -63,8 +63,8 @@
             <ColorAdjust />
          </effect>
       </LineChart>
-      <ListView fx:id="buyCryptoListView" layoutX="14.0" layoutY="352.0" prefHeight="147.0" prefWidth="437.0" />
-      <Label layoutX="14.0" layoutY="331.0" text="CryptoList">
+      <ListView fx:id="buyCryptoListView" layoutX="14.0" layoutY="404.0" prefHeight="182.0" prefWidth="648.0" />
+      <Label layoutX="14.0" layoutY="381.0" text="CryptoList">
          <font>
             <Font name="Serif Regular" size="14.0" />
          </font>
