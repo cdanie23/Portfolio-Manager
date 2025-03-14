@@ -4,7 +4,6 @@ import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 
@@ -35,7 +34,6 @@ public class SellPageViewModel {
 		this.user = user;
 		this.holdingToSell = holdingToSell;
 		this.holdings = holdings;
-		
 	}
 	/**
 	 * Gets the holdings of the user
@@ -110,4 +108,5 @@ public class SellPageViewModel {
 	public StringProperty getAvailableFundsProperty() {
 		return this.fundsAvailable;
 	}
+	
 }

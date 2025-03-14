@@ -79,7 +79,7 @@ public class BuyCryptoCodeBehind {
     		alert.showAndWait();
     	}
     	Stage stage = (Stage) this.buyCryptoButton.getScene().getWindow();
-        stage.close();
+    	stage.close();
     }
 
     @FXML
