@@ -8,11 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.base.jar"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.media.jar"/>
-	<classpathentry kind="lib" path="C:/Users/blunt/Desktop/Same Ghits/Shit/college/Eclipse/eclipse/javafx-sdk/lib/javafx.web.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
