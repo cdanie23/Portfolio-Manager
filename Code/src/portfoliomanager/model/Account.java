@@ -87,14 +87,22 @@ public class Account {
 	public List<Holding> getHoldings() {
 		return this.holdings;
 	}
+	
 	/**
 	 * Adds the holding of the user 
 	 * @param holding the holding to add
 	 * @return true or false based on if added properly
 	 */
-	
 	public boolean addHolding(Holding holding) {
-		return this.holdings.add(holding);
+		for (Holding currHolding : this.holdings) {
+			if (currHolding != null && currHolding.getName().equals(holding.getName())) {
+				currHolding.setAmountHeld(currHolding.getAmountHeld() + holding.getAmountHeld());
+				return true;
+			}
+		}
+			this.holdings.add(holding);
+		
+		return true;
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package portfoliomanager.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 //import java.util.HashMap;
 
@@ -98,6 +99,28 @@ public class Crypto {
 	 */
 	public HashMap<String, Double> getHistoricalPrice() {
 		return this.historicalPrices;
+	}
+	
+	/**
+	 * Returns the historical prices of the crypto for specified days
+	 * 
+	 * @precondition number of days != null
+	 * @postcondition none
+	 * 
+	 * @param days the days to get the historical prices of the crypto for
+	 * @return the crypto Historical price fot the specified days
+	 */
+	public HashMap<String, Double> getPriceForRange(int days) {
+		HashMap<String, Double> rangeHistorics = new LinkedHashMap<String, Double>();
+		for (HashMap.Entry<String, Double> entry : this.getHistoricalPrice().entrySet()) {
+			if (days > 0) {
+				String date = entry.getKey();
+				Double price = entry.getValue();
+				rangeHistorics.put(date, price);
+				days--;
+			}
+		}
+		return rangeHistorics;
 	}
 	
 	/**

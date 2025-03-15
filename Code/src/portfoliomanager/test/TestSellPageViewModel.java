@@ -34,6 +34,7 @@ class TestSellPageViewModel {
 	void testGetHoldings() {
 		assertTrue(!this.viewModel.getHoldings().isEmpty());
 	}
+	
 	@Test
 	void testGetAmountToSell() {
 		double amountToSell = 2;

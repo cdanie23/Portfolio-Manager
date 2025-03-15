@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -93,7 +92,6 @@ public class LandingPageCodeBehind implements Initializable {
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
 	private ObjectProperty<Crypto> selectedCrypto;
-	
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
 	
@@ -166,7 +164,6 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logoImageView.setImage(image);
 		this.viewModel = new LandingPageViewModel();
 		this.selectedHolding = new SimpleObjectProperty<Holding>();
-		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
 		this.setUpDataBinding();
 		this.portfolioTabPage.setDisable(true);
 		this.setUpListeners();
@@ -178,7 +175,7 @@ public class LandingPageCodeBehind implements Initializable {
 	}
 
 	private void setUpDataBinding() {
-		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty()); 
+		this.cryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoListProperty());
 		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 		this.welcomeLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeLabelProperty());
@@ -192,15 +189,6 @@ public class LandingPageCodeBehind implements Initializable {
 				this.sellButton.setDisable(false);
 			} else {
 				this.sellButton.setDisable(true);
-			}
-		});
-		
-		this.cryptoListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
-			if (newVal != null) {
-				this.selectedCrypto.setValue(newVal);
-				this.buyCryptoButton.setDisable(false);
-			} else {
-				this.buyCryptoButton.setDisable(true);
 			}
 		});
 	}
@@ -276,8 +264,8 @@ public class LandingPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
+			buyCryptoController.setData(this.viewModel.getUser(), this.cryptoListView.getItems(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
 			Stage stage = new Stage();
-			buyCryptoController.setData(this.viewModel.getUser(), this.selectedCrypto, this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
 			stage.setScene(new Scene(root));
 			stage.show();
 			

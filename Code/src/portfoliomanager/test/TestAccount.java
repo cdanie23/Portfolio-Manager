@@ -1,6 +1,7 @@
 package portfoliomanager.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -81,5 +82,18 @@ public class TestAccount {
 		this.account.addHolding(holding);
 		
 		assertTrue(this.account.getHoldings().contains(holding));
+	}
+	
+	@Test
+	public void testAddHoldingSameName() {
+		Holding holding = new Holding("btc", Double.valueOf(1000), 1);
+		this.account.addHolding(holding);
+		
+		assertTrue(this.account.getHoldings().contains(holding));
+		
+		this.account.addHolding(holding);
+		
+		assertAll(()-> assertEquals(1, this.account.getHoldings().size()),
+				()-> assertEquals(2, this.account.getHoldings().get(0).getAmountHeld()));
 	}
 }

@@ -85,7 +85,7 @@ public class SellPageCodeBehind {
 	}
 	
 	private void update() {
-		this.holdingsListView.setItems(FXCollections.observableList(this.viewModel.getHoldings()));
+		this.holdingsListView.setItems(FXCollections.observableArrayList(this.viewModel.getHoldings()));
 	}
 	
 	private void setUpDataBinding() {

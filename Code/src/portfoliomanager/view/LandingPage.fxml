@@ -52,11 +52,9 @@
                         <Font name="Serif Regular" size="12.0" />
                      </font>
                   </Label>
-                   <Button fx:id="buyCryptoButton" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#buyButtonClicked" text="Buy" textFill="#007bff">
-                     <font>
-                        <Font name="Century Gothic" size="14.0" />
-                     </font>
-                  </Button>
+                  <Label layoutX="550.0" layoutY="137.0" text="24hr Price Trend" />
+                  <ListView fx:id="cryptoListView" layoutX="18.0" layoutY="164.0" prefHeight="238.0" prefWidth="706.0" />
+                  <ImageView fx:id="logoImageView" fitHeight="66.0" fitWidth="66.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -92,11 +90,8 @@
                         <Font name="Century Gothic" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="sellButton" layoutX="182.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#sellClicked" text="Sell" textFill="#007bff">
-                     <font>
-                        <Font name="Century Gothic" size="12.0" />
-                     </font></Button>
-                  <Label layoutX="167.0" layoutY="157.0" text="Total Price" textFill="WHITE">
+                  <Button fx:id="sellButton" layoutX="225.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#sellClicked" text="Sell" textFill="#007bff" />
+                  <Label layoutX="167.0" layoutY="157.0" text="Total Price">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -111,10 +106,8 @@
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="337.0" layoutY="58.0" prefHeight="18.0" prefWidth="113.0" text="Funds Available" textFill="#007bff">
-                     <font>
-                        <Font name="Century Gothic" size="14.0" />
-                     </font></Label>
+                  <Label layoutX="337.0" layoutY="58.0" text="Funds Available" textFill="#007bff" />
+                  <Button fx:id="buyCryptoButton" layoutX="142.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#buyButtonClicked" prefHeight="13.0" prefWidth="36.0" text="Buy" textFill="#007bff" />
                </children></AnchorPane>
       </content>
     </Tab>

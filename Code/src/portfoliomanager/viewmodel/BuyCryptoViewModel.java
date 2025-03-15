@@ -1,10 +1,22 @@
 package portfoliomanager.viewmodel;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -22,6 +34,8 @@ public class BuyCryptoViewModel {
 	private StringProperty cryptoDetailsProperty;
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailableProperty;
+	private ListProperty<Crypto> cryptoList;
+	private Series<String, Double> lineChartSeriesProperty;
 	
 	/**
 	 * Instantiates a new buy crypto view model class
@@ -30,17 +44,19 @@ public class BuyCryptoViewModel {
 	 * @postcondition none
 	 * 
 	 * @param user the user who wants to buy
-	 * @param selectedCrypto crypto to be bought
 	 * @param holdingsProperty observable list of holdings
 	 * @param fundsAvailable string property for funds
+	 * @param cryptoList the list of cryptos
 	 */
-	public BuyCryptoViewModel(Account user, ObjectProperty<Crypto> selectedCrypto, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
+	public BuyCryptoViewModel(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
 		this.user = user;
 		this.amountProperty = new SimpleStringProperty();
-		this.selectedCrypto = selectedCrypto;
+		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
 		this.cryptoDetailsProperty = new SimpleStringProperty();
 		this.holdingsProperty = holdingsProperty;
 		this.fundsAvailableProperty = fundsAvailable;
+		this.cryptoList = new SimpleListProperty<Crypto>(cryptoList);
+		this.lineChartSeriesProperty = new Series<>();
 	}
 	
 	/**
@@ -75,7 +91,7 @@ public class BuyCryptoViewModel {
 	 * 
 	 * @return the selected crypto
 	 */
-	public ObjectProperty<Crypto> getSelectedCryto() {
+	public ObjectProperty<Crypto> getSelectedCrypto() {
 		return this.selectedCrypto;
 	}
 	
@@ -116,6 +132,25 @@ public class BuyCryptoViewModel {
 	public StringProperty getFundsAvailableProperty() {
 		return this.fundsAvailableProperty;
 	}
+
+	/**
+	 * Gets the cryptoList
+	 * 
+	 * 
+	 * @return the cryptoList
+	 */
+	public ListProperty<Crypto> getCryptoList() {
+		return this.cryptoList;
+	}
+
+	/**
+	 * Gets the line chart series property
+	 * 
+	 * @return the line chart series property
+	 */
+	public Series<String, Double> getLineChartSeriesProperty() {
+		return this.lineChartSeriesProperty;
+	}
 	
 	/**
 	 * Buy Crypto
@@ -135,9 +170,47 @@ public class BuyCryptoViewModel {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
-		this.user.getHoldings().add(holding);
-		this.holdingsProperty.set(FXCollections.observableArrayList(this.user.getHoldings()));
+		this.user.addHolding(holding);
+		System.out.println("Added holding");
+		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
 		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
+	}
+	
+	/**
+	 * Updates the line Chart
+	 * 
+	 * @param response the range of days to ge tthe data for
+	 */
+	public void updateLineChart(String response) {
+		if (response == null) {
+			throw new IllegalArgumentException("The range to get the price of crypto must not be null");
+		}
+		this.lineChartSeriesProperty.getData().clear();
+		String[] parts = response.split(" ", -1);
+		int days = Integer.parseInt(parts[0]);
+		var sortedEntries = this.convertToAscendingOrder(days);
+    	for (Map.Entry<String, Double> entry : sortedEntries) {
+    		String date = entry.getKey();
+    		Double price = entry.getValue();
+    		var data = new XYChart.Data<>(date, price);
+    		this.lineChartTypeConversion(data);
+    		this.lineChartSeriesProperty.getData().add(data);
+    	}
+	}
+
+	private List<Map.Entry<String, Double>> convertToAscendingOrder(int days) {
+		List<Map.Entry<String, Double>> sortedEntries = this.selectedCrypto.get().getPriceForRange(days).entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toList());
+		return sortedEntries;
+	}
+
+	private void lineChartTypeConversion(Data<String, Double> data) {
+		data.setNode(null);
+		Line line = new Line();
+		line.setStrokeWidth(0.1);
+		line.setStroke(Color.RED);
+		data.setNode(line);
 	}
 }
