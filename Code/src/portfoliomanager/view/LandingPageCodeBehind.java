@@ -95,6 +95,22 @@ public class LandingPageCodeBehind implements Initializable {
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
 	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
+		this.logoImageView.setImage(image);
+		this.viewModel = new LandingPageViewModel();
+		this.selectedHolding = new SimpleObjectProperty<Holding>();
+		this.setUpDataBinding();
+		this.portfolioTabPage.setDisable(true);
+		this.setUpListeners();
+		this.sellButton.setDisable(true);
+		this.disableLogOutButtons();
+		//this.buyCryptoButton.setDisable(true);
+		//this.buyCryptoButton.setVisible(false);
+		this.loginPageCodeBehind = null;
+	}
+	
 	/**
 	 * Enables the log in button
 	 */
@@ -156,22 +172,6 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logOutPortfolioButton.setDisable(true);
 		this.logOutPortfolioButton.setVisible(false);
 		this.landingTabPage.getSelectionModel().select(this.cryptoTabPage);
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
-		this.logoImageView.setImage(image);
-		this.viewModel = new LandingPageViewModel();
-		this.selectedHolding = new SimpleObjectProperty<Holding>();
-		this.setUpDataBinding();
-		this.portfolioTabPage.setDisable(true);
-		this.setUpListeners();
-		this.sellButton.setDisable(true);
-		this.disableLogOutButtons();
-		this.buyCryptoButton.setDisable(true);
-		this.buyCryptoButton.setVisible(false);
-		this.loginPageCodeBehind = null;
 	}
 
 	private void setUpDataBinding() {
