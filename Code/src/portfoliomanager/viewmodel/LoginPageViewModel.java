@@ -2,6 +2,7 @@ package portfoliomanager.viewmodel;
 
 import java.util.List;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.model.Account;
@@ -13,33 +14,33 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class LoginPageViewModel {
-	private boolean loginStatus;
-	private StringProperty emailProperty;
+	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
-	
+	private ObjectProperty<Boolean> isLoggedIn;
+	private Account user;
 	/**
 	 * Instantiates a new login page view model.
+	 * @param isLoggedIn the login status of the user
+	 * @param user that logs in to the system
 	 */
-	public LoginPageViewModel() {
+	
+	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, Account user) {
 		if (SignUpPageViewModel.getAccounts().isEmpty()) {
             new SignUpPageViewModel();
         }
-		
-		this.loginStatus = false;
-		this.emailProperty = new SimpleStringProperty();
+		this.user = user;
+		this.isLoggedIn = isLoggedIn;
+		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
 	
 	/**
-	 * Gets the emailProperty 
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @return the email property
+	 * Gets the user name property.
+	 *
+	 * @return the user name property
 	 */
-	public StringProperty getEmailProperty() {
-		return this.emailProperty;
+	public StringProperty getUserNameProperty() {
+		return this.usernameProperty;
 	}
 	
 	/**
@@ -68,27 +69,39 @@ public class LoginPageViewModel {
 	 *
 	 * @return the login status
 	 */
-	public boolean getLoginStatus() {
-		return this.loginStatus;
+	public ObjectProperty<Boolean> getLoginStatus() {
+		return this.isLoggedIn;
 	}
 	
 	/**
 	 * Verifies the login information for the account.
 	 */
 	public void verifyLogin() {
-		String email = this.emailProperty.get();
+		String username = this.usernameProperty.get();
 		String password = this.passwordProperty.get();
 		
 		List<Account> accounts = SignUpPageViewModel.getAccounts();
 		
 		for (Account account : accounts) {
-	        if (account.getEmail().trim().equalsIgnoreCase(email.trim()) && account.getPassword().trim().equals(password.trim())) {
-	        	this.loginStatus = true;
-	        	
+	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
+	        	this.isLoggedIn.setValue(true);
+	        	this.user = new Account(username, password);
 	        	return;
 	        }
 		}
 		
-		throw new IllegalArgumentException("Email or password are incorrect.");
+		throw new IllegalArgumentException("Username or password are incorrect.");
+	}
+
+	/**
+	 * Gets the user
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the user that logs in to the system
+	 */
+	public Account getUser() {
+		return this.user;
 	}
 }

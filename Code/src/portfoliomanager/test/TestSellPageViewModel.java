@@ -17,7 +17,7 @@ class TestSellPageViewModel {
 	SellPageViewModel viewModel;
 	@BeforeEach 
 	void setUp() {
-		Account user = new Account("colby@gmail.com", "password");
+		Account user = new Account("colby", "password");
 		Holding holdingToSell = new Holding("btc", Double.valueOf(1000), 10);
 		List<Holding> holdings = new ArrayList<Holding>();
 		holdings.add(holdingToSell);

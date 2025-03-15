@@ -17,35 +17,37 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Ellipse fx:id="signUpButton" fill="#007bff" layoutX="697.0" layoutY="42.0" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="594.0" layoutY="42.0" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label layoutX="287.0" layoutY="32.0" text="Welcome to">
-                     <font>
-                        <Font name="Serif Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="371.0" layoutY="32.0" text="Crypto Vault" textFill="#007bff">
-                     <font>
-                        <Font name="Serif Regular" size="16.0" />
+				<Ellipse fx:id="logInButton" fill="#1a3e73" layoutX="697.0" layoutY="42.0" onMouseClicked="#logInClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+                  
+                  <Label fx:id="welcomeLabel" layoutX="252.0" layoutY="32.0" text="Welcome to Crypto Vault" textFill="#007bff">
+                     <font><Font name="Century Gothic Italic" size="18.0" />
                      </font>
                   </Label>
                   <Line endX="626.0" layoutX="108.0" layoutY="82.0" startX="-100.0" stroke="#007bff" />
-                  <Label layoutX="578.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
+                  <Label fx:id="logInLandingLabel" layoutX="677.0" layoutY="35.0" onMousePressed="#logInClicked" text="Log in" textFill="WHITE">
                      <font>
-                        <Font name="Serif Regular" size="12.0" />
+                        <Font name="Century Gothic" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="678.0" layoutY="35.0" onMousePressed="#signUpClicked" prefHeight="13.0" prefWidth="38.0" text="Sign up" textFill="WHITE">
+                  
+                  <Label layoutX="96.0" layoutY="138.0" text="Name" textFill="#f8f8f8">
                      <font>
-                        <Font name="Serif Regular" size="12.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="96.0" layoutY="138.0" text="Name">
+                  <Label layoutX="340.0" layoutY="138.0" text="Price" textFill="WHITE">
                      <font>
-                        <Font name="SansSerif Regular" size="12.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="340.0" layoutY="139.0" text="Price">
+                  <Label layoutX="550.0" layoutY="137.0" text="24hr Price Trend" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font></Label>
+                  <ListView fx:id="cryptoListView" layoutX="18.0" layoutY="164.0" prefHeight="238.0" prefWidth="706.0" />
+                  <ImageView fx:id="logoImageView" fitHeight="66.0" fitWidth="66.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+                  <Ellipse fx:id="logOutLandingButton" fill="#5577a6" layoutX="694.0" layoutY="42.0" onMouseClicked="#logOutClicked" radiusX="32.0" radiusY="12.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label fx:id="logOutLandingLabel" layoutX="675.0" layoutY="35.0" onMouseClicked="#logOutClicked" text="Log out" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="12.0" />
                      </font>
@@ -60,47 +62,48 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="nameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio">
+                  <Label fx:id="portfolioNameLabel" layoutX="328.0" layoutY="14.0" text="Name's Portfolio" textFill="#82edff">
                      <font>
-                        <Font name="Serif Regular" size="18.0" />
+                        <Font name="Century Gothic Italic" size="18.0" />
                      </font>
                   </Label>
                   <Line endX="626.0" layoutX="111.0" layoutY="49.0" startX="-100.0" stroke="#007bff" />
-                  <Label fx:id="totalFundsLabel" layoutX="334.0" layoutY="87.0" text="\$">
+                  <Label fx:id="totalFundsLabel" layoutX="334.0" layoutY="87.0" text="\$" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
                   <Button fx:id="addFundsButton" contentDisplay="CENTER" layoutX="335.0" layoutY="114.0" mnemonicParsing="false" onMouseClicked="#addFundsClicked" text="Add Funds" textFill="#007bff">
                      <font>
-                        <Font name="Serif Regular" size="14.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Button>
-                  <Label layoutX="169.0" layoutY="127.0" text="Holdings" textFill="#007bff">
+                  <Label layoutX="161.0" layoutY="116.0" text="Holdings" textFill="#007bff">
                      <font>
-                        <Font name="Serif Regular" size="15.0" />
+                        <Font name="Century Gothic" size="18.0" />
                      </font>
                   </Label>
                   <ListView fx:id="holdingsListView" layoutX="60.0" layoutY="176.0" prefHeight="200.0" prefWidth="295.0" />
-                  <Button fx:id="logoutButton" layoutX="658.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#logoutClicked" text="Log out">
+
+                  <Button fx:id="logOutPortfolioButton" layoutX="658.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#logOutClicked" text="Log out" textFill="#007bff">
                      <font>
-                        <Font name="Serif Regular" size="12.0" />
+                        <Font name="Century Gothic" size="13.0" />
                      </font>
                   </Button>
                   <Button fx:id="sellButton" layoutX="225.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#sellClicked" text="Sell" textFill="#007bff" />
                   <Label layoutX="167.0" layoutY="157.0" text="Total Price">
                      <font>
-                        <Font name="Serif Regular" size="14.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="270.0" layoutY="157.0" text="Amount Held">
+                  <Label layoutX="270.0" layoutY="157.0" text="Amount Held" textFill="WHITE">
                      <font>
-                        <Font name="Serif Regular" size="14.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="85.0" layoutY="157.0" text="Name">
+                  <Label layoutX="85.0" layoutY="157.0" text="Name" textFill="WHITE">
                      <font>
-                        <Font name="Serif Regular" size="14.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
                   <Label layoutX="337.0" layoutY="58.0" text="Funds Available" textFill="#007bff" />
