@@ -41,7 +41,7 @@ public class LoginPageCodeBehind implements Initializable {
 	@FXML
 	private TextField passwordField;
 	@FXML
-	private Button loginButton;
+	private Label loginButton;
 	
     @FXML
     private LandingPageCodeBehind view;

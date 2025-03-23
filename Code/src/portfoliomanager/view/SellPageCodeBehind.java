@@ -39,10 +39,10 @@ public class SellPageCodeBehind {
 	private TextField amountTextBox;
 
 	@FXML
-	private Button cancelButton;
+	private Label cancelButton;
 
 	@FXML
-	private Button confirmButton;
+	private Label confirmButton;
 	
 	@FXML
     private Label profitLabel;

@@ -35,7 +35,7 @@ class testAddFundsViewModel {
 		this.vm.getAmountProperty().setValue(String.valueOf(1000));
 		this.vm.addFunds();
 		
-		assertEquals("Funds Available $: 1000.0", this.vm.getFundsAvailableProperty().get());
+		assertEquals("$: 1000.0", this.vm.getFundsAvailableProperty().get());
 	}
 	
 	@Test

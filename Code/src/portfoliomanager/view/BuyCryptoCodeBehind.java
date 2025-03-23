@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.MouseEvent;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -45,7 +46,7 @@ public class BuyCryptoCodeBehind {
     private TextField amountTextBox;
 
     @FXML
-    private Button buyCryptoButton;
+    private Label buyCryptoButton;
 
     @FXML
     private Label cryptoDetails;
@@ -64,13 +65,13 @@ public class BuyCryptoCodeBehind {
     private BuyCryptoViewModel viewModel;
 
     @FXML
-    void cancelButtonClicked(ActionEvent event) {
+    void cancelButtonClicked(MouseEvent event) {
     	Stage stage = (Stage) this.buyCryptoButton.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    void buyCryptoButtonClicked(ActionEvent event) {
+    void buyCryptoButtonClicked(MouseEvent event) {
     	try {
     		this.viewModel.buyCrypto();
     	} catch (Exception exception) {

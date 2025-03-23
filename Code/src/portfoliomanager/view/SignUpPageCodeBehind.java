@@ -32,7 +32,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     @FXML
     private TextField passwordConfirmField;
     @FXML
-    private Button signUpButton;
+    private Label signUpButton;
     private SignUpPageViewModel addAccount;
     
     @FXML
