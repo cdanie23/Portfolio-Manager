@@ -91,7 +91,6 @@ public class LandingPageCodeBehind implements Initializable {
 	
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
-	private ObjectProperty<Crypto> selectedCrypto;
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
 	

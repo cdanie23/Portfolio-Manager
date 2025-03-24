@@ -9,14 +9,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -88,7 +86,7 @@ public class BuyCryptoCodeBehind {
     	this.setUpTextFilter();
     	this.selectedCrypto = new SimpleObjectProperty<Crypto>();
     	this.setUpListeners();
-    	this.buyCryptoButton.setVisible(false);
+    	this.buyCryptoButton.setDisable(true);
     	this.rangeSelection.getItems().addAll("3 days", "7 days", "30 days", "180 days", "375 days");
     	this.rangeSelection.getSelectionModel().select("30 days");
     	this.rangeSelection.setOnAction(_ -> this.updateLineChart());
@@ -117,9 +115,9 @@ public class BuyCryptoCodeBehind {
 				this.selectedCrypto.setValue(newVal);
 				this.viewModel.getSelectedCrypto().bind(this.selectedCrypto);
 				this.viewModel.updateLineChart(this.rangeSelection.getSelectionModel().getSelectedItem());
-				this.buyCryptoButton.setVisible(true);
+				this.buyCryptoButton.setDisable(false);
 			} else {
-				this.buyCryptoButton.setVisible(false);
+				this.buyCryptoButton.setDisable(true);
 			}
 		});
 	}
