@@ -5,13 +5,13 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.AddFundsViewModel;
@@ -34,12 +34,12 @@ public class AddFundsCodeBehind {
     private TextField amountTextBox;
     
     @FXML
-    private Button addFundsButton;
+    private Label addFundsButton;
     
     private AddFundsViewModel viewModel;
     
     @FXML
-    void addFundsClicked(ActionEvent event) {
+    void addFundsClicked(MouseEvent event) {
     	try {
     		this.viewModel.addFunds();
     	} catch (Exception exception) {

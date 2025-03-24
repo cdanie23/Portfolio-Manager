@@ -64,10 +64,10 @@ public class LandingPageCodeBehind implements Initializable {
 	private Tab portfolioTabPage;
 
 	@FXML
-	private Button sellButton;
+	private Label sellButton;
 	
 	@FXML
-	private Button buyCryptoButton;
+	private Label buyCryptoButton;
 	
 	@FXML
 	private Label logInLandingLabel;
@@ -84,14 +84,13 @@ public class LandingPageCodeBehind implements Initializable {
     private Label welcomeLabel;
 	
 	@FXML
-	private Button logOutPortfolioButton;
+    private Label logOutPortfolioButton;
 
 	@FXML
 	private Label totalFundsLabel;
 	
 	@FXML
 	private ObjectProperty<Holding> selectedHolding;
-	private ObjectProperty<Crypto> selectedCrypto;
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
 	
@@ -106,8 +105,6 @@ public class LandingPageCodeBehind implements Initializable {
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
 		this.disableLogOutButtons();
-		//this.buyCryptoButton.setDisable(true);
-		//this.buyCryptoButton.setVisible(false);
 		this.loginPageCodeBehind = null;
 	}
 	
@@ -294,7 +291,7 @@ public class LandingPageCodeBehind implements Initializable {
 	 * 
 	 * @return this.logOutButton
 	 */
-	public Button getPortfolioLogOutButton() {
+	public Label getPortfolioLogOutButton() {
 		return this.logOutPortfolioButton;
 	}
 }

@@ -51,7 +51,7 @@ public class AddFundsViewModel {
 		double newFunds = Integer.parseInt(this.amountProperty.get());
 		newFunds += this.user.getFundsAvailable();
 		this.user.setFundsAvailable(newFunds);
-		this.fundsAvailable.setValue("Funds Available $: " + this.user.getFundsAvailable());
+		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());
 	}
 	
 	/**
