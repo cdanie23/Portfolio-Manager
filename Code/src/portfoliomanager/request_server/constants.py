@@ -18,5 +18,5 @@ KEY_FAILURE_MESSAGE = "error description"
 KEY_STATUS = "success code"
 
 GET_CRYPTOS = "cryptos"
-
+GET_BTC_CURR_PRICE = "BTC price"
 
