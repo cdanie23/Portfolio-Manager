@@ -1,16 +1,12 @@
 package portfoliomanager.datareader;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
@@ -31,7 +27,6 @@ public class DataReader {
 	
 	/**
 	 * Instantiates a Data reader object
-	 * @param filePath the path of the file to read
 	 * @throws FileNotFoundException 
 	 */
 	public DataReader() {
@@ -47,11 +42,11 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-		
 			HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
-			System.out.println(prices);
-			var firstEntry = prices.entrySet().iterator().next();
-			Crypto crypto = new Crypto("BTC-USD", firstEntry.getValue().doubleValue());
+			LocalDate today = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String formattedDat = today.format(formatter);
+			Crypto crypto = new Crypto("BTC-USD", prices.get(formattedDat).doubleValue());
 			this.cryptos.addCrypto(crypto);
 			crypto.setHistoricalPrices(prices);
 		
@@ -67,13 +62,12 @@ public class DataReader {
 		Object historyData = this.client.getResponse().get("History");
 
 	    if (historyData instanceof Map) {
-	        return (HashMap<String, BigDecimal>) historyData; // Unsafe but works if response structure is guaranteed
+	        return (HashMap<String, BigDecimal>) historyData;
 	    }
 	    
 	    throw new ClassCastException("History is not a valid HashMap<String, BigDecimal>");
 	}
 	
-
 	/** Returns the collection of crypto
 	 * 
 	 * @precondition none
