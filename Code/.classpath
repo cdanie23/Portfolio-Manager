@@ -10,5 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Reference libraries"/>
+	<classpathentry kind="lib" path="C:/Users/Colby/Desktop/git/Portfolio-Manager/Code/lib/jeromq-0.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Colby/Desktop/git/Portfolio-Manager/Code/lib/json-20250107.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

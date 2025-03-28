@@ -5,11 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
 
@@ -22,7 +26,7 @@ import portfoliomanager.model.CryptoCollection;
 public class DataReader {
 	public static final String FILEPATH = "resources/BTC-USD_data.txt";
 	
-	private String filePath;
+	private Client client;
 	private CryptoCollection cryptos;
 	
 	/**
@@ -30,15 +34,8 @@ public class DataReader {
 	 * @param filePath the path of the file to read
 	 * @throws FileNotFoundException 
 	 */
-	public DataReader(String filePath) {
-		if (filePath == null || filePath.isBlank()) {
-			throw new IllegalArgumentException("File path must not be null or blank");
-		}
-		File file = new File(filePath);
-		if (!file.exists()) {
-			throw new IllegalArgumentException("File doesn't exist");
-		}
-		this.filePath = filePath;
+	public DataReader() {
+		this.client = Client.getInstance();
 		this.cryptos = new CryptoCollection();
 	}
 
@@ -50,43 +47,24 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-		try {
-			HashMap<String, Double> prices = this.readHistoricalPrices();
+		
+			HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
+			System.out.println(prices);
 			var firstEntry = prices.entrySet().iterator().next();
-			Crypto crypto = new Crypto("BTC-USD", firstEntry.getValue());
+			Crypto crypto = new Crypto("BTC-USD", firstEntry.getValue().doubleValue());
 			this.cryptos.addCrypto(crypto);
 			crypto.setHistoricalPrices(prices);
-		} catch (IOException exception) {
-			exception.printStackTrace();
+		
+	}
+	
+	private HashMap<String, BigDecimal> readHistoricalPrices() {
+		this.client.makeRequest(Requests.btcHistory);
+		//TODO convert this into a hashmap since that is what is returned
+		if (this.client.getResponse().get("History") instanceof HashMap<String, BigDecimal>) {
+		return (HashMap<String, BigDecimal>) this.client.getResponse().get("History");
 		}
 	}
 	
-	private HashMap<String, Double> readHistoricalPrices() throws IOException {
-		LinkedHashMap<String, Double> historicalData = new LinkedHashMap<String, Double>();
-		for (String[] row : this.readFile(this.filePath)) {
-			if (row.length == 2) {
-				String date = row[0].trim();
-				double price = Double.parseDouble(row[1].trim());
-				historicalData.put(date, price);
-			} else {
-				throw new IllegalArgumentException("The file doesn't contain enough data.");
-			}
-		} 
-		return historicalData;
-	}
-	
-	private List<String[]> readFile(String filePath) throws IOException {
-		List<String[]> rows = new ArrayList<>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-			reader.readLine();
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] row = line.split(",", -1);
-				rows.add(row);
-			}
-		}
-		return rows;
-	}
 
 	/** Returns the collection of crypto
 	 * 

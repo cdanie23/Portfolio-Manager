@@ -1,4 +1,5 @@
 '''
+
 Created on Mar 25, 2025
 
 @author: Aayush
@@ -25,9 +26,10 @@ def runServer(protocol, ip_address, port):
         log(f"Received message: {json_message}")
         
         request = json.loads(json_message)
+       
         
-        
-        if(request == "exit"):
+        requestType = request["type"]
+        if(requestType == "exit"):
             log("Shutting down request_server")
             return
         elif constants.KEY_REQUEST_TYPE not in request:

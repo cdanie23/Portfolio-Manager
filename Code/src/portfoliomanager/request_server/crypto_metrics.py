@@ -12,6 +12,11 @@ def getCurrBtcPrice():
 
 def getHistoricalData(timespan):
     history = bitcoin.history(period=timespan, interval="1d")
-    return history
+    priceColumn = history["Close"]
+    priceDict = priceColumn.to_dict()
+    priceDictStrDates = {date.strftime("%Y-%m-%d"): price 
+    for date, price in priceDict.items()}
+    return priceDictStrDates
+
 if (__name__ == "__main__"):
     print(getHistoricalData("1y"))

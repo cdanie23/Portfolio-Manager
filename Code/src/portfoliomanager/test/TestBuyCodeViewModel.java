@@ -2,6 +2,7 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ class TestBuyCodeViewModel {
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailableProperty;
 	private ObservableList<Crypto> cryptoList;
-	private HashMap<String, Double> historicalPrices;
+	private HashMap<String, BigDecimal> historicalPrices;
 	
 	@BeforeEach
 	void setup() {
@@ -36,10 +37,10 @@ class TestBuyCodeViewModel {
 		this.cryptoList = FXCollections.observableArrayList();
 		this.vm = new BuyCryptoViewModel(this.user, cryptoList, this.holdingsProperty, this.fundsAvailableProperty);
 		this.vm.getSelectedCrypto().set(crypto);
-		this.historicalPrices = new HashMap<String, Double>();
-		this.historicalPrices.put("2025-01-30", 10.01);
-		this.historicalPrices.put("2025-01-31", 9.56);
-		this.historicalPrices.put("2025-02-01", 56.4);
+		this.historicalPrices = new HashMap<String, BigDecimal>();
+		this.historicalPrices.put("2025-01-30", new BigDecimal(10.01));
+		this.historicalPrices.put("2025-01-31", new BigDecimal(9.56));
+		this.historicalPrices.put("2025-02-01", new BigDecimal(56.4));
 		crypto.setHistoricalPrices(historicalPrices);
 		this.cryptoList.add(crypto);
 	}

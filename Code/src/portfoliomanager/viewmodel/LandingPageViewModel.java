@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import portfoliomanager.client.Client;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -30,18 +31,21 @@ public class LandingPageViewModel {
 	private StringProperty welcomeLabelProperty;
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
+	private Client client;
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
 	 */
 	
 	public LandingPageViewModel() {
+		this.client = Client.getInstance();
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
 		this.portfolioNameProperty = new SimpleStringProperty();
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
-		this.dataReader = new DataReader(DataReader.FILEPATH);
+		//TODO get the data from the client instead
+		this.dataReader = new DataReader();
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 		this.fundsAvailable = new SimpleStringProperty();
