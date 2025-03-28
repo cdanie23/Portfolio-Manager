@@ -18,7 +18,7 @@ import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
 import portfoliomanager.viewmodel.BuyCryptoViewModel;
 
-class testBuyCodeViewModel {
+class TestBuyCodeViewModel {
 
 	private Account user;
 	private BuyCryptoViewModel vm;

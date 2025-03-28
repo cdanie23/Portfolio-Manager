@@ -9,13 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Refrenced Libraries"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.base.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.media.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/eclipse/java-2024-12/eclipse/javafx-sdk/lib/javafx.web.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Colby/Desktop/git/Portfolio-Manager/Code/lib/jeromq-0.3.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Reference libraries"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

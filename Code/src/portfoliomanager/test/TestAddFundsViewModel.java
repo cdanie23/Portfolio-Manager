@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.AddFundsViewModel;
 
-class testAddFundsViewModel {
+class TestAddFundsViewModel {
 	private Account user;
 	private AddFundsViewModel vm;
 	private StringProperty fA;

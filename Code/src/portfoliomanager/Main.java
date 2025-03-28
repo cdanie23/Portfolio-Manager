@@ -5,6 +5,7 @@ import org.zeromq.ZMQ;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import portfoliomanager.model.Client;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 
@@ -33,6 +34,8 @@ public class Main extends Application {
 	 * @param args the args to start the function with
 	 */
 	public static void main(String[] args) {
+		Client client = new Client("cryptos");
+		client.start();
 		System.out.println(ZMQ.CHARSET);
 		launch(args);
 	}

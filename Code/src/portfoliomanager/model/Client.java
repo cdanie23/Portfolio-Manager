@@ -12,6 +12,7 @@ import org.zeromq.ZMQ.Socket;
  */
 public class Client extends Thread {
 	private String request;
+	private String response;
 	
 	/**
 	 * Creates a client object
@@ -22,6 +23,7 @@ public class Client extends Thread {
 			throw new IllegalArgumentException("request must not be null or empty.");
 		}
 		this.request = request;
+		this.response = null;
 	}
 	
 	/**
@@ -32,11 +34,18 @@ public class Client extends Thread {
 		return this.request;
 	}
 	
+	/**
+	 * Gets the response received from the server
+	 * @return the response received from the server in string form
+	 */
+	public String getResponse() {
+		return this.response;
+	}
+	
 	@Override
 	public void run() {
         Context context = ZMQ.context(1);
 
-        //  Socket to talk to server
         System.out.println("Connecting to server");
         Socket socket = context.socket(ZMQ.REQ);
         socket.connect("tcp://127.0.0.1:5555");
@@ -47,8 +56,18 @@ public class Client extends Thread {
         socket.send(jsonRequest.getBytes(ZMQ.CHARSET), 0);
         
         byte[] reply = socket.recv(0);
-        String response = new String(reply, ZMQ.CHARSET);
-		System.out.println("Client - Received " + response);
+        this.response = new String(reply, ZMQ.CHARSET);
+		System.out.println("Client - Received " + this.response);
+		
+        /**
+         * Comment/Remove if needed. Makes the server shut down.
+         */
+        jsonRequest = "{\"type\": \"exit\"}";
+        System.out.println("Client - Sending " + jsonRequest);
+        socket.send(jsonRequest.getBytes(ZMQ.CHARSET), 0);
+        reply = socket.recv(0);
+        this.response = new String(reply, ZMQ.CHARSET);
+		System.out.println("Client - Received " + this.response);
 		
         socket.close();
         context.term();

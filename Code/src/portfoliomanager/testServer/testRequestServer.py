@@ -38,8 +38,7 @@ class TestRequestServer(unittest.TestCase):
         self.assertEqual(constants.UNSUPPORTED_OPERATION_STATUS, response[constants.KEY_STATUS], "checking status of response")
         
     def testNoRequestType(self):
-        request = ""
-        jsonRequest = json.dumps(request)
+        jsonRequest = json.dumps("")
         
         self._socket.send_string(jsonRequest)
         
@@ -50,6 +49,15 @@ class TestRequestServer(unittest.TestCase):
         
     def testHandleRequest(self):
         jsonRequest = "{\"type\": \"cryptos\"}";
+        self._socket.send_string(jsonRequest)
+        
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        
+        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "checking status of response")
+        
+    def testGetCurrBtcPrice(self):
+        jsonRequest = "{\"type\": \"BTC price\"}";
         self._socket.send_string(jsonRequest)
         
         jsonResponse = self._socket.recv_string()

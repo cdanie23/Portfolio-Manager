@@ -24,10 +24,6 @@ def runServer(protocol, ip_address, port):
         json_message = socket.recv_string()
         log(f"Received message: {json_message}")
         
-        if not json_message:
-            log("Received empty message")
-            continue
-        
         request = json.loads(json_message)
         
         
