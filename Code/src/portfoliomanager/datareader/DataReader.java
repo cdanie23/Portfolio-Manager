@@ -57,12 +57,20 @@ public class DataReader {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private HashMap<String, BigDecimal> readHistoricalPrices() {
 		this.client.makeRequest(Requests.btcHistory);
 		//TODO convert this into a hashmap since that is what is returned
-		if (this.client.getResponse().get("History") instanceof HashMap<String, BigDecimal>) {
-		return (HashMap<String, BigDecimal>) this.client.getResponse().get("History");
-		}
+		//if (this.client.getResponse().get("History") instanceof HashMap<String, BigDecimal>) {
+		//	return (HashMap<String, BigDecimal>) this.client.getResponse().get("History");
+		//}
+		Object historyData = this.client.getResponse().get("History");
+
+	    if (historyData instanceof Map) {
+	        return (HashMap<String, BigDecimal>) historyData; // Unsafe but works if response structure is guaranteed
+	    }
+	    
+	    throw new ClassCastException("History is not a valid HashMap<String, BigDecimal>");
 	}
 	
 
