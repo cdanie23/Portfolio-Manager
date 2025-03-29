@@ -35,13 +35,7 @@ public final class Client extends Thread {
 		if (request == null) {
 			throw new IllegalArgumentException("request cannot be null");
 		}
-		 else if (request.equals(Requests.cryptos)) {
-			this.request = this.requestCreator.cryptos();
-		} else if (request.equals(Requests.btcPrice)) {
-			this.request = this.requestCreator.btcPrice(); 
-		} else if (request.equals(Requests.btcHistory)) {
-			this.request = this.requestCreator.btcHistory();
-		}
+		this.request = this.requestCreator.createRequest(request);
 		this.run();
 	}
 	/**
@@ -76,14 +70,9 @@ public final class Client extends Thread {
         byte[] reply = socket.recv(0);
         String response = new String(reply, ZMQ.CHARSET);
         JSONObject jsonResponse = new JSONObject(response);
-  
         this.response = jsonResponse.toMap();
 		System.out.println("Client - Received " + this.response);
-		
-		this.request = this.requestCreator.exit();
-		request = new JSONObject(this.request);
-		socket.send(request.toString());
-		
+
         socket.close();
         context.term();
 	}

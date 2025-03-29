@@ -14,87 +14,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import portfoliomanager.client.Client;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Crypto;
 
 
 class TestDataReader {
 	private DataReader dataReader;
+	private Client client;
 	
 	@BeforeEach
 	void setUp() {
-		this.dataReader = new DataReader();
+		this.client = Client.getInstance();
+		this.dataReader = new DataReader(this.client);
 	}
 	
 	@Test
-	void testReadCryptoData() {
-     this.dataReader.readCryptoData();
-
+	void testGetCryptoCollection() {
+		assertTrue(this.dataReader.getCryptoCollection().isEmpty());
 	}
 	
-//	@Test
-//	void testFileNotFound() {
-//		assertThrows(IllegalArgumentException.class, ()-> {
-//			new DataReader("testFile.txt");
-//		});
-//	}
-//	
-//	@Test
-//	void testNullFile() {
-//		assertThrows(IllegalArgumentException.class, ()-> new DataReader(null));
-//	}
-//	
-//	@Test
-//	void testBlankFileName() {
-//		assertThrows(IllegalArgumentException.class, ()-> new DataReader("  "));
-//	}
-//	
-//	@Test
-//	void testBlankFile() throws IOException {
-//		try (FileWriter writer = new FileWriter(this.tempFile)) {
-//            writer.write("Date,Price\n");
-//        }
-//		DataReader dataReader = new DataReader(tempFile.getAbsolutePath());
-//        assertThrows(NoSuchElementException.class, ()-> {
-//        	dataReader.readCryptoData();
-//        });
-//	}
-//	
-//	@Test
-//    void testReadInvalidPrice() throws IOException {
-//        try (FileWriter writer = new FileWriter(tempFile)) {
-//            writer.write("Date,Price\n");
-//            writer.write("2024-01-01,50000\n");
-//            writer.write("2024-01-02,INVALID_PRICE\n");
-//        }
-//
-//        DataReader reader = new DataReader(tempFile.getAbsolutePath());
-//
-//        assertThrows(NumberFormatException.class, () -> reader.readCryptoData());
-//    }
-//	
-//	@Test
-//	void testFileContainsLessColumn() throws IOException {
-//        try (FileWriter writer = new FileWriter(tempFile)) {
-//            writer.write("Date,Price\n");
-//            writer.write("2024-01-01,50000\n");
-//            writer.write("2024-01-02\n");
-//        }
-//        DataReader reader = new DataReader(tempFile.getAbsolutePath());
-//
-//        assertThrows(IllegalArgumentException.class, () -> reader.readCryptoData());
-//	}
-//	
-//	@Test
-//	void testFileContainsMoreColumn() throws IOException {
-//        try (FileWriter writer = new FileWriter(tempFile)) {
-//            writer.write("Date,Price\n");
-//            writer.write("2024-01-01,50000\n");
-//            writer.write("2024-01-02,50000,asd\n");
-//        }
-//        DataReader reader = new DataReader(tempFile.getAbsolutePath());
-//
-//        assertThrows(IllegalArgumentException.class, () -> reader.readCryptoData());
-//	}
-	
+	//Doesn't end the process.
+	@Test
+	void testReadCryptoData() {
+		this.dataReader.readCryptoData();
+		this.client.yield();
+		assertTrue(!this.dataReader.getCryptoCollection().isEmpty());
+	}
  }

@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Crypto;
@@ -20,17 +17,16 @@ import portfoliomanager.model.CryptoCollection;
  * @version Spring 2025
  */
 public class DataReader {
-	public static final String FILEPATH = "resources/BTC-USD_data.txt";
-	
 	private Client client;
 	private CryptoCollection cryptos;
 	
 	/**
 	 * Instantiates a Data reader object
 	 * @throws FileNotFoundException 
+	 * @param client the client that requests the data from the server
 	 */
-	public DataReader() {
-		this.client = Client.getInstance();
+	public DataReader(Client client) {
+		this.client = client;
 		this.cryptos = new CryptoCollection();
 	}
 
@@ -42,14 +38,13 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-			HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
-			LocalDate today = LocalDate.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			String formattedDat = today.format(formatter);
-			Crypto crypto = new Crypto("BTC-USD", prices.get(formattedDat).doubleValue());
-			this.cryptos.addCrypto(crypto);
-			crypto.setHistoricalPrices(prices);
-		
+		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
+		this.client.makeRequest(Requests.btcPrice);
+		Object price = this.client.getResponse().get("Price");
+		Crypto crypto = new Crypto("BTC-USD", Double.parseDouble(price.toString()));
+		this.cryptos.addCrypto(crypto);
+		crypto.setHistoricalPrices(prices);
+		this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
 	}
 	
 	@SuppressWarnings("unchecked")

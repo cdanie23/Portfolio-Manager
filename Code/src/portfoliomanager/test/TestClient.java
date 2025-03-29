@@ -14,31 +14,34 @@ class TestClient {
 	void setup() {
 		this.client = Client.getInstance();
 	}
-//	@Test
-//	void testConstructor() {
-//		assertAll(()-> assertEquals(client.getRequest(), null),
-//				()-> assertEquals(null, client.getResponse()));
-//	}
-//	
-//	@Test
-//	void testNullRequest() {
-//		assertThrows(IllegalArgumentException.class,()->{
-//			this.client.makeRequest(null);
-//		});
-//	}
+	
+	@Test
+	void testNullRequest() {
+		assertThrows(IllegalArgumentException.class,()->{
+			this.client.makeRequest(null);
+		});
+	}
+	
+	@Test
+	void testInvalidRequest() {
+		assertThrows(IllegalArgumentException.class,()->{
+			this.client.makeRequest(Requests.valueOf("abc"));
+		});
+	}
+	
 //	/**
 //	 * @pre must have server running at the time of the call
 //	 */
 	@Test
 	void testGetBtcPriceRequest() {
 		this.client.makeRequest(Requests.btcPrice);
-		System.out.println(this.client.getResponse().get("Price"));
+		assertTrue(this.client.getRequest().containsKey("Price"));
 	}
 	
 	@Test
 	void testGetBtcPriceHistory() {
 		this.client.makeRequest(Requests.btcHistory);
-		System.out.println(this.client.getResponse().get("History"));
-		
+		assertTrue(!this.client.getResponse().isEmpty());		
 	}
+	
 }

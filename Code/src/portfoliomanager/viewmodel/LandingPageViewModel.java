@@ -45,7 +45,8 @@ public class LandingPageViewModel {
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
 		//TODO get the data from the client instead
-		this.dataReader = new DataReader();
+		this.client = Client.getInstance();
+		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 		this.fundsAvailable = new SimpleStringProperty();
