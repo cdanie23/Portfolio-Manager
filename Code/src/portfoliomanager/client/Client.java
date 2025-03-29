@@ -38,6 +38,29 @@ public final class Client extends Thread {
 		this.request = this.requestCreator.createRequest(request);
 		this.run();
 	}
+	
+	/**
+	 * Make an auth request to the server.
+	 *
+	 * @pre request != null
+	 * @pre username != null
+	 * @pre password != null
+	 * @post this.request != null
+	 * @param request the request
+	 * @param username the username
+	 * @param password the password
+	 * @param confirmPassword the confirm password, if request is signUp
+	 * @throws IllegalArgumentException
+	 */
+	public void makeAuthRequest(Requests request, String username, String password, String confirmPassword) {
+	    if (request == null || username == null || password == null) {
+	        throw new IllegalArgumentException("Request, username, and password cannot be null");
+	    }
+
+	    this.request = this.requestCreator.createAuthRequest(request, username, password, confirmPassword);
+	    this.run();
+	}
+	
 	/**
 	 * Returns the request made to the server
 	 * @return the request made to the server

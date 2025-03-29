@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 
 /**
@@ -18,6 +20,7 @@ public class SignUpPageViewModel {
 	private StringProperty passwordProperty;
 	private StringProperty passwordConfirmProperty;
 	private boolean isSignedUp;
+	private Client client;
 	
 	/**
 	 * Instantiates a new sign up page view model.
@@ -31,6 +34,7 @@ public class SignUpPageViewModel {
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
 		this.isSignedUp = false;
+		this.client = Client.getInstance();
 	}
 	
 	/**
@@ -104,5 +108,8 @@ public class SignUpPageViewModel {
 		Account newAccount = new Account(username, password);
 		this.isSignedUp = true;
 		ACCOUNTS.add(newAccount);
+		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
+		// Temporary exit until further implementation
+		this.client.makeRequest(Requests.exit);
 	}
 }

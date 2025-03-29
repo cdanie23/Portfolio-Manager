@@ -44,7 +44,7 @@ public class DataReader {
 		Crypto crypto = new Crypto("BTC-USD", Double.parseDouble(price.toString()));
 		this.cryptos.addCrypto(crypto);
 		crypto.setHistoricalPrices(prices);
-		this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
+		//this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
 	}
 	
 	@SuppressWarnings("unchecked")

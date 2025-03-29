@@ -20,3 +20,11 @@ EXIT = "exit"
 
 GET_BTC_CURR_PRICE = "btcPrice"
 GET_BTC_PRICE_HISTORY = "btcHistory"
+GET_SIGN_UP = "signUp"
+GET_LOGIN = "login"
+
+# user keys
+KEY_TOKEN = "token"
+KEY_USERNAME = "username"
+KEY_PASSWORD = "password"
+KEY_CPASSWORD = "confirmPassword"

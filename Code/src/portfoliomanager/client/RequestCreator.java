@@ -10,6 +10,9 @@ import java.util.Map;
  */
 public class RequestCreator {
 	public static final String TYPE = "type";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
+	public static final String CONFIRM_PASSWORD = "confirmPassword";
 
 	/**
 	 * Creates a request 
@@ -21,4 +24,27 @@ public class RequestCreator {
 		request.put(TYPE, requestMade.toString());
 		return request;
 	}
+	
+	/**
+     * Creates the auth request.
+     *
+     * @param requestMade the request to be created
+     * @param username the username
+     * @param password the password
+     * @param confirmPassword the confirm password, if request is signUp
+     * 
+     * @return the request created
+     */
+    public Map<String, String> createAuthRequest(Requests requestMade, String username, String password, String confirmPassword) {
+        Map<String, String> request = new HashMap<>();
+        request.put(TYPE, requestMade.toString());
+        request.put(USERNAME, username);
+        request.put(PASSWORD, password);
+        
+        if (confirmPassword != null) {
+            request.put(CONFIRM_PASSWORD, confirmPassword);
+        }
+        
+        return request;
+    }
 }
