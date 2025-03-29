@@ -93,7 +93,7 @@ public class LoginPageViewModel {
 	        	this.user = new Account(username, password);
 	        	this.client.makeAuthRequest(Requests.login, username, password, null);
 	        	// Temporary exit until further implementation
-	    		this.client.makeRequest(Requests.exit);
+	    		//this.client.makeRequest(Requests.exit);
 	        	
 	        	return;
 	        }

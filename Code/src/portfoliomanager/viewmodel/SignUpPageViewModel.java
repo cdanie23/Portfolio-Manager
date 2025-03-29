@@ -110,6 +110,6 @@ public class SignUpPageViewModel {
 		ACCOUNTS.add(newAccount);
 		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
 		// Temporary exit until further implementation
-		this.client.makeRequest(Requests.exit);
+		//this.client.makeRequest(Requests.exit);
 	}
 }
