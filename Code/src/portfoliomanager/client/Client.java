@@ -66,7 +66,12 @@ public final class Client extends Thread {
         System.out.println("Client - Sending" + this.request);
         JSONObject request = new JSONObject(this.request);
         socket.send(request.toString());
-        
+        if (this.request.get(RequestCreator.TYPE).equals(Requests.exit.toString())) {
+        	socket.close();
+            context.term();
+            System.out.println("Client - Closing due to server exit");
+        	return;
+        }
         byte[] reply = socket.recv(0);
         String response = new String(reply, ZMQ.CHARSET);
         JSONObject jsonResponse = new JSONObject(response);

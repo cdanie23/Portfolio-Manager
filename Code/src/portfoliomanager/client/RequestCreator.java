@@ -9,7 +9,7 @@ import java.util.Map;
  * @version Spring 2025
  */
 public class RequestCreator {
-	private static final String TYPE = "type";
+	public static final String TYPE = "type";
 
 	/**
 	 * Creates a request 

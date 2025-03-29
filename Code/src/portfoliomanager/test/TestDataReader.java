@@ -34,11 +34,11 @@ class TestDataReader {
 		assertTrue(this.dataReader.getCryptoCollection().isEmpty());
 	}
 	
-	//Doesn't end the process.
+	
 	@Test
 	void testReadCryptoData() {
 		this.dataReader.readCryptoData();
-		this.client.yield();
 		assertTrue(!this.dataReader.getCryptoCollection().isEmpty());
+		assertTrue(!this.dataReader.getCryptoCollection().getFirst().getHistoricalPrice().isEmpty());
 	}
  }

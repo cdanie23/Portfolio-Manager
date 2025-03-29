@@ -1,11 +1,10 @@
 package portfoliomanager;
 
-import org.zeromq.ZMQ;
+
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import portfoliomanager.client.Client;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 
