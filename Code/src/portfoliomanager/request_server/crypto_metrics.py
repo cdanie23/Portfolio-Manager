@@ -17,6 +17,3 @@ def getHistoricalData(timespan):
     priceDictStrDates = {date.strftime("%Y-%m-%d"): price 
     for date, price in priceDict.items()}
     return priceDictStrDates
-
-if (__name__ == "__main__"):
-    print(getHistoricalData("1y"))

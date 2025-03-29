@@ -16,7 +16,7 @@ UNSUPPORTED_OPERATION_STATUS = -1
 KEY_REQUEST_TYPE = "type"
 KEY_FAILURE_MESSAGE = "error description"
 KEY_STATUS = "success code"
+EXIT = "exit"
 
-GET_CRYPTOS = "cryptos"
 GET_BTC_CURR_PRICE = "btcPrice"
 GET_BTC_PRICE_HISTORY = "btcHistory"

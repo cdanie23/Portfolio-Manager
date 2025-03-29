@@ -10,8 +10,7 @@ class RequestHandler:
     def __init__(self):
         self._cryptos = {}
         
-    def _getCryptos(self):
-        return {constants.KEY_STATUS: constants.SUCCESS_STATUS}
+
     
     def _getCurrBtcPrice(self):
         currPrice = crypto_metrics.getCurrBtcPrice()
@@ -28,9 +27,7 @@ class RequestHandler:
         
         request_type = request.get(constants.KEY_REQUEST_TYPE, None)
         
-        if (request_type == constants.GET_CRYPTOS):
-            response = self._getCryptos(request)
-        elif(request_type == constants.GET_BTC_CURR_PRICE):
+        if(request_type == constants.GET_BTC_CURR_PRICE):
             response = self._getCurrBtcPrice()
         elif(request_type == constants.GET_BTC_PRICE_HISTORY):
             response = self._getBtcPriceHistory()

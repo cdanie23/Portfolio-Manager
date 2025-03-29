@@ -27,18 +27,16 @@ def runServer(protocol, ip_address, port):
         
         request = json.loads(json_message)
        
-        
-        requestType = request["type"]
-        if(requestType == "exit"):
-            log("Shutting down request_server")
-            return
-        elif constants.KEY_REQUEST_TYPE not in request:
+        if (constants.KEY_REQUEST_TYPE not in request):
             response = {
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "No request type provided"}
-            
             json_response = json.dumps(response)
             socket.send_string(json_response)
+        
+        elif (request["type"] == "exit"):
+            log("Shutting down request_server")
+            return
         else:
             response = request_handler.handleRequest(request)
             json_response = json.dumps(response)
