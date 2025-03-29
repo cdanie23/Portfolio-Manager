@@ -26,7 +26,7 @@ public class RequestCreator {
 	}
 	
 	/**
-     * Creates the auth request.
+	 * Creates the auth request.
      *
      * @param requestMade the request to be created
      * @param username the username
@@ -35,7 +35,7 @@ public class RequestCreator {
      * 
      * @return the request created
      */
-    public Map<String, String> createAuthRequest(Requests requestMade, String username, String password, String confirmPassword) {
+	public Map<String, String> createAuthRequest(Requests requestMade, String username, String password, String confirmPassword) {
         Map<String, String> request = new HashMap<>();
         request.put(TYPE, requestMade.toString());
         request.put(USERNAME, username);

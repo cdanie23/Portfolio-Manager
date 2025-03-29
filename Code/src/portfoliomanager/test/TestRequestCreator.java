@@ -17,5 +17,4 @@ class TestRequestCreator {
 		
 		assertAll(()-> assertEquals("cryptos", client.getRequest()));
 	}
-
 }

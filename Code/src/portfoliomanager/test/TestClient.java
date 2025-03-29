@@ -2,6 +2,8 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +31,27 @@ class TestClient {
 		});
 	}
 	
+	@Test
+	void testNullAuthRequest() {
+		assertThrows(IllegalArgumentException.class,()->{
+			this.client.makeAuthRequest(null, "user", "pass123", null);
+		});
+	}
+	
+	@Test
+	void testNullAuthRequestNullUserName() {
+		assertThrows(IllegalArgumentException.class,()->{
+			this.client.makeAuthRequest(Requests.login, null, "pass123", null);
+		});
+	}
+	
+	@Test
+	void testNullAuthRequestNullPassword() {
+		assertThrows(IllegalArgumentException.class,()->{
+			this.client.makeAuthRequest(Requests.login, "user", null, null);
+		});
+	}
+	
 //	/**
 //	 * @pre must have server running at the time of the call
 //	 */
@@ -44,4 +67,25 @@ class TestClient {
 		assertTrue(!this.client.getResponse().isEmpty());		
 	}
 	
+	@Test
+	void testHandleSignUp() {
+		this.client.makeAuthRequest(Requests.signUp, "user1", "pass123", "pass123");
+		Map<String, Object> response = this.client.getResponse();
+
+		assertAll(
+            () -> assertEquals(1, response.get("success code")),
+            () -> assertTrue(response.containsKey("token"))
+        );
+	}
+	
+	@Test
+    void testHandleLogin() {
+		this.client.makeAuthRequest(Requests.login, "user", "pass123", null);
+		Map<String, Object> response = this.client.getResponse();
+
+        assertAll(
+            () -> assertEquals(1, response.get("success code")),
+            () -> assertTrue(response.containsKey("token"))
+        );
+    }
 }
