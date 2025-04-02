@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
+import org.zeromq.ZMQException;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
@@ -26,7 +27,7 @@ class TestClient {
 		try {
 			serverThread = new Thread(() -> MockServer.mockServer(context, socket, running));
 			serverThread.start();
-		} catch (Exception e){
+		} catch (ZMQException e){
 			System.out.println("Address is in use, but test cases continue");
 		}
 		

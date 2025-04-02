@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
+import org.zeromq.ZMQException;
+
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 public class TestSignUpPageViewModel {
@@ -25,8 +27,8 @@ public class TestSignUpPageViewModel {
 		try {
 			serverThread = new Thread(() -> MockServer.mockServer(context, socket, running));
 			serverThread.start();
-		} catch (Exception e){
-			System.out.println("Address is in use, but test cases continue");
+		} catch (ZMQException e){
+			throw new IllegalArgumentException("Address in use but test cases continue");
 		}
 		
 	}

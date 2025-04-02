@@ -8,15 +8,19 @@ import org.json.JSONObject;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
+import org.zeromq.ZMQException;
 
 public class MockServer {
 
 	public static void mockServer(Context context, Socket socket, boolean running) {
 		context = ZMQ.context(1);
 		socket = context.socket(ZMQ.REP);
-		socket.bind("tcp://127.0.0.1:6586");
-
-
+		try {
+			socket.bind("tcp://127.0.0.1:6586");
+		} catch (ZMQException e) {
+			System.err.println("Instance of server is created in each testcases. Same port is used which causes the address in use issue.");
+		}
+		
 		try {
 			while(running) {
 				byte[] request = socket.recv(0);
@@ -47,6 +51,7 @@ public class MockServer {
 			} 
 
 		} finally {
+			socket.setLinger(0);
 			socket.close();
 			context.term();
 		}
