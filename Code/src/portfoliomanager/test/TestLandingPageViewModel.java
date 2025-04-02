@@ -2,23 +2,44 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.zeromq.ZMQ.Context;
+import org.zeromq.ZMQ.Socket;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
 class TestLandingPageViewModel {
 	LandingPageViewModel viewModel;
+	private static Thread serverThread;
+	private static volatile boolean running = true;
+	private static Context context;
+	private static Socket socket;
 	
+	@BeforeAll 
+	static void startServer() {
+		try {
+			serverThread = new Thread(() -> MockServer.mockServer(context, socket, running));
+			serverThread.start();
+		} catch (Exception e){
+			System.out.println("Address is in use, but test cases continue");
+		}
+		
+	}
 	
+	@AfterAll
+	static void interruptServer() throws InterruptedException {
+		running = false;
+		serverThread.join(1);
+	}
 	
-	@BeforeEach 
-	void setUp() {
+	@BeforeEach
+	public void setUp() {
 		this.viewModel = new LandingPageViewModel();
+		this.viewModel.setClient("6586");
 	}
 	
 	@AfterEach

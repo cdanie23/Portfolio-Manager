@@ -1,6 +1,8 @@
 package portfoliomanager.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -139,15 +141,12 @@ public class Crypto {
 	 */
 	
 	public double getOneDayPriceChange() {
-		//Hard coded for now since data is also hard coded
-		String currentDate = "2025-02-23";
-		String currDay = currentDate.substring(8, 10);
-		int currentDay = Integer.parseInt(currDay);
-		int prevDay = currentDay - 1;
-		String previousDay = String.valueOf(prevDay);
-		String yesterday = currentDate.replaceFirst("-[0-3][0-9]$", String.format("-%s", previousDay));
-		double yesterdaysPrice = this.historicalPrices.get(yesterday).doubleValue();
-		return ((this.currentPrice.doubleValue() - yesterdaysPrice) / yesterdaysPrice) * 100;
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String formattedDate = yesterday.format(formatter);
+		BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
+		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
 	}
 	
 	@Override

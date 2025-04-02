@@ -38,7 +38,6 @@ public class LandingPageViewModel {
 	 */
 	
 	public LandingPageViewModel() {
-		this.client = Client.getInstance();
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
 		this.portfolioNameProperty = new SimpleStringProperty();
@@ -46,9 +45,8 @@ public class LandingPageViewModel {
 		this.isLoggedIn.setValue(false);
 		//TODO get the data from the client instead
 		this.client = Client.getInstance();
-		this.dataReader = new DataReader(this.client);
-		this.dataReader.readCryptoData();
-		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+		this.dataReader = null;
+		this.cryptoListProperty = null;
 		this.fundsAvailable = new SimpleStringProperty();
 		// Prepopulated for now since we don't have server
 		this.user = new Account("user", "pass123");
@@ -133,7 +131,14 @@ public class LandingPageViewModel {
 	 * @return the list property for cryptos
 	 */
 	public ListProperty<Crypto> getCryptoListProperty() {
+		this.readCryptoList();
 		return this.cryptoListProperty;
+	}
+	
+	private void readCryptoList() {
+		this.dataReader = new DataReader(this.client);
+		this.dataReader.readCryptoData();
+		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 	}
 	/**
 	 * Gets if the user is logged in 
@@ -142,5 +147,17 @@ public class LandingPageViewModel {
 	
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
+	}
+	
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
 	}
 }

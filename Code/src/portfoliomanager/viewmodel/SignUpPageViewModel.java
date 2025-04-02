@@ -88,6 +88,18 @@ public class SignUpPageViewModel {
 	}
 	
 	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	
+	/**
 	 * Adds the created account to the list of accounts.
 	 */
 	public void createAccount() {
@@ -98,7 +110,6 @@ public class SignUpPageViewModel {
 		if (!password.trim().equals(passwordConfirm.trim())) {
 			throw new IllegalArgumentException("Passwords do not match.");
 		}
-		
 		for (Account account : SignUpPageViewModel.ACCOUNTS) {
 	        if (account.getUserName().trim().equalsIgnoreCase(username.trim())) {
 	            throw new IllegalArgumentException("Account with the given username already exists, try logging in.");

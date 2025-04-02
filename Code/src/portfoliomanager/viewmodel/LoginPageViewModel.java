@@ -93,8 +93,7 @@ public class LoginPageViewModel {
 	        	this.user = new Account(username, password);
 	        	this.client.makeAuthRequest(Requests.login, username, password, null);
 	        	// Temporary exit until further implementation
-	    		//this.client.makeRequest(Requests.exit);
-	        	
+	    					// this.client.makeRequest(Requests.exit);
 	        	return;
 	        }
 		}
@@ -112,5 +111,17 @@ public class LoginPageViewModel {
 	 */
 	public Account getUser() {
 		return this.user;
+	}
+	
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
 	}
 }

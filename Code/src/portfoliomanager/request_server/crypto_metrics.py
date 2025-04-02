@@ -8,6 +8,13 @@ def getCurrBtcPrice():
     '''
     info = bitcoin.fast_info
     return info["lastPrice"]
+    # info = bitcoin.info
+    # current_price = info.get("regularMarketPrice", None)
+    #
+    # if current_price is None:
+    #     raise ValueError("Could not get current price.")
+    
+    #return current_price
 
 
 def getHistoricalData(timespan):
@@ -17,3 +24,6 @@ def getHistoricalData(timespan):
     priceDictStrDates = {date.strftime("%Y-%m-%d"): price 
     for date, price in priceDict.items()}
     return priceDictStrDates
+
+if (__name__=="__main__"):
+    print(getCurrBtcPrice())

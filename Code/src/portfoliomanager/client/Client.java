@@ -14,6 +14,7 @@ import org.json.JSONObject;
  */
 
 public final class Client extends Thread {
+	private static String serverPort;
 	private RequestCreator requestCreator;
 	private Map<String, String> request;
 	private Map<String, Object> response;
@@ -22,6 +23,9 @@ public final class Client extends Thread {
 		this.request = null;
 		this.response = null;
 		this.requestCreator = new RequestCreator();
+		if (serverPort == null) {
+			serverPort = "5555";
+		}
 	}
 	/**
 	 * Make a request to the server
@@ -84,7 +88,7 @@ public final class Client extends Thread {
 
         System.out.println("Connecting to server");
         Socket socket = context.socket(ZMQ.REQ);
-        socket.connect("tcp://127.0.0.1:5555");
+        socket.connect("tcp://127.0.0.1:" + Integer.parseInt(Client.serverPort));
         
         System.out.println("Client - Sending" + this.request);
         JSONObject request = new JSONObject(this.request);
@@ -97,6 +101,7 @@ public final class Client extends Thread {
         }
         byte[] reply = socket.recv(0);
         String response = new String(reply, ZMQ.CHARSET);
+        System.out.println(response);
         JSONObject jsonResponse = new JSONObject(response);
         this.response = jsonResponse.toMap();
 		System.out.println("Client - Received " + this.response);
@@ -114,7 +119,23 @@ public final class Client extends Thread {
 	 */
 	
 	public static Client getInstance() {
+		return Client.getInstance(null);
+	}
+	
+	/**
+	 * Overloads to connect to a different port (Used for testing)
+	 * 
+	 * @param customPort client connection port
+	 * @return the client
+	 */
+	public static Client getInstance(String customPort) {
+		if (customPort == null || customPort.isEmpty()) {
+			Client.serverPort = "5555";
+		} else {
+			Client.serverPort = customPort;
+		}
 		return Holder.CLIENT;
+		
 	}
 	
 }

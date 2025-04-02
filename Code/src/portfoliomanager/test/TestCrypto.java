@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
@@ -88,38 +90,58 @@ class TestCrypto {
 	}
 	@Test
 	void testGetOneDayPriceChange() {
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String dayBefore = yesterday.format(formatter);
+	    String day = today.format(formatter);
 		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
 		HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
-		historicalData.put("2025-02-23", new BigDecimal(100));
-		historicalData.put("2025-02-22", new BigDecimal(80));
+		historicalData.put(day, new BigDecimal(100));
+		historicalData.put(dayBefore, new BigDecimal(80));
 		btc.setHistoricalPrices(historicalData);
 		assertEquals(25, btc.getOneDayPriceChange(), .001);
 	}
 	@Test
 	void testPriceOneDayIncrease() {
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String dayBefore = yesterday.format(formatter);
+	    String day = today.format(formatter);
 		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
 		HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
-		historicalData.put("2025-02-23", new BigDecimal(100));
-		historicalData.put("2025-02-22", new BigDecimal(80));
+		historicalData.put(day, new BigDecimal(100));
+		historicalData.put(dayBefore, new BigDecimal(80));
 		btc.setHistoricalPrices(historicalData);
 		
 		assertFalse(btc.didOneDayPriceDecrease());
 	}
 	@Test
 	void testPriceOneDayDecrease() {
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String dayBefore = yesterday.format(formatter);
+	    String day = today.format(formatter);
 		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
 		HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
-		historicalData.put("2025-02-23", new BigDecimal(80));
-		historicalData.put("2025-02-22", new BigDecimal(100));
+		historicalData.put(day, new BigDecimal(80));
+		historicalData.put(dayBefore, new BigDecimal(100));
 		btc.setHistoricalPrices(historicalData);
 		assertTrue(btc.didOneDayPriceDecrease());
 	}
 	@Test
 	void testToString() {
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String dayBefore = yesterday.format(formatter);
+	    String day = today.format(formatter);
 		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
 		HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
-		historicalData.put("2025-02-23", new BigDecimal(80));
-		historicalData.put("2025-02-22", new BigDecimal(100));
+		historicalData.put(day, new BigDecimal(80));
+		historicalData.put(dayBefore, new BigDecimal(100));
 		btc.setHistoricalPrices(historicalData);
 		
 		assertTrue((String.format("%25s%68.2f%66.2f", btc.getName(), btc.getCurrentPrice(), btc.getOneDayPriceChange()) + "%").equals(btc.toString()));

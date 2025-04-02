@@ -5,17 +5,44 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.zeromq.ZMQ.Context;
+import org.zeromq.ZMQ.Socket;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 public class TestSignUpPageViewModel {
 	private SignUpPageViewModel page;
+	private static Thread serverThread;
+	private static volatile boolean running = true;
+	private static Context context;
+	private static Socket socket;
+	
+	@BeforeAll 
+	static void startServer() {
+		try {
+			serverThread = new Thread(() -> MockServer.mockServer(context, socket, running));
+			serverThread.start();
+		} catch (Exception e){
+			System.out.println("Address is in use, but test cases continue");
+		}
+		
+	}
+	
+	@AfterAll
+	static void interruptServer() throws InterruptedException {
+		running = false;
+		serverThread.join(1);
+	}
 	
 	@BeforeEach
 	public void setUp() {
 		this.page = new SignUpPageViewModel();
+		this.page.setClient("6586");
 	}
+	
 	@Test
 	public void testValidSignUpPageViewModelConstructor() {
 		assertEquals("user", SignUpPageViewModel.getAccounts().get(0).getUserName());
