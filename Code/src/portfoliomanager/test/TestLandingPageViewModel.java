@@ -7,22 +7,27 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
+
+@TestInstance(Lifecycle.PER_CLASS)
 class TestLandingPageViewModel {
+	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	LandingPageViewModel viewModel;
-	private static Thread serverThread;
-	private static volatile boolean running = true;
-	private static Context context;
-	private static Socket socket;
+	private Thread serverThread;
+	private MockServer mockServer;
+	private String port;
 	
 	@BeforeAll 
-	static void startServer() {
+	void startServer() {
 		try {
-			serverThread = new Thread(() -> MockServer.mockServer(context, socket, running));
+			this.mockServer = new MockServer();
+			this.port = "5558";
+			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
 			serverThread.start();
 		} catch (Exception e){
 			System.out.println("Address is in use, but test cases continue");
@@ -30,16 +35,15 @@ class TestLandingPageViewModel {
 		
 	}
 	
-	@AfterAll
-	static void interruptServer() throws InterruptedException {
-		running = false;
-		serverThread.join(1);
-	}
-	
 	@BeforeEach
 	public void setUp() {
 		this.viewModel = new LandingPageViewModel();
-		this.viewModel.setClient("6586");
+		this.viewModel.setClient(this.port);
+	}
+	
+	@AfterAll
+	void interruptServer() {
+		this.serverThread.interrupt();
 	}
 	
 	@AfterEach

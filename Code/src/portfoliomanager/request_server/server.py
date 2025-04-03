@@ -35,6 +35,11 @@ def runServer(protocol, ip_address, port):
             socket.send_string(json_response)
         
         elif (request["type"] == "exit"):
+            response = {
+                constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE: "Exit request received."}
+            json_response = json.dumps(response)
+            socket.send_string(json_response)
             log("Shutting down request_server")
             return
         else:

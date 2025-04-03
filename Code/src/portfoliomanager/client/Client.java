@@ -14,6 +14,8 @@ import org.json.JSONObject;
  */
 
 public final class Client extends Thread {
+	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
+	private static final String DEFAULT_PORT = "5555";
 	private static String serverPort;
 	private RequestCreator requestCreator;
 	private Map<String, String> request;
@@ -24,7 +26,7 @@ public final class Client extends Thread {
 		this.response = null;
 		this.requestCreator = new RequestCreator();
 		if (serverPort == null) {
-			serverPort = "5555";
+			serverPort = DEFAULT_PORT;
 		}
 	}
 	/**
@@ -88,17 +90,12 @@ public final class Client extends Thread {
 
         System.out.println("Connecting to server");
         Socket socket = context.socket(ZMQ.REQ);
-        socket.connect("tcp://127.0.0.1:" + Integer.parseInt(Client.serverPort));
+        socket.connect(PROTOCOL_IP + Integer.parseInt(Client.serverPort));
         
         System.out.println("Client - Sending" + this.request);
         JSONObject request = new JSONObject(this.request);
         socket.send(request.toString());
-        if (this.request.get(RequestCreator.TYPE).equals(Requests.exit.toString())) {
-        	socket.close();
-            context.term();
-            System.out.println("Client - Closing due to server exit");
-        	return;
-        }
+        
         byte[] reply = socket.recv(0);
         String response = new String(reply, ZMQ.CHARSET);
         System.out.println(response);
@@ -106,6 +103,12 @@ public final class Client extends Thread {
         this.response = jsonResponse.toMap();
 		System.out.println("Client - Received " + this.response);
 
+		if (this.response.containsValue("Exit request received.")) {
+        	socket.close();
+            context.term();
+            System.out.println("Client - Closing due to server exit");
+        	return;
+        }
         socket.close();
         context.term();
 	}
@@ -130,12 +133,20 @@ public final class Client extends Thread {
 	 */
 	public static Client getInstance(String customPort) {
 		if (customPort == null || customPort.isEmpty()) {
-			Client.serverPort = "5555";
+			Client.serverPort = DEFAULT_PORT;
 		} else {
 			Client.serverPort = customPort;
 		}
 		return Holder.CLIENT;
 		
+	}
+	
+	/**
+	 * Gets the serverPort
+	 * @return the serverPort
+	 */
+	public String getPort() {
+		return Client.serverPort;
 	}
 	
 }

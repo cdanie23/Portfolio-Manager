@@ -6,54 +6,56 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
-import org.zeromq.ZMQException;
 
 public class MockServer {
+	private ZMQ.Context context;
+	private ZMQ.Socket socket;
 
-	public static void mockServer(Context context, Socket socket, boolean running) {
-		context = ZMQ.context(1);
-		socket = context.socket(ZMQ.REP);
-		try {
-			socket.bind("tcp://127.0.0.1:6586");
-		} catch (ZMQException e) {
-			System.err.println("Instance of server is created in each testcases. Same port is used which causes the address in use issue.");
-		}
+	public  void mockServer(String bindingPort) {
+		this.context = ZMQ.context(1);
+		this.socket = this.context.socket(ZMQ.REP);
+		this.socket.bind(bindingPort);
 		
-		try {
-			while(running) {
-				byte[] request = socket.recv(0);
-				if (request == null) {
-					break;
-				}
-				String requestString = new String(request, ZMQ.CHARSET);
-				JSONObject jsonRequest = new JSONObject(requestString);
-				JSONObject jsonResponse = new JSONObject();
-				if (jsonRequest.getString("type").equals("btcPrice")) {
-					jsonResponse.put("success code", 1);
-					jsonResponse.put("Price", new BigDecimal("91.26"));
-				} else if (jsonRequest.getString("type").equals("btcHistory")) {
-					Map<String, BigDecimal>history = new HashMap<>();
-					history.put("2025-03-21", new BigDecimal("56.5654"));
-					history.put("2024-03-22", new BigDecimal("22.65"));
-					history.put("2025-03-23", new BigDecimal("156.56"));
-					jsonResponse.put("success code", 1);
-					jsonResponse.put("History", history);
-				} else if (jsonRequest.getString("type").equals("signUp")) {
-					jsonResponse.put("success code", 1);
-					jsonResponse.put("token", "abs");
-				} else if (jsonRequest.getString("type").equals("login")) {
-					jsonResponse.put("success code", 1);
-					jsonResponse.put("token", "abd");
-				}
-				socket.send(jsonResponse.toString().getBytes(ZMQ.CHARSET), 0);
-			} 
-
-		} finally {
-			socket.setLinger(0);
-			socket.close();
-			context.term();
+		while(!Thread.currentThread().isInterrupted()) {
+			byte[] request = socket.recv(0);
+			if (request == null) {
+				break;
+			}
+			String requestString = new String(request, ZMQ.CHARSET);
+			JSONObject jsonRequest = new JSONObject(requestString);
+			JSONObject jsonResponse = new JSONObject();
+			if (jsonRequest.getString("type").equals("btcPrice")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("Price", new BigDecimal("91.26"));
+			} else if (jsonRequest.getString("type").equals("btcHistory")) {
+				Map<String, BigDecimal>history = new HashMap<>();
+				history.put("2025-03-21", new BigDecimal("56.5654"));
+				history.put("2024-03-22", new BigDecimal("22.65"));
+				history.put("2025-03-23", new BigDecimal("156.56"));
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("History", history);
+			} else if (jsonRequest.getString("type").equals("signUp")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "abs");
+			} else if (jsonRequest.getString("type").equals("login")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "abd");
+			} else if (jsonRequest.getString("type").equals("exit")) {
+				jsonResponse.put("success code", -1);
+				jsonResponse.put("type", "exit");
+			} else {
+				return;
+			}
+			this.socket.send(jsonResponse.toString().getBytes(ZMQ.CHARSET), 0);
 		}
+		this.stopServer();
 	}
+	
+	public void stopServer() {
+		System.out.println("Stopping server");
+		this.socket.close();
+		this.context.close();
+	}
+
+
 }

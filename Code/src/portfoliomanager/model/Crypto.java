@@ -141,12 +141,24 @@ public class Crypto {
 	 */
 	
 	public double getOneDayPriceChange() {
-		LocalDate today = LocalDate.now();
+		LocalDate today = this.getTodaysDate();
 		LocalDate yesterday = today.minusDays(1);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    String formattedDate = yesterday.format(formatter);
-		BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
+	    BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
+	    if (yesterdaysPrice == null) {
+	    	String dayBeforeDate = today.minusDays(2).format(formatter);
+	    	yesterdaysPrice = this.historicalPrices.get(dayBeforeDate);
+	    }
 		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
+	}
+	
+	/**
+	 * Gets todays date
+	 * @return todays date
+	 */
+	public LocalDate getTodaysDate() {
+		return LocalDate.now();
 	}
 	
 	@Override
