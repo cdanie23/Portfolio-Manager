@@ -1,5 +1,8 @@
 package portfoliomanager.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -15,7 +18,7 @@ public class Crypto {
 
 	private String name;
 	private Double currentPrice;
-	private HashMap<String, Double> historicalPrices;
+	private HashMap<String, BigDecimal> historicalPrices;
 	
 	/**
 	 * Instantiates a new Crypto object
@@ -32,7 +35,7 @@ public class Crypto {
 		}
 		this.name = name;
 		this.currentPrice = currentPrice;
-		this.historicalPrices = new HashMap<String, Double>();
+		this.historicalPrices = new HashMap<String, BigDecimal>();
 		
 	}
 	
@@ -87,7 +90,7 @@ public class Crypto {
 	 * 
 	 * @param historicalPrices the prices of the past
 	 */
-	public void setHistoricalPrices(HashMap<String, Double> historicalPrices) {
+	public void setHistoricalPrices(HashMap<String, BigDecimal> historicalPrices) {
 		this.historicalPrices = historicalPrices;
 	}
 	
@@ -97,7 +100,7 @@ public class Crypto {
 	 * @postcondition none
 	 * @return the historical prices of the cryoto
 	 */
-	public HashMap<String, Double> getHistoricalPrice() {
+	public HashMap<String, BigDecimal> getHistoricalPrice() {
 		return this.historicalPrices;
 	}
 	
@@ -112,10 +115,10 @@ public class Crypto {
 	 */
 	public HashMap<String, Double> getPriceForRange(int days) {
 		HashMap<String, Double> rangeHistorics = new LinkedHashMap<String, Double>();
-		for (HashMap.Entry<String, Double> entry : this.getHistoricalPrice().entrySet()) {
+		for (HashMap.Entry<String, BigDecimal> entry : this.getHistoricalPrice().entrySet()) {
 			if (days > 0) {
 				String date = entry.getKey();
-				Double price = entry.getValue();
+				Double price = entry.getValue().doubleValue();
 				rangeHistorics.put(date, price);
 				days--;
 			}
@@ -138,15 +141,24 @@ public class Crypto {
 	 */
 	
 	public double getOneDayPriceChange() {
-		//Hard coded for now since data is also hard coded
-		String currentDate = "2025-02-23";
-		String currDay = currentDate.substring(8, 10);
-		int currentDay = Integer.parseInt(currDay);
-		int prevDay = currentDay - 1;
-		String previousDay = String.valueOf(prevDay);
-		String yesterday = currentDate.replaceFirst("-[0-3][0-9]$", String.format("-%s", previousDay));
-		double yesterdaysPrice = this.historicalPrices.get(yesterday);
-		return ((this.currentPrice.doubleValue() - yesterdaysPrice) / yesterdaysPrice) * 100;
+		LocalDate today = this.getTodaysDate();
+		LocalDate yesterday = today.minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String formattedDate = yesterday.format(formatter);
+	    BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
+	    if (yesterdaysPrice == null) {
+	    	String dayBeforeDate = today.minusDays(2).format(formatter);
+	    	yesterdaysPrice = this.historicalPrices.get(dayBeforeDate);
+	    }
+		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
+	}
+	
+	/**
+	 * Gets todays date
+	 * @return todays date
+	 */
+	public LocalDate getTodaysDate() {
+		return LocalDate.now();
 	}
 	
 	@Override

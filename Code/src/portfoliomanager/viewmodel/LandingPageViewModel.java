@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import portfoliomanager.client.Client;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -30,6 +31,7 @@ public class LandingPageViewModel {
 	private StringProperty welcomeLabelProperty;
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
+	private Client client;
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
@@ -41,9 +43,10 @@ public class LandingPageViewModel {
 		this.portfolioNameProperty = new SimpleStringProperty();
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
-		this.dataReader = new DataReader(DataReader.FILEPATH);
-		this.dataReader.readCryptoData();
-		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+		//TODO get the data from the client instead
+		this.client = Client.getInstance();
+		this.dataReader = null;
+		this.cryptoListProperty = null;
 		this.fundsAvailable = new SimpleStringProperty();
 		// Prepopulated for now since we don't have server
 		this.user = new Account("user", "pass123");
@@ -128,7 +131,14 @@ public class LandingPageViewModel {
 	 * @return the list property for cryptos
 	 */
 	public ListProperty<Crypto> getCryptoListProperty() {
+		this.readCryptoList();
 		return this.cryptoListProperty;
+	}
+	
+	private void readCryptoList() {
+		this.dataReader = new DataReader(this.client);
+		this.dataReader.readCryptoData();
+		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 	}
 	/**
 	 * Gets if the user is logged in 
@@ -137,5 +147,17 @@ public class LandingPageViewModel {
 	
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
+	}
+	
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
 	}
 }

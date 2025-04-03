@@ -5,6 +5,8 @@ import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 
 /**
@@ -18,6 +20,8 @@ public class LoginPageViewModel {
 	private StringProperty passwordProperty;
 	private ObjectProperty<Boolean> isLoggedIn;
 	private Account user;
+	private Client client;
+	
 	/**
 	 * Instantiates a new login page view model.
 	 * @param isLoggedIn the login status of the user
@@ -32,6 +36,7 @@ public class LoginPageViewModel {
 		this.isLoggedIn = isLoggedIn;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
+		this.client = Client.getInstance();
 	}
 	
 	/**
@@ -86,6 +91,9 @@ public class LoginPageViewModel {
 	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
 	        	this.isLoggedIn.setValue(true);
 	        	this.user = new Account(username, password);
+	        	this.client.makeAuthRequest(Requests.login, username, password, null);
+	        	// Temporary exit until further implementation
+	    					// this.client.makeRequest(Requests.exit);
 	        	return;
 	        }
 		}
@@ -103,5 +111,17 @@ public class LoginPageViewModel {
 	 */
 	public Account getUser() {
 		return this.user;
+	}
+	
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
 	}
 }

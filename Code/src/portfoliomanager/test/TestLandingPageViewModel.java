@@ -2,23 +2,48 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
+
+@TestInstance(Lifecycle.PER_CLASS)
 class TestLandingPageViewModel {
+	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	LandingPageViewModel viewModel;
+	private Thread serverThread;
+	private MockServer mockServer;
+	private String port;
 	
+	@BeforeAll 
+	void startServer() {
+		try {
+			this.mockServer = new MockServer();
+			this.port = "5558";
+			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
+			serverThread.start();
+		} catch (Exception e){
+			System.out.println("Address is in use, but test cases continue");
+		}
+		
+	}
 	
-	
-	@BeforeEach 
-	void setUp() {
+	@BeforeEach
+	public void setUp() {
 		this.viewModel = new LandingPageViewModel();
+		this.viewModel.setClient(this.port);
+	}
+	
+	@AfterAll
+	void interruptServer() {
+		this.serverThread.interrupt();
 	}
 	
 	@AfterEach
