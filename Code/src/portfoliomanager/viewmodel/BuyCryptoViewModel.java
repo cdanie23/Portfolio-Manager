@@ -174,13 +174,13 @@ public class BuyCryptoViewModel {
 		System.out.println("Added holding");
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
+		this.fundsAvailableProperty.setValue("$: " + this.user.getFundsAvailable());
 	}
 	
 	/**
 	 * Updates the line Chart
 	 * 
-	 * @param response the range of days to ge tthe data for
+	 * @param response the range of days to get the data for
 	 */
 	public void updateLineChart(String response) {
 		if (response == null) {

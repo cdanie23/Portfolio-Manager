@@ -3,8 +3,10 @@ package portfoliomanager.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 //import java.util.HashMap;
 
@@ -115,15 +117,22 @@ public class Crypto {
 	 */
 	public HashMap<String, Double> getPriceForRange(int days) {
 		HashMap<String, Double> rangeHistorics = new LinkedHashMap<String, Double>();
-		for (HashMap.Entry<String, BigDecimal> entry : this.getHistoricalPrice().entrySet()) {
-			if (days > 0) {
-				String date = entry.getKey();
-				Double price = entry.getValue().doubleValue();
-				rangeHistorics.put(date, price);
-				days--;
+		for (var currdate : this.getDates(days)) {
+			if (this.getHistoricalPrice().get(currdate) != null) {
+				rangeHistorics.put(currdate, this.getHistoricalPrice().get(currdate).doubleValue());
 			}
 		}
 		return rangeHistorics;
+	}
+	
+	private List<String> getDates(int days) {
+		List<String> dateList = new ArrayList<String>();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for (int idx = days; idx > 0; idx--) {
+			String date = this.getTodaysDate().minusDays(idx).format(formatter);
+			dateList.add(date);
+		}
+		return dateList;
 	}
 	
 	/**
