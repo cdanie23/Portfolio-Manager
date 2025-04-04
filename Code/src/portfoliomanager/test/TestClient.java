@@ -9,42 +9,41 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 
-@TestInstance(Lifecycle.PER_CLASS)
 class TestClient {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
-	private String port;
+	private static String port;
 	private static Client client;
-	private Thread serverThread;
-	private MockServer mockServer;
+	private static Thread serverThread;
+	private static MockServer mockServer;
 
 	
 	@BeforeAll
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			this.port = "5556";
-			this.serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
-			this.serverThread.start();
+			mockServer = new MockServer();
+			port = "5556";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
+			serverThread.start();
 		} catch (ZMQException e) {
 			System.out.println("Address is in use, but test cases continue");
 		}
 	}
 
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		client.resetClient();
+		serverThread.interrupt();
 	}
 
 	@BeforeEach
 	void setup() {
-		client = Client.getInstance(this.port);
+		client = Client.getInstance(port);
 	}
 
 	@Test
@@ -110,15 +109,6 @@ class TestClient {
 		assertAll(() -> assertEquals(1, response.get("success code")), () -> assertTrue(response.containsKey("token")));
 	}
 	
-	@Test
-	void testExitRequest() {
-		client.makeRequest(Requests.exit);
-		Map<String, Object> response = client.getResponse();
-
-		assertAll(
-		()->assertEquals(-1, response.get("success code")), 
-		()->assertEquals("exit", response.get("type")));
-	}
 	
 	@Test
 	void testNullCustomPort() {

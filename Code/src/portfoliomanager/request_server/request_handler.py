@@ -6,15 +6,23 @@ Created on Mar 25, 2025
 from request_server import constants
 from request_server import crypto_metrics
 import uuid
-
+from model.Account import Account
 class RequestHandler:
     def __init__(self):
+        account = Account("user", "pass123")
         self._cryptos = {}
-        self._users = {
-            "user": "pass123"
-        }
+        self._users = [account]
+           
+        
         self._tokens = {}
-    
+    def makeAccount(self, username, password):
+        account = Account(username, password)
+        self._users.append(account)
+    def authenticate_user(self, username, password):
+        for account in self._users:
+            if account.username == username and account.verify_password(password):
+                return True  
+        return False  
     def _getCurrBtcPrice(self):
         currPrice = crypto_metrics.getCurrBtcPrice()
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
@@ -29,7 +37,7 @@ class RequestHandler:
         username = request.get(constants.KEY_USERNAME)
         password = request.get(constants.KEY_PASSWORD)
         confirmPassword = request.get(constants.KEY_CPASSWORD)
-
+        
         if not username or not password or not confirmPassword:
             return {
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
@@ -41,14 +49,14 @@ class RequestHandler:
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "Passwords do not match"
             }
-
+        
         if username in self._users:
             return {
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "Username already exists"
             }
-
-        self._users[username] = password
+        
+        self._users.append(Account(username, password))
         token = str(uuid.uuid4())
         self._tokens[token] = username
 
@@ -64,7 +72,7 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE: "Username and password are required"
             }
 
-        if username not in self._users or self._users[username] != password:
+        if not self.authenticate_user(username, password):
             return {
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "Invalid credentials"

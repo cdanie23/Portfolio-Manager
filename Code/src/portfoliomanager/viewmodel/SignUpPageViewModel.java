@@ -36,6 +36,22 @@ public class SignUpPageViewModel {
 		this.isSignedUp = false;
 		this.client = Client.getInstance();
 	}
+	/**
+	 * A constructor used for testing purposes as to not create a new client 
+	 * before setting the appropriate port
+	 * @param test used to signify a test constructor
+	 */
+	
+	public SignUpPageViewModel(String test) {
+		if (ACCOUNTS.isEmpty()) {
+			ACCOUNTS.add(new Account("user", "pass123"));
+		}
+		
+		this.usernameProperty = new SimpleStringProperty();
+		this.passwordProperty = new SimpleStringProperty();
+		this.passwordConfirmProperty = new SimpleStringProperty();
+		this.isSignedUp = false;
+	}
 	
 	/**
 	 * Gets the user name property.
@@ -97,6 +113,15 @@ public class SignUpPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
+		
+	}
+	
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	public Client getClient() {
+		return this.client;
 	}
 	
 	/**
@@ -120,7 +145,6 @@ public class SignUpPageViewModel {
 		this.isSignedUp = true;
 		ACCOUNTS.add(newAccount);
 		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
-		// Temporary exit until further implementation
-		//this.client.makeRequest(Requests.exit);
+		
 	}
 }

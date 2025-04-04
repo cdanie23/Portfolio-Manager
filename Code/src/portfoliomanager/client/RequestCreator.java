@@ -13,12 +13,15 @@ public class RequestCreator {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
-
+	public static final String NAME = "name";
+	public static final String AMOUNT = "amount";
+	public static final String AUTH = "auth";
 	/**
 	 * Creates a request 
 	 * @param requestMade the request to be created
 	 * @return the request created
 	 */
+	
 	public Map<String, String> createRequest(Requests requestMade) {
 		Map<String, String> request = new HashMap<String, String>();
 		request.put(TYPE, requestMade.toString());
@@ -47,4 +50,21 @@ public class RequestCreator {
         
         return request;
     }
+	/**
+	 * Creates a request for a holding of an authorized account
+	 * @param requestMade type of request 
+	 * @param crypto type of crypto
+	 * @param amount the amount of crypto
+	 * @param auth the authorization token used
+	 * @return a request for the client to send to the server
+	 */
+	
+	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String auth) {
+		Map<String, String> request = new HashMap<>();
+		request.put(TYPE, requestMade.toString());
+		request.put(NAME, crypto.toString());
+		request.put(AMOUNT, String.valueOf(amount));
+		request.put(AUTH, auth);
+		return request;
+	}
 }
