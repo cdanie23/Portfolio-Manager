@@ -75,6 +75,19 @@ class RequestHandler:
 
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     
+    def handleLogout(self, request):
+        token = request.get(constants.KEY_TOKEN)
+        
+        if not token or token not in self._tokens:
+            return {
+                constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE: "Invalid or missing token"
+            }
+        
+        del self._tokens[token]
+
+        return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
+    
     def handleRequest(self, request):
         response = {constants.KEY_STATUS: constants.UNSUPPORTED_OPERATION_STATUS,
                    constants.KEY_FAILURE_MESSAGE: "Unsupported request type"}
@@ -89,5 +102,7 @@ class RequestHandler:
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)
+        elif(request_type == constants.GET_LOGOUT):
+            response = self.handleLogout(request)
             
         return response

@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -32,11 +33,11 @@ public class LandingPageViewModel {
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
 	private Client client;
+	
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
 	 */
-	
 	public LandingPageViewModel() {
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
@@ -55,20 +56,20 @@ public class LandingPageViewModel {
 		this.holdings = this.user.getHoldings();
 		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
-	}
+		}
+	
 	/**
 	 * Gets the portfolio name property
 	 * @return the portfolio name property
 	 */
-	
 	public StringProperty getPortfolioNameProperty() {
 		return this.portfolioNameProperty;
 	}
+	
 	/**
 	 * Gets the welcome label property
 	 * @return the welcome label property
 	 */
-	
 	public StringProperty getWelcomeLabelProperty() {
 		return this.welcomeLabelProperty;
 	}
@@ -77,7 +78,6 @@ public class LandingPageViewModel {
 	 * Gets the funds available 
 	 * @return the string property of the funds available
 	 */
-	
 	public StringProperty getFundsAvailabe() {
 		return this.fundsAvailable;
 	}
@@ -132,21 +132,37 @@ public class LandingPageViewModel {
 	 */
 	public ListProperty<Crypto> getCryptoListProperty() {
 		this.readCryptoList();
+		
 		return this.cryptoListProperty;
 	}
 	
+	/**
+	 * Reads the crypto list.
+	 */
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 	}
+	
 	/**
 	 * Gets if the user is logged in 
 	 * @return if user is logged in 
 	 */
-	
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
+	}
+	
+	/**
+	 * Handles the ZMQ logout request
+	 */
+	public void handleLogout() {
+		String token = this.client.getToken();
+		
+		if (token != null) {
+			this.client.makeLogoutRequest(Requests.logout, token);
+			this.client.setToken("");
+	    }
 	}
 	
 	/**

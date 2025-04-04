@@ -1,7 +1,7 @@
 package portfoliomanager.viewmodel;
 
 import java.util.List;
-
+import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -77,29 +77,6 @@ public class LoginPageViewModel {
 	public ObjectProperty<Boolean> getLoginStatus() {
 		return this.isLoggedIn;
 	}
-	
-	/**
-	 * Verifies the login information for the account.
-	 */
-	public void verifyLogin() {
-		String username = this.usernameProperty.get();
-		String password = this.passwordProperty.get();
-		
-		List<Account> accounts = SignUpPageViewModel.getAccounts();
-		
-		for (Account account : accounts) {
-	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
-	        	this.isLoggedIn.setValue(true);
-	        	this.user = new Account(username, password);
-	        	this.client.makeAuthRequest(Requests.login, username, password, null);
-	        	// Temporary exit until further implementation
-	    					// this.client.makeRequest(Requests.exit);
-	        	return;
-	        }
-		}
-		
-		throw new IllegalArgumentException("Username or password are incorrect.");
-	}
 
 	/**
 	 * Gets the user
@@ -123,5 +100,33 @@ public class LoginPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
+	}
+	
+	/**
+	 * Verifies the login information for the account.
+	 */
+	public void verifyLogin() {
+		String username = this.usernameProperty.get();
+		String password = this.passwordProperty.get();
+		
+		List<Account> accounts = SignUpPageViewModel.getAccounts();
+		
+		for (Account account : accounts) {
+	        if (account.getUserName().trim().equalsIgnoreCase(username.trim()) && account.getPassword().trim().equals(password.trim())) {
+	        	this.isLoggedIn.setValue(true);
+	        	this.user = new Account(username, password);
+	        	
+	        	this.client.makeAuthRequest(Requests.login, username, password, null);
+	        	Map<String, Object> response = this.client.getResponse();
+	        	
+	        	if (response.get("success code") instanceof Integer && (Integer) response.get("success code") == 1) {
+	        		this.client.setToken((String) response.get("token"));
+	        	}
+	        	
+	        	return;
+	        }
+		}
+		
+		throw new IllegalArgumentException("Username or password are incorrect.");
 	}
 }

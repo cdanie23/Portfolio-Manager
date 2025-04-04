@@ -13,6 +13,7 @@ public class RequestCreator {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
+	public static final String TOKEN = "token";
 
 	/**
 	 * Creates a request 
@@ -44,6 +45,22 @@ public class RequestCreator {
         if (confirmPassword != null) {
             request.put(CONFIRM_PASSWORD, confirmPassword);
         }
+        
+        return request;
+    }
+	
+	/**
+	 * Creates the logout request.
+	 *
+	 * @param requestMade the request to be created
+	 * @param token the token to be used
+	 * 
+	 * @return the request created
+	 */
+	public Map<String, String> createLogoutRequest(Requests requestMade, String token) {
+        Map<String, String> request = new HashMap<>();
+        request.put(TYPE, requestMade.toString());
+        request.put(TOKEN, token);
         
         return request;
     }

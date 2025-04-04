@@ -2,6 +2,7 @@ package portfoliomanager.viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
@@ -119,8 +120,14 @@ public class SignUpPageViewModel {
 		Account newAccount = new Account(username, password);
 		this.isSignedUp = true;
 		ACCOUNTS.add(newAccount);
+		
 		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
-		// Temporary exit until further implementation
-		//this.client.makeRequest(Requests.exit);
+		Map<String, Object> response = this.client.getResponse();
+    	
+    	if (response.get("success code") instanceof Integer && (Integer) response.get("success code") == 1) {
+    		this.client.setToken((String) response.get("token"));
+    	}
+    	
+    	return;
 	}
 }
