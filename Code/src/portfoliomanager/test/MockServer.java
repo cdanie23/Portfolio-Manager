@@ -11,7 +11,7 @@ public class MockServer {
 	private ZMQ.Context context;
 	private ZMQ.Socket socket;
 
-	public  void mockServer(String bindingPort) {
+	public void mockServer(String bindingPort) {
 		this.context = ZMQ.context(1);
 		this.socket = this.context.socket(ZMQ.REP);
 		this.socket.bind(bindingPort);

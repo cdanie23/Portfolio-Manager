@@ -59,6 +59,30 @@ public class LandingPageViewModel {
 		}
 	
 	/**
+	 * Used for testing purposes as to not create a new instance of the client
+	 * without setting the appropriate testing port
+	 * @param test used to express it is a testing constructor
+	 */
+	
+	public LandingPageViewModel(String test) {
+		this.welcomeLabelProperty = new SimpleStringProperty();
+		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
+		this.portfolioNameProperty = new SimpleStringProperty();
+		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
+		this.isLoggedIn.setValue(false);
+		//TODO get the data from the client instead
+		this.dataReader = null;
+		this.cryptoListProperty = null;
+		this.fundsAvailable = new SimpleStringProperty();
+		// Prepopulated for now since we don't have server
+		this.user = new Account("user", "pass123");
+		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
+		this.user.addHolding(userHolding);
+		this.holdings = this.user.getHoldings();
+		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+	}
+	/**
 	 * Gets the portfolio name property
 	 * @return the portfolio name property
 	 */
@@ -175,5 +199,13 @@ public class LandingPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
 	}
 }

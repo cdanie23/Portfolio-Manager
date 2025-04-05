@@ -6,45 +6,46 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
-@TestInstance(Lifecycle.PER_CLASS)
 public class TestSignUpPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private SignUpPageViewModel page;
-	private Thread serverThread;
-	private MockServer mockServer;
-	private String port;
-	
+	private static Thread serverThread;
+	private static MockServer mockServer;
+	private static String port;
+	private static Client client;
 	@BeforeAll
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			this.port = "5560";
-			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
+			port = "5557";
+			mockServer = new MockServer();
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (ZMQException e){
 			throw new IllegalArgumentException("Address in use but test cases continue");
 		}
-		
 	}
-	
 	@BeforeEach
-	public void setUp() {
-		this.page = new SignUpPageViewModel();
-		this.page.setClient(this.port);
+	void setup() {
+		this.page = new SignUpPageViewModel("test");
+		this.page.setClient(port);
+		client = this.page.getClient();
 	}
 	
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		client.resetClient();
+		serverThread.interrupt();
 	}
 	
 	@Test
@@ -88,6 +89,6 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testNotSignedIn() {
-		assertFalse(this.page.getSignedUpStatus());
+		assertFalse(page.getSignedUpStatus());
 	}
  }

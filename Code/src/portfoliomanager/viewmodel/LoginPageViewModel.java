@@ -27,18 +27,35 @@ public class LoginPageViewModel {
 	 * @param isLoggedIn the login status of the user
 	 * @param user that logs in to the system
 	 */
-	
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, Account user) {
 		if (SignUpPageViewModel.getAccounts().isEmpty()) {
             new SignUpPageViewModel();
         }
+
 		this.user = user;
 		this.isLoggedIn = isLoggedIn;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.client = Client.getInstance();
 	}
-	
+
+	/**
+	 * Used for testing purposes
+	 * @param isLoggedIn status of user being logged in 
+	 * @param user the user 
+	 * @param test used to express this is a testing constructor 
+	 */
+	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, Account user, String test) {
+		if (SignUpPageViewModel.getAccounts().isEmpty()) {
+            new SignUpPageViewModel("test");
+        }
+		
+		this.user = user;
+		this.isLoggedIn = isLoggedIn;
+		this.usernameProperty = new SimpleStringProperty();
+		this.passwordProperty = new SimpleStringProperty();
+	}
+
 	/**
 	 * Gets the user name property.
 	 *
@@ -100,6 +117,14 @@ public class LoginPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
+	}
+
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	public Client getClient() {
+		return this.client;
 	}
 	
 	/**
