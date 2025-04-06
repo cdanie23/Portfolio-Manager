@@ -1,16 +1,20 @@
 package portfoliomanager.test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
 
+import portfoliomanager.model.Account;
+
 public class MockServer {
 	private ZMQ.Context context;
 	private ZMQ.Socket socket;
-
+	public static List<Account> ACCOUNTS = new ArrayList<>(List.of(new Account("user", "pass123", "$123")));
 	public void mockServer(String bindingPort) {
 		this.context = ZMQ.context(1);
 		this.socket = this.context.socket(ZMQ.REP);

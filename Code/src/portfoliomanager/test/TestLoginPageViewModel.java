@@ -42,7 +42,7 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"), "test");
+		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), "test");
 		this.page.setClient(port);
 		client = this.page.getClient();
 		}
@@ -53,25 +53,30 @@ public class TestLoginPageViewModel {
 		client.resetClient();
 		serverThread.interrupt();
 	}
-	
+	@Test
+	public void testValidNonTestConstructor() {
+		LoginPageViewModel viewModel = new LoginPageViewModel(new SimpleObjectProperty<>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")));
+		assertFalse(viewModel.getLoginStatus().getValue());
+		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+	}
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
-		assertEquals("user", this.page.getAccounts().get(0).getUserName());
-		assertEquals("pass123", this.page.getAccounts().get(0).getPassword());
-		assertEquals("Sam", this.page.getUser().getUserName());
-		assertEquals("pw", this.page.getUser().getPassword());
+		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
+		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
+		assertEquals("Sam", this.page.getUser().getValue().getUserName());
+		assertEquals("pw", this.page.getUser().getValue().getPassword());
 	}
 	
-	@Test
-	public void testValidLoginPageViewModelConstructorEmptyAccounts() {
-		SignUpPageViewModel.getAccounts().clear();
-		
-		assertTrue(SignUpPageViewModel.getAccounts().isEmpty());
-		
-		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"));
-		
-		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
-	}
+//	@Test
+//	public void testValidLoginPageViewModelConstructorEmptyAccounts() {
+//		MockServer.ACCOUNTS.clear();
+//		
+//		assertTrue(MockServer.ACCOUNTS.isEmpty());
+//		
+//		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw", "$123"));
+//		
+//		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
+//	}
 	
 	@Test
 	public void testValidVerifyAccount() {

@@ -11,7 +11,7 @@ import java.util.List;
 public class Account {
 	private String username;
 	private String password;
-
+	private String auth;
 	private List<Holding> holdings;
 	private double fundsAvailable;
 	
@@ -20,12 +20,13 @@ public class Account {
 	 *
 	 * @param username the username
 	 * @param password the password
+	 * @auth the auth token the user was given
 	 */
-	public Account(String username, String password) {
-		if (username.isBlank() || password.isBlank()) {
+	public Account(String username, String password, String auth) {
+		if (username.isBlank() || password.isBlank() || auth.isBlank()) {
 			throw new IllegalArgumentException("Username or password don't meet specified requirements.");
 		}
-		
+		this.auth = auth;
 		this.username = username;
 		this.password = password;
 		this.holdings = new ArrayList<Holding>();
@@ -119,6 +120,26 @@ public class Account {
 	
 	public void setFundsAvailable(double amount) {
 		this.fundsAvailable = amount;
+	}
+	
+	/**
+	 * Gets the accounts auth token
+	 * @return the auth token
+	 */
+	public String getAuth() {
+		return this.auth;
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		Account other = (Account) object;
+		boolean equal = false;
+		if (this.username.equals(other.getUserName())) {
+			if (this.auth.equalsIgnoreCase(other.getAuth())) {
+				equal = true;
+			}
+		}
+		return equal;
 	}
 
 }
