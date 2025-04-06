@@ -2,6 +2,7 @@ package portfoliomanager.viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import portfoliomanager.client.Client;
 import portfoliomanager.model.Account;
 
 /**
@@ -14,6 +15,7 @@ public class AddFundsViewModel {
 	private StringProperty amountProperty;
 	private Account user;
 	private StringProperty fundsAvailable;
+	private Client client;
 	
 	/**
 	 * Instantiates viewmodel object
@@ -25,6 +27,7 @@ public class AddFundsViewModel {
 		this.amountProperty = new SimpleStringProperty();
 		this.user = user;
 		this.fundsAvailable = fundsAvailable;
+		this.client = Client.getInstance();
 	}
 	
 	/**

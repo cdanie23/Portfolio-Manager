@@ -12,9 +12,8 @@ class RequestHandler:
         account = Account("user", "pass123")
         self._cryptos = {}
         self._users = [account]
-           
-        
         self._tokens = {}
+        
     def makeAccount(self, username, password):
         account = Account(username, password)
         self._users.append(account)

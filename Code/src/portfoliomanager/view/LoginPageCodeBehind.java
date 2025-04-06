@@ -44,8 +44,8 @@ public class LoginPageCodeBehind implements Initializable {
 	
     @FXML
     private LandingPageCodeBehind view;
-    private boolean isLoggedIn;
-	private LoginPageViewModel account;
+   
+	private LoginPageViewModel viewModel;
 	private SignUpPageCodeBehind signUpPageCodeBehind;
 	
 	@Override
@@ -53,7 +53,6 @@ public class LoginPageCodeBehind implements Initializable {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
         this.logoImageView.setImage(image);
         this.signUpPageCodeBehind = null;
-        this.isLoggedIn = false;
 	}
 
 	/**
@@ -66,20 +65,20 @@ public class LoginPageCodeBehind implements Initializable {
 	 * @param user the user that logged in the system
 	 */
 
-	public void setData(ObjectProperty<Boolean> isLoggedIn, Account user) {
-		this.account = new LoginPageViewModel(isLoggedIn, user);
+	public void setData(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
+		this.viewModel = new LoginPageViewModel(isLoggedIn, user);
 		this.bindDataElements();
 	}
 
 	@FXML
 	private void handleLogin() {
 		try {
-			this.account.verifyLogin();
-			this.isLoggedIn = this.account.getLoginStatus().get();
+			this.viewModel.verifyLogin();
+	
 		} catch (Exception exception) {
 			this.showAlert("Error", exception.getMessage());
 		}
-		if (this.isLoggedIn) {
+		if (this.viewModel.getLoginStatus().getValue()) {
 			Stage stage = (Stage) this.loginButton.getScene().getWindow();
 			this.enableAccountOptions();
 			Event.fireEvent(stage, new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
@@ -94,7 +93,7 @@ public class LoginPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
 			Pane root = loader.load();
 			this.signUpPageCodeBehind = loader.getController();
-			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view);
+			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view, this.viewModel.getUser(), this.viewModel.getLoginStatus());
 			Scene scene = new Scene(root, 376, 531);
 			currentStage.setScene(scene);
 			currentStage.show();
@@ -112,8 +111,8 @@ public class LoginPageCodeBehind implements Initializable {
 	}
 
 	private void bindDataElements() {
-		this.account.getUserNameProperty().bindBidirectional(this.usernameField.textProperty());
-		this.account.getPasswordProperty().bind(this.passwordField.textProperty());
+		this.viewModel.getUserNameProperty().bindBidirectional(this.usernameField.textProperty());
+		this.viewModel.getPasswordProperty().bind(this.passwordField.textProperty());
 	}
     
     private void enableAccountOptions() {

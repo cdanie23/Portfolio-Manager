@@ -117,13 +117,10 @@ class TestCrypto {
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
 		HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
-		historicalData.put(today, new BigDecimal(100));
-		historicalData.put(yesterday, new BigDecimal(80));
+		historicalData.put(today, new BigDecimal(80));
+		historicalData.put(yesterday, new BigDecimal(100));
 		btc.setHistoricalPrices(historicalData);
-		if (btc.didOneDayPriceDecrease()) {
-			assertTrue(btc.didOneDayPriceDecrease());
-		}
-		assertFalse(btc.didOneDayPriceDecrease());
+		assertTrue(btc.didOneDayPriceDecrease());
 	}
 	@Test
 	void testToString() {

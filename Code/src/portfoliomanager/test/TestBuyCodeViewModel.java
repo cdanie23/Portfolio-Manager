@@ -30,7 +30,7 @@ class TestBuyCodeViewModel {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new Account("testuser", "pass@word");
+		this.user = new Account("testuser", "pass@word", "$123");
 		Crypto crypto = new Crypto("a", 9.1);
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.fundsAvailableProperty = new SimpleStringProperty();

@@ -2,6 +2,8 @@ package portfoliomanager.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -10,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
@@ -36,26 +39,22 @@ public class SignUpPageCodeBehind  implements Initializable {
     
     @FXML
     private LandingPageCodeBehind view;
-    private boolean isSignedUp;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
         this.logoImageView.setImage(image);
-        this.addAccount = new SignUpPageViewModel();
-        this.bindDataElements();
-        this.isSignedUp = false;
+        
 	}
     
     @FXML
     private void handleSignUp() {
     	try {
     		this.addAccount.createAccount();
-    		this.isSignedUp = this.addAccount.getSignedUpStatus();
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
-    	if (this.isSignedUp) {
+    	if (this.addAccount.getSignedUpStatus()) {
     		Stage stage = (Stage) this.signUpButton.getScene().getWindow();
     		this.enableAccountOptions();
     		stage.close();
@@ -66,6 +65,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     	this.view.enableLogOutButtons();
     	this.view.enableTransactionAbility();
     	this.view.disableLogInButton();
+    	this.view.updateNameLabels();
     }
     
     private void showAlert(String title, String message) {
@@ -85,8 +85,12 @@ public class SignUpPageCodeBehind  implements Initializable {
     /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind
      * @precondition nothing
      * @param view the view
+     * @param user the user 
      */
-    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
     	this.view = view;
+    	this.addAccount = new SignUpPageViewModel(user, isSignedUp);
+    	this.bindDataElements();
+  
     }
 }

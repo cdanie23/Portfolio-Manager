@@ -47,10 +47,15 @@ class TestLandingPageViewModel {
 		serverThread.interrupt();
 	}
 	
-	
+	@Test
+	void testValidConstructor() {
+		LandingPageViewModel viewModel = new LandingPageViewModel();
+		assertEquals(viewModel.getUser().getValue(), null);
+		assertFalse(viewModel.getIsLoggedIn().getValue());
+	}
 	@Test
 	void testGetCryptoCollection() {
-		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
+		assertTrue(!this.viewModel.getCryptoListProperty().getValue().isEmpty());
 	}
 	@Test
 	void testGetFundsAvailabe() {
@@ -62,18 +67,18 @@ class TestLandingPageViewModel {
 	
 	@Test
 	void testGetCryptoHoldings() {
-		assertTrue(!this.viewModel.getCryptoHoldings().isEmpty());
+		assertTrue(this.viewModel.getCryptoHoldings().isEmpty());
 	}
 	
 	@Test
 	void testGetHoldingsProperty() {
-		assertTrue(!this.viewModel.getHoldingsProperty().get().isEmpty());
+		assertTrue(this.viewModel.getHoldingsProperty().getValue().isEmpty());
 	}
 	@Test
 	void testGetUser() {
-		Account expectedUser = this.viewModel.getUser();
+		Account expectedUser = this.viewModel.getUser().getValue();
 		
-		assertEquals(expectedUser, this.viewModel.getUser());
+		assertEquals(expectedUser, this.viewModel.getUser().getValue());
 	}
 	@Test
 	void testUpdateForAuthenticatedUser() {
@@ -81,7 +86,7 @@ class TestLandingPageViewModel {
 		this.viewModel.updateForAuthenticatedUser();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
-		assertEquals(welcomeText, "Welcome back,"+ this.viewModel.getUser().getUserName());
+		assertEquals(welcomeText, "Welcome back, "+ this.viewModel.getUser().getValue().getUserName());
 	}
 	
 	@Test
@@ -96,7 +101,7 @@ class TestLandingPageViewModel {
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);
 		this.viewModel.updateForAuthenticatedUser();
-		String expectedPortfolioLabel = "user's Portfolio";
+		String expectedPortfolioLabel = "testUser's Portfolio";
 		String actual = this.viewModel.getPortfolioNameProperty().getValue();
 		
 		assertEquals(expectedPortfolioLabel, actual);

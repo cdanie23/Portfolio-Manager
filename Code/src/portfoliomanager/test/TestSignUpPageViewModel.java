@@ -12,8 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.zeromq.ZMQException;
 
+import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 public class TestSignUpPageViewModel {
@@ -50,10 +52,16 @@ public class TestSignUpPageViewModel {
 	
 	@Test
 	public void testValidSignUpPageViewModelConstructor() {
-		assertEquals("user", SignUpPageViewModel.getAccounts().get(0).getUserName());
-		assertEquals("pass123", SignUpPageViewModel.getAccounts().get(0).getPassword());
+		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
+		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
+		assertEquals("$123", MockServer.ACCOUNTS.get(0).getAuth());
 	}
-	
+	@Test
+	public void testValidConstructor() {
+		SignUpPageViewModel viewModel = new SignUpPageViewModel(new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), new SimpleObjectProperty<Boolean>(false));
+		assertFalse(viewModel.getSignedUpStatus());
+		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+	}
 	@Test
 	public void testCreateAccount()
 	{
@@ -62,9 +70,9 @@ public class TestSignUpPageViewModel {
 		this.page.getPasswordConfirmProperty().set("testPassword123");
 		this.page.createAccount();
 		
-		assertAll(()-> assertEquals(2, SignUpPageViewModel.getAccounts().size()),
-				()-> assertEquals("testuser", SignUpPageViewModel.getAccounts().get(1).getUserName()),
-				()-> assertEquals("testPassword123", SignUpPageViewModel.getAccounts().get(1).getPassword()));
+		assertAll(()-> assertEquals(2, MockServer.ACCOUNTS.size()),
+				()-> assertEquals("testuser", MockServer.ACCOUNTS.get(1).getUserName()),
+				()-> assertEquals("testPassword123", MockServer.ACCOUNTS.get(1).getPassword()));
 	}
 	
 	@Test

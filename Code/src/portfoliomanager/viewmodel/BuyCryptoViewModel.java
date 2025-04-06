@@ -17,6 +17,8 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import portfoliomanager.client.Client;
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -36,6 +38,7 @@ public class BuyCryptoViewModel {
 	private StringProperty fundsAvailableProperty;
 	private ListProperty<Crypto> cryptoList;
 	private Series<String, Double> lineChartSeriesProperty;
+	private Client client;
 	
 	/**
 	 * Instantiates a new buy crypto view model class
@@ -57,6 +60,7 @@ public class BuyCryptoViewModel {
 		this.fundsAvailableProperty = fundsAvailable;
 		this.cryptoList = new SimpleListProperty<Crypto>(cryptoList);
 		this.lineChartSeriesProperty = new Series<>();
+		this.client = Client.getInstance();
 	}
 	
 	/**
@@ -174,7 +178,7 @@ public class BuyCryptoViewModel {
 		System.out.println("Added holding");
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-		this.fundsAvailableProperty.setValue("$: " + this.user.getFundsAvailable());
+		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
 	}
 	
 	/**
