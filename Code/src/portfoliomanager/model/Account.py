@@ -56,3 +56,7 @@ class Account:
 
     def set_funds_available(self, amount: float):
         self.funds_available = amount
+    def __eq__(self, other):
+        if isinstance(other, Account):
+            return self.username == other.username
+        return False

@@ -118,15 +118,23 @@ public class LandingPageViewModel {
 	public void updateForAuthenticatedUser() {
 		if (this.isLoggedIn.getValue()) {
 			this.updateWelcomeLabels();
+			this.updateUserProperties();
 		}
 	}
 	
-	/**
-	 * Updates labels after logging in
-	 */
+	private void updateUserProperties() {
+		//TODO make it so whenever you login/signup it sends a request to the server to retrieve the users's holdings and the funds available
+		
+	}
+	
 	private void updateWelcomeLabels() {
+		if (this.user.getValue() != null) {
 		this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
 		this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
+		} else {
+			this.welcomeLabelProperty.setValue("Welcome to Crypto Vault "); 
+			this.portfolioNameProperty.setValue("'s Portfolio");
+		}
 	}
 	
 	/**
@@ -195,5 +203,18 @@ public class LandingPageViewModel {
 	
 	public Client getClient() {
 		return this.client;
+	}
+	/**
+	 * Handles whenever a user logs out
+	 * @pre must be logged in 
+	 * @post this.isLoggedIn.getValue() == false,
+	 * 		 this.user.getValue() == null,
+	 * 		 the welcome labels are set back to their default value
+	 */
+	
+	public void handleLogOut() {
+		this.isLoggedIn.setValue(false);
+		this.user.setValue(null);
+		this.updateWelcomeLabels();
 	}
 }

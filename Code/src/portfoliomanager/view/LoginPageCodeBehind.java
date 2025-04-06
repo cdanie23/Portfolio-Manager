@@ -119,6 +119,7 @@ public class LoginPageCodeBehind implements Initializable {
     	this.view.enableLogOutButtons();
     	this.view.enableTransactionAbility();
     	this.view.disableLogInButton();
+    	//TODO make it update the holdings and funds available properties
     }
     
     /** Sets the LogInPageCodeBehind's LandingPageCodeBehind

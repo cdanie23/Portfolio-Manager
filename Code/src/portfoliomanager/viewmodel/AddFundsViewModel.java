@@ -62,11 +62,10 @@ public class AddFundsViewModel {
 			String errorMsg = (String) response.get("error description");
 			throw new UnsupportedOperationException(errorMsg);
 		}
-		//TODO logout button does not update user labels
-		//TODO buy button does not get enabled whenever you log in 
+		
 		newFunds += this.user.getFundsAvailable();
 		this.user.setFundsAvailable(newFunds);
-		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());
+		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}
 	
 	/**

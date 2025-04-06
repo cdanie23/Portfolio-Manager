@@ -135,6 +135,7 @@ public class LandingPageCodeBehind implements Initializable {
 	public void enableTransactionAbility() {
 		this.portfolioTabPage.setDisable(false);
 		this.buyCryptoButton.setVisible(true);
+		this.buyCryptoButton.setDisable(false);
 	}
 	
 	/**
@@ -217,6 +218,8 @@ public class LandingPageCodeBehind implements Initializable {
 		this.disableLogOutButtons();
 		this.disableTransactionAbility();
 		this.enableLogInButton();
+		this.viewModel.handleLogOut();
+		this.disableTransactionAbility();
 	}
 
 	@FXML

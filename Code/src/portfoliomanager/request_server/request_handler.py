@@ -13,7 +13,7 @@ class RequestHandler:
         account = Account("user", "pass123")
         self._cryptos = {}
         self._users = [account]
-        self._tokens = {"$123" : account}
+        self._tokens = {}
         
     def makeAccount(self, username, password):
         account = Account(username, password)
@@ -66,7 +66,7 @@ class RequestHandler:
         amount = request[constants.KEY_AMOUNT]
         cryptoName = request[constants.KEY_NAME]
         
-        account = self.findAccount(auth)
+        account = self.findAccountByAuth(auth)
         if (not account):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
@@ -80,25 +80,31 @@ class RequestHandler:
             constants.KEY_TOKEN : auth
             }
         return response
-    def findAccount(self, auth):
+    def findAccountByAuth(self, auth):
         for token in self._tokens:
             if(token == auth):
                 account = self._tokens[token]
                 break
         return account
+    def findAccountByName(self, username, pw):
+        for account in self._users:
+            if (account == Account(username, pw)):
+                return account
     def handleAddFunds(self, request):
         auth = request[constants.KEY_TOKEN]
         amount = request[constants.KEY_AMOUNT]
-        account = self.findAccount(auth)
+        account = self.findAccountByAuth(auth)
         if (not account):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE : "account with token not found"
                 }
             return response
+        
         account.funds_available += float(amount)
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
-                constants.KEY_TOKEN : auth}
+                constants.KEY_TOKEN : auth,
+                constants.KEY_FUNDS : account.funds_available}
     def handleLogin(self, request):
         username = request.get(constants.KEY_USERNAME)
         password = request.get(constants.KEY_PASSWORD)
@@ -116,7 +122,7 @@ class RequestHandler:
             }
             
         token = str(uuid.uuid4())
-        self._tokens[token] = username
+        self._tokens[token] = self.findAccountByName(username, password)
 
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     

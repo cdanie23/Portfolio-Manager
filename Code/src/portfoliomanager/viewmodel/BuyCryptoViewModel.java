@@ -182,12 +182,10 @@ public class BuyCryptoViewModel {
 			throw new UnsupportedOperationException(errorMsg);
 		}
 		this.user.addHolding(holding);
-		System.out.println("Added holding");
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
-		
-		
+		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
+	
 	}
 	
 	/**
