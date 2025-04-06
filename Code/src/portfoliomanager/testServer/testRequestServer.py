@@ -110,7 +110,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleSignUpDuplicateUser(self):
         signupRequest = {
             constants.KEY_REQUEST_TYPE: "signUp",
-            "username": "user",
+            "username": "user1",
             "password": "pass123",
             "confirmPassword": "pass123"
         }
@@ -118,7 +118,7 @@ class TestRequestServer(unittest.TestCase):
 
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
-
+        
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Checking signUp failure with incorrect credentials")
     
     def testHandleLogin(self):
@@ -159,6 +159,41 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
 
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Checking login failure with incorrect credentials")
+        
+    def testHandleLogout(self):
+        signupRequest = {
+            constants.KEY_REQUEST_TYPE: "signUp",
+            "username": "user1",
+            "password": "pass123",
+            "confirmPassword": "pass123"
+        }
+        self._socket.send_string(json.dumps(signupRequest))
+
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        token = response.get(constants.KEY_TOKEN)
+        
+        logoutRequest = {
+            constants.KEY_REQUEST_TYPE: "logout",
+            "token": token
+        }
+        self._socket.send_string(json.dumps(logoutRequest))
+        
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        
+        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout should succeed")
+        
+    def testHandleLogoutInvalidToken(self):
+        logoutRequest = {
+            constants.KEY_REQUEST_TYPE: "logout",
+            constants.KEY_TOKEN: "12345"
+        }
+        self._socket.send_string(json.dumps(logoutRequest))
+        jsonResponse =  self._socket.recv_string()
+        response = json.loads(jsonResponse)
+
+        self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout with invalid token should fail")
         
 if __name__ == "__main__":
     unittest.main()

@@ -70,7 +70,7 @@ class TestBuyCodeViewModel {
 		()-> assertEquals(954.5, this.vm.getUser().getFundsAvailable()),
 		()-> assertTrue(!this.vm.getHoldingsProperty().get().isEmpty()),
 		()-> assertFalse(this.vm.getHoldingsProperty().get().isEmpty()),
-		()-> assertEquals("$: 954.5", this.vm.getFundsAvailableProperty().get()));
+		()-> assertEquals("Funds Available $: 954.5", this.vm.getFundsAvailableProperty().get()));
 	}
 	
 	@Test

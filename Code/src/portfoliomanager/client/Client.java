@@ -72,6 +72,7 @@ public final class Client extends Thread {
 	    this.request = this.requestCreator.createAuthRequest(request, username, password, confirmPassword);
 	    this.sendRequest();
 	}
+	
 	/**
 	 * Makes a request to the server to modify a holding
 	 * @param crypto the type of crypto the holding is
@@ -79,11 +80,11 @@ public final class Client extends Thread {
 	 * @param auth the authorization used 
 	 * @post this.request == the appropriate request to send to the server
 	 */
-	
 	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
 		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
 		this.sendRequest();
 	}
+	
 	/**
 	 * Make a logout request to the server.
 	 *
@@ -199,23 +200,24 @@ public final class Client extends Thread {
 		if (Holder.client != null) {
 			return Holder.client;
 		}
+		
+		return new Client();
 	}
 	
 	/**
 	 * Gets the serverPort
 	 * @return the serverPort
+	 */
 	public String getPort() {
 		return Client.serverPort;
 	}
+	
 	/**
 	 * Sets the client back to null mainly for testing purposes
 	 * @pre Client != null
 	 * @post Client == null
 	 */
-	
 	public void resetClient() {
 		Holder.client = null;
 	}
-	
 }
-

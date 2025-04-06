@@ -80,6 +80,20 @@ class TestClient {
 			client.makeAuthRequest(Requests.login, "user", null, null);
 		});
 	}
+	
+	@Test
+	void testNullLogoutRequest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			client.makeLogoutRequest(null, "");
+		});
+	}
+	
+	@Test
+	void testNullLogoutRequestNullToken() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			client.makeLogoutRequest(Requests.logout, null);
+		});
+	}
 
 	@Test
 	void testGetBtcPriceRequest() {
@@ -109,6 +123,16 @@ class TestClient {
 		assertAll(() -> assertEquals(1, response.get("success code")), () -> assertTrue(response.containsKey("token")));
 	}
 	
+	@Test
+	void testHandleLogout() {
+		client.makeAuthRequest(Requests.signUp, "user1", "pass123", "pass123");
+		Map<String, Object> response = client.getResponse();
+		
+		client.makeLogoutRequest(Requests.logout, (String) response.get("token"));
+		Map<String, Object> response2 = client.getResponse();
+		
+		assertAll(() -> assertEquals(1, response2.get("success code")), () -> assertEquals(client.getToken(), response2.get("token")));
+	}
 	
 	@Test
 	void testNullCustomPort() {

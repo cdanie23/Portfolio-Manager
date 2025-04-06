@@ -57,7 +57,7 @@ public class RequestCreator {
 	 * Creates the logout request.
 	 *
 	 * @param requestMade the request to be created
-	 * @param token the token to be used
+	 * @param authtoken the token to be used
 	 * 
 	 * @return the request created
 	 */
@@ -74,10 +74,9 @@ public class RequestCreator {
 	 * @param requestMade type of request 
 	 * @param crypto type of crypto
 	 * @param amount the amount of crypto
-	 * @param auth the authorization token used
+	 * @param authtoken the authorization token used
 	 * @return a request for the client to send to the server
 	 */
-	
 	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());

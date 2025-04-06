@@ -1,7 +1,5 @@
 package portfoliomanager.viewmodel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,6 +27,7 @@ public class SignUpPageViewModel {
 	/**
 	 * Instantiates a new sign up page view model
 	 * @param user the user
+	 * @param isSignedUp the isSignedUp bool check
 	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
 	 * 		 this.isSignedUp == false, this.Client != null 
 	 */
@@ -89,7 +88,6 @@ public class SignUpPageViewModel {
 		return this.passwordConfirmProperty;
 	}
 	
-	
 	/**
 	 * Returns the signed up status of the account
 	 * @return this.isSignedUp
@@ -146,15 +144,6 @@ public class SignUpPageViewModel {
 		}
 		MockServer.ACCOUNTS.add(account);
 		this.user.setValue(account);
-		
-		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
-		Map<String, Object> response = this.client.getResponse();
-    	
-    	if (response.get("success code") instanceof Integer && (Integer) response.get("success code") == 1) {
-    		this.client.setToken((String) response.get("token"));
-    	}
-    	
-    	return;
 	}
 
 	/**

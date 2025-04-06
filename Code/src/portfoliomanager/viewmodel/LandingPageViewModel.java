@@ -77,7 +77,7 @@ public class LandingPageViewModel {
 		this.holdingsProperty = new SimpleListProperty<Holding>();
 		this.holdingsProperty.setValue(FXCollections.observableList(this.holdings));
 		this.user = new SimpleObjectProperty<Account>(new Account("testUser", "testPass", "$123"));
-		this.fundsAvailable.setValue("$0.0");
+		this.fundsAvailable.setValue("$: 0.0");
 		// Prepopulated for now since we don't have server
 		//this.user = new Account("user", "pass123");
 		//Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);

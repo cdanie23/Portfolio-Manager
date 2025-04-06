@@ -1,6 +1,5 @@
 package portfoliomanager.viewmodel;
 
-import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -69,7 +68,6 @@ public class LoginPageViewModel {
 	public StringProperty getPasswordProperty() {
 		return this.passwordProperty;
 	}
-	
 	
 	/**
 	 * Gets the status of the login state.
