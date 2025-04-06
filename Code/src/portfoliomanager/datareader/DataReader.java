@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
@@ -41,7 +42,7 @@ public class DataReader {
 		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
 		this.client.makeRequest(Requests.btcPrice);
 		Object price = this.client.getResponse().get("Price");
-		Crypto crypto = new Crypto("BTC-USD", Double.parseDouble(price.toString()));
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, Double.parseDouble(price.toString()));
 		this.cryptos.addCrypto(crypto);
 		crypto.setHistoricalPrices(prices);
 		//this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.

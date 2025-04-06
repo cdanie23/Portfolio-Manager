@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleStringProperty;
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 import portfoliomanager.viewmodel.SellPageViewModel;
@@ -18,7 +19,7 @@ class TestSellPageViewModel {
 	@BeforeEach 
 	void setUp() {
 		Account user = new Account("colby", "password", "$123");
-		Holding holdingToSell = new Holding("btc", Double.valueOf(1000), 10);
+		Holding holdingToSell = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 10);
 		List<Holding> holdings = new ArrayList<Holding>();
 		holdings.add(holdingToSell);
 		

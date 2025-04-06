@@ -174,6 +174,13 @@ public class BuyCryptoViewModel {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
+		this.client.makeAddHoldingRequest(crypto.getName(), amountToBuy, this.user.getAuth());
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		if (successCode == -1) {
+			String errorMsg = (String) response.get("error description");
+			throw new UnsupportedOperationException(errorMsg);
+		}
 		this.user.addHolding(holding);
 		System.out.println("Added holding");
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));

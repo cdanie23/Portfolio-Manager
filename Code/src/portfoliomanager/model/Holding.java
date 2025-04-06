@@ -1,5 +1,7 @@
 package portfoliomanager.model;
 
+import portfoliomanager.client.CryptoCurrencies;
+
 /**
  * Crypto Holdings 
  * @author Colby
@@ -14,7 +16,7 @@ public class Holding extends Crypto {
 	 * @param amountHeld the amount held
 	 */
 	
-	public Holding(String name, Double currentPrice, double amountHeld) {
+	public Holding(CryptoCurrencies name, Double currentPrice, double amountHeld) {
 		super(name, currentPrice);
 		this.amountHeld = amountHeld;
 	}

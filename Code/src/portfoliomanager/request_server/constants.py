@@ -22,9 +22,12 @@ GET_BTC_CURR_PRICE = "btcPrice"
 GET_BTC_PRICE_HISTORY = "btcHistory"
 GET_SIGN_UP = "signUp"
 GET_LOGIN = "login"
-
+ADD_HOLDING = "addHolding"
+ADD_FUNDS = "addFunds"
 # user keys
 KEY_TOKEN = "token"
 KEY_USERNAME = "username"
 KEY_PASSWORD = "password"
 KEY_CPASSWORD = "confirmPassword"
+KEY_AMOUNT = "amount"
+KEY_NAME = "name"

@@ -8,6 +8,7 @@ import java.util.ListIterator;
 
 import org.junit.jupiter.api.Test;
 
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
 
@@ -16,7 +17,7 @@ class TestCryptoCollection {
 	@Test
 	void TestConstructor() {
 		// ARRANGE
-		Crypto crypto = new Crypto("BTC", 93.05);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, 93.05);
 		// ACT
 		CryptoCollection cryptos = new CryptoCollection();
 		cryptos.addCrypto(crypto);
@@ -29,10 +30,10 @@ class TestCryptoCollection {
 	@Test
 	void TestAddCrypto() {
 		// ARRANGE
-		Crypto crypto = new Crypto("BTC", 93.05);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, 93.05);
 		// ACT
 		CryptoCollection cryptos = new CryptoCollection();
-		Crypto newCrypto = new Crypto("ETH", 45.12);
+		Crypto newCrypto = new Crypto(CryptoCurrencies.Ethereum, 45.12);
 		cryptos.addCrypto(crypto);
 		cryptos.addCrypto(newCrypto);
 		// ASSERT
@@ -69,7 +70,7 @@ class TestCryptoCollection {
 	void testContains() {
 		CryptoCollection cryptos = new CryptoCollection();
 
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 
 		cryptos.add(btc);
 
@@ -80,7 +81,7 @@ class TestCryptoCollection {
 	void testIterator() {
 		CryptoCollection cryptos = new CryptoCollection();
 
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 
 		cryptos.add(btc);
 
@@ -97,7 +98,7 @@ class TestCryptoCollection {
 	void testToArray() {
 		CryptoCollection cryptos = new CryptoCollection();
 
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 
 		cryptos.add(btc);
 
@@ -112,7 +113,7 @@ class TestCryptoCollection {
 	void testToArrayT() {
 		CryptoCollection cryptos = new CryptoCollection();
 
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 
 		cryptos.add(btc);
 
@@ -125,7 +126,7 @@ class TestCryptoCollection {
 	void testRemove() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.add(btc);
 		
@@ -138,13 +139,13 @@ class TestCryptoCollection {
 	void testContainsAll() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.add(btc);
 		
 		CryptoCollection cryptos2 = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		
 		cryptos2.add(ethereum);
 		
@@ -157,15 +158,15 @@ class TestCryptoCollection {
 	void testAddAllFromIndex() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.add(btc);
 		
 		CryptoCollection cryptos2 = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos2.add(ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		cryptos.addAll(1, cryptos2);
@@ -177,15 +178,15 @@ class TestCryptoCollection {
 	void testRemoveAll() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.add(btc);
 		
 		CryptoCollection cryptos2 = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos2.add(ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		cryptos2.add(btc);
 		
@@ -199,16 +200,17 @@ class TestCryptoCollection {
 	void testRetainAll() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.add(btc);
 		
 		CryptoCollection cryptos2 = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos2.add(ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
-		cryptos2.add(doge);
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
+		cryptos.add(doge);
+		cryptos2.add(btc);cryptos2.add(doge);
 		
 		cryptos2.retainAll(cryptos);
 		
@@ -222,9 +224,9 @@ class TestCryptoCollection {
 	void testClear() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(2));
 		cryptos.add(ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		cryptos.clear();
@@ -234,11 +236,11 @@ class TestCryptoCollection {
 	void testSet() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
-		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
+		cryptos.add(ethereum);
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		
 		cryptos.set(1, btc);
 		
@@ -253,9 +255,9 @@ class TestCryptoCollection {
 	void testRemoveIndex() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
-		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(2));
+		cryptos.add(ethereum);
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		cryptos.remove(cryptos.indexOf(doge));
@@ -266,9 +268,9 @@ class TestCryptoCollection {
 	void testlastIndexOf() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		int lastIndexOf = cryptos.lastIndexOf(doge);
@@ -280,9 +282,9 @@ class TestCryptoCollection {
 	void testListIterator() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		ListIterator<Crypto> iterator = cryptos.listIterator();
@@ -297,9 +299,9 @@ class TestCryptoCollection {
 	void testListIteratorWithIndex() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
 		
 		ListIterator<Crypto> iterator = cryptos.listIterator(1);
@@ -313,11 +315,11 @@ class TestCryptoCollection {
 	void testSubList() {
 		CryptoCollection cryptos = new CryptoCollection();
 		
-		Crypto ethereum = new Crypto("ethereum", Double.valueOf(2));
+		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos.add(0, ethereum);
-		Crypto doge = new Crypto("doge", Double.valueOf(10000));
+		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
 		cryptos.add(doge);
-		Crypto btc = new Crypto("btc", Double.valueOf(1));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(1));
 		cryptos.add(btc);
 		
 		List<Crypto> subList = cryptos.subList(1, 2);

@@ -7,12 +7,13 @@ from request_server import constants
 from request_server import crypto_metrics
 import uuid
 from model.Account import Account
+from model.Holding import Holding
 class RequestHandler:
     def __init__(self):
         account = Account("user", "pass123")
         self._cryptos = {}
         self._users = [account]
-        self._tokens = {}
+        self._tokens = {"$123" : account}
         
     def makeAccount(self, username, password):
         account = Account(username, password)
@@ -54,13 +55,50 @@ class RequestHandler:
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "Username already exists"
             }
-        
-        self._users.append(Account(username, password))
+        account = Account(username, password)
+        self._users.append(account)
         token = str(uuid.uuid4())
-        self._tokens[token] = username
+        self._tokens[token] = account
 
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
-    
+    def handleAddHolding(self, request):
+        auth = request[constants.KEY_TOKEN]
+        amount = request[constants.KEY_AMOUNT]
+        cryptoName = request[constants.KEY_NAME]
+        
+        account = self.findAccount(auth)
+        if (not account):
+            response = {
+                constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE : "account with token not found"
+                }
+            return response
+        holding = Holding(cryptoName, amount)
+        account.add_holding(holding)
+        response = {
+            constants.KEY_STATUS : constants.SUCCESS_STATUS,
+            constants.KEY_TOKEN : auth
+            }
+        return response
+    def findAccount(self, auth):
+        for token in self._tokens:
+            if(token == auth):
+                account = self._tokens[token]
+                break
+        return account
+    def handleAddFunds(self, request):
+        auth = request[constants.KEY_TOKEN]
+        amount = request[constants.KEY_AMOUNT]
+        account = self.findAccount(auth)
+        if (not account):
+            response = {
+                constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE : "account with token not found"
+                }
+            return response
+        account.funds_available += float(amount)
+        return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
+                constants.KEY_TOKEN : auth}
     def handleLogin(self, request):
         username = request.get(constants.KEY_USERNAME)
         password = request.get(constants.KEY_PASSWORD)
@@ -96,5 +134,8 @@ class RequestHandler:
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)
-            
+        elif(request_type == constants.ADD_HOLDING):
+            response = self.handleAddHolding(request)
+        elif(request_type == constants.ADD_FUNDS):
+            response = self.handleAddFunds(request)
         return response

@@ -15,7 +15,7 @@ public class RequestCreator {
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
 	public static final String NAME = "name";
 	public static final String AMOUNT = "amount";
-	public static final String AUTH = "auth";
+	public static final String AUTH = "token";
 	/**
 	 * Creates a request 
 	 * @param requestMade the request to be created
@@ -65,6 +65,21 @@ public class RequestCreator {
 		request.put(NAME, crypto.toString());
 		request.put(AMOUNT, String.valueOf(amount));
 		request.put(AUTH, auth);
+		return request;
+	}
+	
+	/**
+	 * Creates a request to add funds to an account
+	 * @param requestMade the type of request
+	 * @param auth the token associated with the account you want to add funds to
+	 * @param amount the amount to add
+	 * @return the appropriate response for the server
+	 */
+	public Map<String, String> createAddFundsRequest(Requests requestMade, String auth, double amount) {
+		Map<String, String> request = new HashMap<String, String>();
+		request.put(TYPE, requestMade.toString());
+		request.put(AUTH, auth);
+		request.put(AMOUNT, String.valueOf(amount));
 		return request;
 	}
 }

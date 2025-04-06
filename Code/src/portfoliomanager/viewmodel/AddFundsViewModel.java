@@ -1,5 +1,7 @@
 package portfoliomanager.viewmodel;
 
+import java.util.Map;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
@@ -52,6 +54,16 @@ public class AddFundsViewModel {
 			throw new IllegalArgumentException("Please enter a valid number.");
 		}
 		double newFunds = Integer.parseInt(this.amountProperty.get());
+		this.client.makeAddFundsRequest(this.user.getAuth(), newFunds);
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		
+		if (successCode == -1) {
+			String errorMsg = (String) response.get("error description");
+			throw new UnsupportedOperationException(errorMsg);
+		}
+		//TODO logout button does not update user labels
+		//TODO buy button does not get enabled whenever you log in 
 		newFunds += this.user.getFundsAvailable();
 		this.user.setFundsAvailable(newFunds);
 		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());

@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -31,7 +32,7 @@ class TestBuyCodeViewModel {
 	@BeforeEach
 	void setup() {
 		this.user = new Account("testuser", "pass@word", "$123");
-		Crypto crypto = new Crypto("a", 9.1);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, 9.1);
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.fundsAvailableProperty = new SimpleStringProperty();
 		this.cryptoList = FXCollections.observableArrayList();
