@@ -2,8 +2,6 @@ package portfoliomanager.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.beans.property.ObjectProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 /**
  * The sign up page code behind
@@ -60,13 +57,10 @@ public class LoginPageCodeBehind implements Initializable {
 	 * 
 	 * @precondition none
 	 * @postcondition this.account != null, data binding is setup
-	 * 
-	 * @param isLoggedIn login status of the user
-	 * @param user the user that logged in the system
 	 */
 
-	public void setData(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
-		this.viewModel = new LoginPageViewModel(isLoggedIn, user);
+	public void setData() {
+		this.viewModel = new LoginPageViewModel();
 		this.bindDataElements();
 	}
 
@@ -93,7 +87,7 @@ public class LoginPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
 			Pane root = loader.load();
 			this.signUpPageCodeBehind = loader.getController();
-			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view, this.viewModel.getUser(), this.viewModel.getLoginStatus());
+			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view);
 			Scene scene = new Scene(root, 376, 531);
 			currentStage.setScene(scene);
 			currentStage.show();
@@ -116,10 +110,7 @@ public class LoginPageCodeBehind implements Initializable {
 	}
     
     private void enableAccountOptions() {
-    	this.view.enableLogOutButtons();
-    	this.view.enableTransactionAbility();
-    	this.view.disableLogInButton();
-    	//TODO make it update the holdings and funds available properties
+    	this.view.setLoggedInUser(this.viewModel.getUser());
     }
     
     /** Sets the LogInPageCodeBehind's LandingPageCodeBehind

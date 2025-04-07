@@ -16,6 +16,9 @@ class Account:
         self.holdings = []
         self.funds_available = 0.0
 
+    def get_username(self):
+        return self.username
+    
     def hash_password(self, password: str) -> bytes:
         """Hashes a password using bcrypt."""
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt())

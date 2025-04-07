@@ -102,6 +102,12 @@ public final class Client extends Thread {
 		this.request = this.requestCreator.createModifyHoldingRequest(Requests.addHolding, crypto, amount, auth);
 		this.sendRequest();
 	}
+	
+	/**
+	 * Adds fund
+	 * @param auth
+	 * @param amount
+	 */
 	public void makeAddFundsRequest(String auth, double amount) {
 		this.request = this.requestCreator.createAddFundsRequest(Requests.addFunds, auth, amount);
 		this.sendRequest();

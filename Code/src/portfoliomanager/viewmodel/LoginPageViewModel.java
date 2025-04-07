@@ -1,10 +1,10 @@
 package portfoliomanager.viewmodel;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
@@ -27,27 +27,23 @@ public class LoginPageViewModel {
 	
 	/**
 	 * Instantiates a new login page view model.
-	 * @param isLoggedIn the login status of the user
-	 * @param user that logs in to the system
 	 */
 	
-	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
-		this.user = user;
-		this.isLoggedIn = isLoggedIn;
+	public LoginPageViewModel() {
+		this.user = new SimpleObjectProperty<Account>();
+		this.isLoggedIn = new SimpleObjectProperty<Boolean>(false);
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.client = Client.getInstance();
 	}
 	/**
 	 * Used for testing purposes
-	 * @param isLoggedIn status of user being logged in 
-	 * @param user the user 
 	 * @param test used to express this is a testing constructor 
 	 */
 	
-	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user, String test) {
-		this.user = user;
-		this.isLoggedIn = isLoggedIn;
+	public LoginPageViewModel(String test) {
+		this.user = new SimpleObjectProperty<Account>();
+		this.isLoggedIn = new SimpleObjectProperty<Boolean>(false);
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
@@ -72,7 +68,6 @@ public class LoginPageViewModel {
 	public StringProperty getPasswordProperty() {
 		return this.passwordProperty;
 	}
-	
 	
 	/**
 	 * Gets the status of the login state.

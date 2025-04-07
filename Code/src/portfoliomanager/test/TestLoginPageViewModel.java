@@ -1,5 +1,6 @@
 package portfoliomanager.test;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,12 +12,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
-import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
-import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 
 public class TestLoginPageViewModel {
@@ -42,7 +40,7 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), "test");
+		this.page = new LoginPageViewModel("test");
 		this.page.setClient(port);
 		client = this.page.getClient();
 		}
@@ -55,16 +53,14 @@ public class TestLoginPageViewModel {
 	}
 	@Test
 	public void testValidNonTestConstructor() {
-		LoginPageViewModel viewModel = new LoginPageViewModel(new SimpleObjectProperty<>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")));
+		LoginPageViewModel viewModel = new LoginPageViewModel();
 		assertFalse(viewModel.getLoginStatus().getValue());
-		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+		assertNull(viewModel.getUser().getValue());
 	}
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
 		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
 		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
-		assertEquals("Sam", this.page.getUser().getValue().getUserName());
-		assertEquals("pw", this.page.getUser().getValue().getPassword());
 	}
 	
 //	@Test

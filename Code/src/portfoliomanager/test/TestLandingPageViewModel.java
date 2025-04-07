@@ -83,7 +83,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testUpdateForAuthenticatedUser() {
 		this.viewModel.getIsLoggedIn().setValue(true);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
 		assertEquals(welcomeText, "Welcome back, "+ this.viewModel.getUser().getValue().getUserName());
@@ -92,7 +92,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testUpdateForNonAuthenticatedUser() {
 		this.viewModel.getIsLoggedIn().setValue(false);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		
 		assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to Crypto Vault");
 	}
@@ -100,7 +100,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		String expectedPortfolioLabel = "testUser's Portfolio";
 		String actual = this.viewModel.getPortfolioNameProperty().getValue();
 		

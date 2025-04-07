@@ -3,7 +3,6 @@ package portfoliomanager.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
@@ -54,7 +52,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
-    	if (this.addAccount.getSignedUpStatus()) {
+    	if (this.addAccount.getSignedUpStatus().get()) {
     		Stage stage = (Stage) this.signUpButton.getScene().getWindow();
     		this.enableAccountOptions();
     		stage.close();
@@ -62,10 +60,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     }
     
     private void enableAccountOptions() {
-    	this.view.enableLogOutButtons();
-    	this.view.enableTransactionAbility();
-    	this.view.disableLogInButton();
-    	this.view.updateNameLabels();
+    	this.view.setLoggedInUser(this.addAccount.getUser());
     }
     
     private void showAlert(String title, String message) {
@@ -85,12 +80,10 @@ public class SignUpPageCodeBehind  implements Initializable {
     /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind
      * @precondition nothing
      * @param view the view
-     * @param user the user 
      */
-    public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
     	this.view = view;
-    	this.addAccount = new SignUpPageViewModel(user, isSignedUp);
+    	this.addAccount = new SignUpPageViewModel();
     	this.bindDataElements();
-  
     }
 }

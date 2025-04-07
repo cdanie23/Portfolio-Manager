@@ -88,9 +88,8 @@ public class SellPageViewModel {
 		if (holding.getAmountHeld() == 0) {
 			this.holdings.remove(holding);
 		}
-		double totalFunds = this.user.getFundsAvailable() + this.getProfit();
-		this.user.setFundsAvailable(totalFunds);
-		this.fundsAvailable.setValue("$" + totalFunds);
+		this.user.setFundsAvailable(this.user.getFundsAvailable() + this.getProfit());
+		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
 	}
 	/**
 	 * Gets the user

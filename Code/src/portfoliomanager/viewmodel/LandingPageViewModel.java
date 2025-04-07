@@ -1,9 +1,7 @@
 package portfoliomanager.viewmodel;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -117,7 +115,7 @@ public class LandingPageViewModel {
 	/**
 	 * Notifies authentication
 	 */
-	public void updateForAuthenticatedUser() {
+	public void updateLabels() {
 		if (this.isLoggedIn.getValue()) {
 			this.updateWelcomeLabels();
 			this.updateUserProperties();
@@ -141,13 +139,15 @@ public class LandingPageViewModel {
 //				}
 //			}
 //		}
-		
 	}
 	
+	/**
+	 * Updates labels after logging in
+	 */
 	private void updateWelcomeLabels() {
-		if (this.user.getValue() != null) {
-		this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
-		this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
+		if (this.user.getValue() != null) { 
+			this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
+			this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
 		} else {
 			this.welcomeLabelProperty.setValue("Welcome to Crypto Vault "); 
 			this.portfolioNameProperty.setValue("'s Portfolio");

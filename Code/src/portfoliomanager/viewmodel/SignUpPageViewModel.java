@@ -1,7 +1,5 @@
 package portfoliomanager.viewmodel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javafx.beans.property.ObjectProperty;
@@ -29,18 +27,16 @@ public class SignUpPageViewModel {
 	private ObjectProperty<Account> user;
 	/**
 	 * Instantiates a new sign up page view model
-	 * @param user the user
 	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
 	 * 		 this.isSignedUp == false, this.Client != null 
 	 */
 	
-	public SignUpPageViewModel(ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
-		this.isSignedUp = isSignedUp;
+	public SignUpPageViewModel() {
+		this.isSignedUp = new SimpleObjectProperty<Boolean>(false);
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
-		this.isSignedUp.setValue(false); 
-		this.user = user;
+		this.user = new SimpleObjectProperty<Account>();
 		this.client = Client.getInstance();
 	}
 	/**
@@ -53,8 +49,7 @@ public class SignUpPageViewModel {
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
-		this.isSignedUp = new SimpleObjectProperty<Boolean>();
-		this.isSignedUp.setValue(false);
+		this.isSignedUp = new SimpleObjectProperty<Boolean>(false);
 		this.user = new SimpleObjectProperty<Account>();
 	}
 	
@@ -91,13 +86,12 @@ public class SignUpPageViewModel {
 		return this.passwordConfirmProperty;
 	}
 	
-	
 	/**
 	 * Returns the signed up status of the account
 	 * @return this.isSignedUp
 	 */
-	public boolean getSignedUpStatus() {
-		return this.isSignedUp.getValue();
+	public ObjectProperty<Boolean> getSignedUpStatus() {
+		return this.isSignedUp;
 	}
 	
 	/**
@@ -151,11 +145,11 @@ public class SignUpPageViewModel {
 		this.user.setValue(account);
 		
 	}
+	
 	/**
 	 * Gets the user 
 	 * @return the user
 	 */
-	
 	public ObjectProperty<Account> getUser() {
 		return this.user;
 	}
