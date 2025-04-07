@@ -14,7 +14,7 @@ class TestRequestCreator {
 	@Test
 	void testCreateLoginRequest() {
 		RequestCreator requestCreator = new RequestCreator();
-		Map<String,String> result = requestCreator.createAuthRequest(Requests.login, "abc", "pass", null);
+		Map<String,String> result = requestCreator.createAccountRequest(Requests.login, "abc", "pass", null);
 		assertAll(()-> assertEquals("login", result.get("type")),
 				()-> assertEquals("abc", result.get("username")),
 				()-> assertEquals("pass", result.get("password")));
@@ -23,7 +23,7 @@ class TestRequestCreator {
 	@Test
 	void testCreateSignUpRequest() {
 		RequestCreator requestCreator = new RequestCreator();
-		Map<String,String> result = requestCreator.createAuthRequest(Requests.login, "abc", "pass", "pass");
+		Map<String,String> result = requestCreator.createAccountRequest(Requests.login, "abc", "pass", "pass");
 		assertAll(()-> assertEquals("login", result.get("type")),
 				()-> assertEquals("abc", result.get("username")),
 				()-> assertEquals("pass", result.get("password")),

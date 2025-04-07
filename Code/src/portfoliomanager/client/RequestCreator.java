@@ -38,7 +38,7 @@ public class RequestCreator {
      * 
      * @return the request created
      */
-	public Map<String, String> createAuthRequest(Requests requestMade, String username, String password, String confirmPassword) {
+	public Map<String, String> createAccountRequest(Requests requestMade, String username, String password, String confirmPassword) {
         Map<String, String> request = new HashMap<>();
         request.put(TYPE, requestMade.toString());
         request.put(USERNAME, username);
@@ -59,7 +59,7 @@ public class RequestCreator {
 	 * @return a request for the client to send to the server
 	 */
 	
-	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String auth) {
+	public Map<String, String> createModifyHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String auth) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
 		request.put(NAME, crypto.toString());
@@ -82,4 +82,18 @@ public class RequestCreator {
 		request.put(AMOUNT, String.valueOf(amount));
 		return request;
 	}
+	
+	/**
+	 * Creates a request to get a property associated with the account
+	 * @param requestMade the type of request to make
+	 * @param auth the auth associated with the account
+	 * @return the request needed to get a response from the server to return a property associated with the account
+	 */
+	public Map<String, String> createGetAccountPropertiesRequest(Requests requestMade, String auth) {
+		Map<String, String> request = new HashMap<String, String>();
+		request.put(TYPE, requestMade.toString());
+		request.put(AUTH, auth);
+		return request;
+	}
+	
 }

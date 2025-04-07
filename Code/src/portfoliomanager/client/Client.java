@@ -67,8 +67,28 @@ public final class Client extends Thread {
 	        throw new IllegalArgumentException("Request, username, and password cannot be null");
 	    }
 
-	    this.request = this.requestCreator.createAuthRequest(request, username, password, confirmPassword);
+	    this.request = this.requestCreator.createAccountRequest(request, username, password, confirmPassword);
 	    this.sendRequest();
+	}
+	/**
+	 * Sends a request to the server to get the holding of an account
+	 * @param auth the token associated with the account
+	 * @post this.request == the request needed to get the holdings from the server
+	 */
+	
+	public void makeGetHoldingRequest(String auth) {
+		this.request = this.requestCreator.createGetAccountPropertiesRequest(Requests.getHoldings, auth);
+		this.sendRequest();
+	}
+	
+	/**
+	 * Sends a request to the server to get the funds of the account
+	 * @param auth the auth associated with the account
+	 * @post this.request == the request needed to get the funds of the account from the server
+	 */
+	public void makeGetFundsRequest(String auth) {
+		this.request = this.requestCreator.createGetAccountPropertiesRequest(Requests.getFunds, auth);
+		this.sendRequest();
 	}
 	/**
 	 * Makes a request to the server to modify a holding
@@ -79,7 +99,7 @@ public final class Client extends Thread {
 	 */
 	
 	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
-		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
+		this.request = this.requestCreator.createModifyHoldingRequest(Requests.addHolding, crypto, amount, auth);
 		this.sendRequest();
 	}
 	public void makeAddFundsRequest(String auth, double amount) {

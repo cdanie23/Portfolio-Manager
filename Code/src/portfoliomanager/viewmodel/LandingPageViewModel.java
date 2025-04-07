@@ -1,7 +1,9 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -124,6 +126,21 @@ public class LandingPageViewModel {
 	
 	private void updateUserProperties() {
 		//TODO make it so whenever you login/signup it sends a request to the server to retrieve the users's holdings and the funds available
+		
+		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getValue().getFundsAvailable()));
+		
+//		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
+//		Map<>response = this.client.getResponse();
+//		
+//		List<Map<String, String>> holdings = (List<Map<String, String>>) response.get("holdings");
+//		
+//		if (!holdings.isEmpty()) {
+//			for (Map<String, String> holding : holdings) {
+//				for (String property : holding.keySet()) {
+//					System.out.println(holding.get(property));
+//				}
+//			}
+//		}
 		
 	}
 	

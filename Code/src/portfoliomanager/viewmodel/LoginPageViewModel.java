@@ -1,5 +1,6 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -105,7 +106,10 @@ public class LoginPageViewModel {
 		int successCode = (int) response.get("success code");
 		String authToken = (String) response.get("token");
 		if (successCode == 1) {
-			this.user.setValue(new Account(username, password, authToken));
+			this.client.makeGetFundsRequest(authToken);
+			response = this.client.getResponse();
+			BigDecimal fundsAvailable = (BigDecimal) response.get("amount");
+			this.user.setValue(new Account(username, password, authToken, fundsAvailable.doubleValue()));
 			this.isLoggedIn.setValue(true);
 			return;
 		} 

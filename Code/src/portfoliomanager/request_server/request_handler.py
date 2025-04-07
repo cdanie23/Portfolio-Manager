@@ -125,7 +125,33 @@ class RequestHandler:
         self._tokens[token] = self.findAccountByName(username, password)
 
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
+    def handleGetFunds(self, request):
+        auth = request[constants.KEY_TOKEN]
+        account = self.findAccountByAuth(auth)
+        if (not account):
+            response = {
+                constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE : "account with token not found"
+                }
+            return response
+        fundsAvailable = account.funds_available
+        return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
+                constants.KEY_TOKEN : auth, 
+                constants.KEY_AMOUNT : fundsAvailable}
     
+    def handleGetHoldings(self, request):
+        auth = request[constants.KEY_TOKEN]
+        account = self.findAccountByAuth(auth)
+        if (not account):
+            response = {
+                constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE : "account with token not found"
+                }
+            return response
+        holdings = account.holdings
+        return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
+                constants.KEY_TOKEN : auth, 
+                constants.KEY_HOLDINGS : holdings}
     def handleRequest(self, request):
         response = {constants.KEY_STATUS: constants.UNSUPPORTED_OPERATION_STATUS,
                    constants.KEY_FAILURE_MESSAGE: "Unsupported request type"}
@@ -144,4 +170,8 @@ class RequestHandler:
             response = self.handleAddHolding(request)
         elif(request_type == constants.ADD_FUNDS):
             response = self.handleAddFunds(request)
+        elif(request_type == constants.GET_FUNDS):
+            response = self.handleGetFunds(request)
+        elif(request_type == constants.GET_HOLDINGS):
+            response = self.handleGetHoldings(request)
         return response

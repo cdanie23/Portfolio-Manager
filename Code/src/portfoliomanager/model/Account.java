@@ -33,6 +33,19 @@ public class Account {
 	}
 	
 	/**
+	 * Instantiates a new account
+	 * @param username the username
+	 * @param password the password
+	 * @param auth the auth token
+	 * @param fundsAvailable the funds available to the account
+	 * @post this.fundsAvaiable == fundsAvailable
+	 */
+	public Account(String username, String password, String auth, double fundsAvailable) {
+		this(username, password, auth);
+		this.fundsAvailable = fundsAvailable;
+	}
+	
+	/**
 	 * Gets the user name.
 	 *
 	 * @return the user name
