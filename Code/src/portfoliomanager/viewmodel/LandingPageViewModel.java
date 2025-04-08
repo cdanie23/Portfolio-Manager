@@ -181,15 +181,22 @@ public class LandingPageViewModel {
 	}
 	
 	/**
-	 * Handles the ZMQ logout request
+	 * Handles the user logout.
+	 *
+	 * @return true, if successful
 	 */
-	public void handleLogout() {
-		String token = this.client.getToken();
+	public boolean handleLogout() {
+		String token = this.user.get().getAuth();
 		
-		if (token != null) {
+		if (token != null && !token.isBlank()) {
 			this.client.makeLogoutRequest(Requests.logout, token);
-			this.client.setToken("");
-	    }
+			System.out.println(token);
+			this.user.get().setAuth("");
+			
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**

@@ -131,7 +131,7 @@ class TestClient {
 		client.makeLogoutRequest(Requests.logout, (String) response.get("token"));
 		Map<String, Object> response2 = client.getResponse();
 		
-		assertAll(() -> assertEquals(1, response2.get("success code")), () -> assertEquals(client.getToken(), response2.get("token")));
+		assertEquals(1, response2.get("success code"));
 	}
 	
 	@Test

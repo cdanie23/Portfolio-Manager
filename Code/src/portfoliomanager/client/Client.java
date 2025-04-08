@@ -20,7 +20,6 @@ public final class Client extends Thread {
 	private RequestCreator requestCreator;
 	private Map<String, String> request;
 	private Map<String, Object> response;
-	private String token;
 	
 	private Client() {
 		this.request = null;
@@ -100,8 +99,6 @@ public final class Client extends Thread {
 	        throw new IllegalArgumentException("Request and token cannot be null");
 	    }
 		
-		this.setToken(token);
-		
 		this.request = this.requestCreator.createLogoutRequest(request, token);
 		this.run();
 	}
@@ -121,24 +118,6 @@ public final class Client extends Thread {
 	 */
 	public Map<String, Object> getResponse() {
 		return this.response;
-	}
-	
-	/**
-	 * Sets the token.
-	 *
-	 * @param token the new token
-	 */
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-	/**
-	 * Gets the token.
-	 *
-	 * @return the token
-	 */
-	public String getToken() {
-		return this.token;
 	}
 	
 	@Override
