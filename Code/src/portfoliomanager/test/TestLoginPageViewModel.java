@@ -11,12 +11,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 
-
+@TestInstance(Lifecycle.PER_CLASS)
 public class TestLoginPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private LoginPageViewModel page;
@@ -29,7 +31,7 @@ public class TestLoginPageViewModel {
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5560";
+			port = "5566";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){

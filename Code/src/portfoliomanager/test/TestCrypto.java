@@ -25,7 +25,7 @@ class TestCrypto {
 		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
 		//ASSERT
 		assertAll(
-				()-> assertEquals("BTC-USD", crypto.getName()),
+				()-> assertEquals("Bitcoin", crypto.getName().toString()),
 				()-> assertEquals(54.36, crypto.getCurrentPrice().doubleValue(), 0.01),
 				()-> assertEquals(0, crypto.getHistoricalPrice().size()));
 	}
@@ -51,7 +51,7 @@ class TestCrypto {
 		crypto.setHistoricalPrices(prices);
 		//ASSERT
 		assertAll(
-				()-> assertEquals("ETH", crypto.getName()),
+				()-> assertEquals("Ethereum", crypto.getName().toString()),
 				()-> assertEquals(9.11, crypto.getCurrentPrice().doubleValue(), 0.01),
 				()-> assertEquals(3, crypto.getHistoricalPrice().size()),
 				()-> assertEquals(30.50, crypto.getHistoricalPrice().get("2024-01-01").doubleValue(), 0.01),

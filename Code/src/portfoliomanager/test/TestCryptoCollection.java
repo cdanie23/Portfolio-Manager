@@ -23,7 +23,7 @@ class TestCryptoCollection {
 		cryptos.addCrypto(crypto);
 		// ASSERT
 		assertAll(() -> assertEquals(1, cryptos.getCryptos().size()),
-				() -> assertEquals("BTC", cryptos.getCryptos().get(0).getName()),
+				() -> assertEquals("Bitcoin", cryptos.getCryptos().get(0).getName().toString()),
 				() -> assertEquals(93.05, cryptos.getCryptos().get(0).getCurrentPrice()));
 	}
 
@@ -38,9 +38,9 @@ class TestCryptoCollection {
 		cryptos.addCrypto(newCrypto);
 		// ASSERT
 		assertAll(() -> assertEquals(2, cryptos.getCryptos().size()),
-				() -> assertEquals("BTC", cryptos.getCryptos().get(0).getName()),
+				() -> assertEquals("Bitcoin", cryptos.getCryptos().get(0).getName().toString()),
 				() -> assertEquals(93.05, cryptos.getCryptos().get(0).getCurrentPrice()),
-				() -> assertEquals("ETH", cryptos.getCryptos().get(1).getName()),
+				() -> assertEquals("Ethereum", cryptos.getCryptos().get(1).getName().toString()),
 				() -> assertEquals(45.12, cryptos.getCryptos().get(1).getCurrentPrice()));
 	}
 
@@ -209,8 +209,9 @@ class TestCryptoCollection {
 		Crypto ethereum = new Crypto(CryptoCurrencies.Ethereum, Double.valueOf(2));
 		cryptos2.add(ethereum);
 		Crypto doge = new Crypto(CryptoCurrencies.Doge, Double.valueOf(10000));
-		cryptos.add(doge);
-		cryptos2.add(btc);cryptos2.add(doge);
+		
+		cryptos2.add(btc);
+		cryptos2.add(doge);
 		
 		cryptos2.retainAll(cryptos);
 		

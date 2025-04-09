@@ -31,6 +31,19 @@ public class AddFundsViewModel {
 		this.fundsAvailable = fundsAvailable;
 		this.client = Client.getInstance();
 	}
+	/**
+	 * Instantiates viewmodel object for testing purposes as to not set the client
+	 * 
+	 * @param user the user of the account
+	 * @param fundsAvailable the string property of the funds
+	 * @param test so you know its a test
+	 */
+	
+	public AddFundsViewModel(Account user, StringProperty fundsAvailable, String test) {
+		this.amountProperty = new SimpleStringProperty();
+		this.user = user;
+		this.fundsAvailable = fundsAvailable;
+	}
 	
 	/**
 	 * Gets the string Property for the funds to be added
@@ -91,5 +104,24 @@ public class AddFundsViewModel {
 	public Account getUser() {
 		return this.user;
 	}
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
 	
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
+	}
 }

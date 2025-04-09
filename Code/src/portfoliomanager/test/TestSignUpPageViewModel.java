@@ -11,12 +11,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
-
+@TestInstance(Lifecycle.PER_CLASS)
 public class TestSignUpPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private SignUpPageViewModel page;
@@ -46,7 +48,7 @@ public class TestSignUpPageViewModel {
 	static void interruptServer() {
 		client.makeRequest(Requests.exit);
 		client.resetClient();
-		serverThread.interrupt();
+		
 	}
 	
 	@Test

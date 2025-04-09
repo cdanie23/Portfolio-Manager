@@ -103,8 +103,14 @@ public class LoginPageViewModel {
 		if (successCode == 1) {
 			this.client.makeGetFundsRequest(authToken);
 			response = this.client.getResponse();
-			BigDecimal fundsAvailable = (BigDecimal) response.get("amount");
-			this.user.setValue(new Account(username, password, authToken, fundsAvailable.doubleValue()));
+			var fundsAvailable = 0.00;
+			if (response.get("amount") instanceof BigDecimal) {
+				 fundsAvailable = ((BigDecimal) response.get("amount")).doubleValue();
+			} else {
+				fundsAvailable = (Integer) response.get("amount");
+			}
+			
+			this.user.setValue(new Account(username, password, authToken, fundsAvailable));
 			this.isLoggedIn.setValue(true);
 			return;
 		} 

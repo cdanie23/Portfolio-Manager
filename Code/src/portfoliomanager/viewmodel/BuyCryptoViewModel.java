@@ -62,7 +62,27 @@ public class BuyCryptoViewModel {
 		this.lineChartSeriesProperty = new Series<>();
 		this.client = Client.getInstance();
 	}
-	
+	/**
+	 * Instantiates a new buy crypto view model class for testing that doesn't set the client
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param user the user who wants to buy
+	 * @param holdingsProperty observable list of holdings
+	 * @param fundsAvailable string property for funds
+	 * @param cryptoList the list of cryptos
+	 */
+	public BuyCryptoViewModel(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable, String test) {
+		this.user = user;
+		this.amountProperty = new SimpleStringProperty();
+		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
+		this.cryptoDetailsProperty = new SimpleStringProperty();
+		this.holdingsProperty = holdingsProperty;
+		this.fundsAvailableProperty = fundsAvailable;
+		this.cryptoList = new SimpleListProperty<Crypto>(cryptoList);
+		this.lineChartSeriesProperty = new Series<>();
+	}
 	/**
 	 * Gets the amountProperty
 	 * 
@@ -223,5 +243,25 @@ public class BuyCryptoViewModel {
 		line.setStrokeWidth(0.1);
 		line.setStroke(Color.RED);
 		data.setNode(line);
+	}
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
 	}
 }
