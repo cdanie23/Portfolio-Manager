@@ -1,6 +1,7 @@
 package portfoliomanager.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Crypto {
 			throw new IllegalArgumentException("Current price of the cryptocurrency must not be null or empty.");
 		}
 		this.name = name;
-		this.currentPrice = currentPrice;
+		this.currentPrice = this.roundToTwoDecimalPlaces(currentPrice);
 		this.historicalPrices = new HashMap<String, BigDecimal>();
 		
 	}
@@ -82,7 +83,13 @@ public class Crypto {
 	 * @param currentPrice the current Price of the crypto to be set
 	 */
 	public void setCurrentPrice(Double currentPrice) {
-		this.currentPrice = currentPrice;
+		this.currentPrice = this.roundToTwoDecimalPlaces(currentPrice);
+	}
+	
+	private double roundToTwoDecimalPlaces(double value) {
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 	
 	/** Sets the historical prices for the given crypto

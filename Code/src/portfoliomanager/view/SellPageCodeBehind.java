@@ -1,12 +1,9 @@
 package portfoliomanager.view;
 
-import java.util.List;
-
 import java.util.function.UnaryOperator;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 
 import javafx.fxml.FXML;
 
@@ -84,17 +81,16 @@ public class SellPageCodeBehind {
 	}
 	
 	private void update() {
-		this.holdingsListView.setItems(FXCollections.observableArrayList(this.viewModel.getHoldings()));
+		this.holdingsListView.itemsProperty().bindBidirectional(this.viewModel.getHoldingsProperty());
 	}
 	
 	private void setUpDataBinding() {
 		this.amountStringProperty.bindBidirectional(this.viewModel.getAmountToSell());
-		
 	}
 
 	private void setUpListeners() {
-		this.amountTextBox.textProperty().addListener((_, oldVal, newVal) -> {
-			if (newVal != oldVal && !newVal.isEmpty() && Integer.parseInt(newVal) != 0) {
+		this.amountTextBox.textProperty().addListener((_, _, newVal) -> {
+			if (!newVal.isEmpty() && Double.parseDouble(newVal) <= this.viewModel.getHoldingToSell().getAmountHeld()) {
 				this.amountStringProperty.setValue(newVal);
 				this.amountLeftLabel.textProperty().setValue("Amount left: " + String.valueOf(this.viewModel.getAmountLeft()));
 				this.profitLabel.textProperty().setValue("Profit: " + this.viewModel.getProfit());
@@ -112,9 +108,9 @@ public class SellPageCodeBehind {
                 return change;
             }
 
-            if (newText.matches("[0-9]*")) {
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
                 try {
-                    int value = Integer.parseInt(newText);
+                	Double value = Double.parseDouble(newText);
                     if (value >= 0 && value <= this.viewModel.getHoldingToSell().getAmountHeld()) {
                         return change; 
                     }
@@ -129,16 +125,15 @@ public class SellPageCodeBehind {
 	/**
 	 * Sets the data when launching the page passing information from the LandingPageCodeBehind to this
 	 * @param user the user 
-	 * @param holdings the holdings of user
 	 * @param holding the holding selected to sell
 	 * @param fundsAvailable the string property of funds available of the user
 	 * @param holdingsListView the list view of holdings from the PortfolioPage
 	 * 
 	 * @post this.holdingsListView == holdingsListView, this.viewModel != null
 	 */
-	public void setData(Account user, List<Holding> holdings, Holding holding, StringProperty fundsAvailable, ListView<Holding> holdingsListView) {
+	public void setData(Account user, Holding holding, StringProperty fundsAvailable, ListView<Holding> holdingsListView) {
 		this.holdingsListView = holdingsListView;
-		this.viewModel = new SellPageViewModel(user, holding, holdings, fundsAvailable);
+		this.viewModel = new SellPageViewModel(user, holding, fundsAvailable);
 	}
 	
 	/**

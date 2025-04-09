@@ -1,5 +1,7 @@
 package portfoliomanager.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +120,13 @@ public class Account {
 	 */
 	
 	public void setFundsAvailable(double amount) {
-		this.fundsAvailable = amount;
+		this.fundsAvailable = this.roundToTwoDecimalPlaces(amount);
+	}
+	
+	private double roundToTwoDecimalPlaces(double value) {
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 }
