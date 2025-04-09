@@ -1,5 +1,8 @@
 package portfoliomanager.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Crypto Holdings 
  * @author Colby
@@ -45,8 +48,15 @@ public class Holding extends Crypto {
 	 */
 	
 	public void setAmountHeld(double amount) {
-		this.amountHeld = amount;
+		this.amountHeld = this.roundToTwoDecimalPlaces(amount);
 	}
+	
+	private double roundToTwoDecimalPlaces(double value) {
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+	
 	/**
 	 * Gets the profift by selling a portion of it 
 	 * @param amountToSell the amount you want to sell

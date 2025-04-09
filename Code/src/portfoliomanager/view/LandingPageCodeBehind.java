@@ -228,8 +228,7 @@ public class LandingPageCodeBehind implements Initializable {
 			SellPageCodeBehind controller = loader.getController();
 
 			Stage stage = new Stage();
-			controller.setData(this.viewModel.getUser(), this.viewModel.getCryptoHoldings(),
-					this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
+			controller.setData(this.viewModel.getUser(), this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
 			controller.setUpCodeBehind();
 			controller.setStage(stage);
 			stage.setScene(new Scene(root));
@@ -261,7 +260,7 @@ public class LandingPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
-			buyCryptoController.setData(this.viewModel.getUser(), this.cryptoListView.getItems(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+			buyCryptoController.setData(this.viewModel.getUser(), this.viewModel.getCryptoListProperty(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			stage.show();
