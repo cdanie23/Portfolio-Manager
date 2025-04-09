@@ -27,7 +27,7 @@ class TestLandingPageViewModel {
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5555";
+			port = "5565";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
@@ -48,7 +48,6 @@ class TestLandingPageViewModel {
 	static void interruptServer() {
 		client.makeRequest(Requests.exit);
 		client.resetClient();
-		
 	}
 	
 	@Test

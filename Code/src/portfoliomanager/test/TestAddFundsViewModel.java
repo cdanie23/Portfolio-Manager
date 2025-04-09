@@ -12,7 +12,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.AddFundsViewModel;
 
@@ -50,7 +49,6 @@ class TestAddFundsViewModel {
 	}
 	@AfterAll
 	static void interruptServer() {
-		client.makeRequest(Requests.exit);
 		client.resetClient();
 		serverThread.interrupt();
 	}
@@ -69,6 +67,14 @@ class TestAddFundsViewModel {
 		this.vm.addFunds();
 		
 		assertEquals("$1000.00", this.vm.getFundsAvailableProperty().get());
+	}
+	
+	@Test
+	void testAddNullFunds() {
+		client.makeAddFundsRequest(null, 1.0);
+		assertThrows(IllegalArgumentException.class,()->{
+			this.vm.addFunds();
+		});
 	}
 	
 	@Test
