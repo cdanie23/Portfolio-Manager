@@ -264,6 +264,7 @@ public class LandingPageCodeBehind implements Initializable {
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
 			buyCryptoController.setData(this.viewModel.getUser().getValue(), this.cryptoListView.getItems(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			stage.show();

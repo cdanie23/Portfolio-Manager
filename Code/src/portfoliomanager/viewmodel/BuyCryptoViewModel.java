@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
@@ -34,7 +33,6 @@ public class BuyCryptoViewModel {
 	private StringProperty cryptoDetailsProperty;
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailableProperty;
-	private ListProperty<Crypto> cryptoList;
 	private Series<String, Double> lineChartSeriesProperty;
 	private Client client;
 	
@@ -47,16 +45,14 @@ public class BuyCryptoViewModel {
 	 * @param user the user who wants to buy
 	 * @param holdingsProperty observable list of holdings
 	 * @param fundsAvailable string property for funds
-	 * @param cryptoList the list of cryptos
 	 */
-	public BuyCryptoViewModel(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
+	public BuyCryptoViewModel(Account user, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
 		this.user = user;
 		this.amountProperty = new SimpleStringProperty();
 		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
 		this.cryptoDetailsProperty = new SimpleStringProperty();
 		this.holdingsProperty = holdingsProperty;
 		this.fundsAvailableProperty = fundsAvailable;
-		this.cryptoList = new SimpleListProperty<Crypto>(cryptoList);
 		this.lineChartSeriesProperty = new Series<>();
 		this.client = Client.getInstance();
 	}
@@ -136,16 +132,6 @@ public class BuyCryptoViewModel {
 	}
 
 	/**
-	 * Gets the cryptoList
-	 * 
-	 * 
-	 * @return the cryptoList
-	 */
-	public ListProperty<Crypto> getCryptoList() {
-		return this.cryptoList;
-	}
-
-	/**
 	 * Gets the line chart series property
 	 * 
 	 * @return the line chart series property
@@ -165,15 +151,14 @@ public class BuyCryptoViewModel {
 		if (this.amountProperty.get() == null || this.amountProperty.get().isEmpty()) {
 			throw new IllegalArgumentException("Please enter a valid amount of crypto to buy.");
 		}
-		int amountToBuy = Integer.parseInt(this.amountProperty.get());
+		double amountToBuy = Double.parseDouble(this.amountProperty.get());
 		Crypto crypto = this.selectedCrypto.getValue();
 		double totalCost = amountToBuy * crypto.getCurrentPrice();
-		if (totalCost >= this.user.getFundsAvailable()) {
+		if (totalCost > this.user.getFundsAvailable()) {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
 		this.user.addHolding(holding);
-		System.out.println("Added holding");
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
 		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());

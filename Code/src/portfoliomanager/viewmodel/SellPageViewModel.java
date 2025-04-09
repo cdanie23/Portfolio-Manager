@@ -1,9 +1,10 @@
 package portfoliomanager.viewmodel;
 
-import java.util.List;
-
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 
@@ -16,32 +17,31 @@ public class SellPageViewModel {
 	private StringProperty amountToSell;
 	private Account user;
 	private Holding holdingToSell;
-	private List<Holding> holdings;
+	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailable;
 	
 	/**
 	 * Instantiates a new sell page view model
 	 * @param user the user 
 	 * @param holdingToSell the selected holding to sell
-	 * @param holdings the list of holdings of the user
 	 * @param fundsAvailable the funds available to the user
 	 * @post  this.amountToSell != null, this.fundsAvailable == fundsAvailable, this.user == user, this.holdingToSell == holdingToSell
 	 *        this.holdings == holdings
 	 */
-	public SellPageViewModel(Account user, Holding holdingToSell, List<Holding> holdings, StringProperty fundsAvailable) {
+	public SellPageViewModel(Account user, Holding holdingToSell, StringProperty fundsAvailable) {
 		this.amountToSell = new SimpleStringProperty();
 		this.fundsAvailable = fundsAvailable;
 		this.user = user;
 		this.holdingToSell = holdingToSell;
-		this.holdings = holdings;
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
 	/**
 	 * Gets the holdings of the user
 	 * @return the holdings
 	 */
 	
-	public List<Holding> getHoldings() {
-		return this.holdings;
+	public ListProperty<Holding> getHoldingsProperty() {
+		return this.holdingsProperty;
 	}
 	
 	/**
@@ -85,8 +85,8 @@ public class SellPageViewModel {
 	public void sellCrypto() {
 		Holding holding = this.getHoldingToSell();
 		holding.setAmountHeld(this.getAmountLeft());
-		if (holding.getAmountHeld() == 0) {
-			this.holdings.remove(holding);
+		if (holding.getAmountHeld() == 0.0) {
+			this.user.getHoldings().remove(holding);
 		}
 		double totalFunds = this.user.getFundsAvailable() + this.getProfit();
 		this.user.setFundsAvailable(totalFunds);

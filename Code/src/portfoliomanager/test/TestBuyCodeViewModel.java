@@ -35,7 +35,7 @@ class TestBuyCodeViewModel {
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.fundsAvailableProperty = new SimpleStringProperty();
 		this.cryptoList = FXCollections.observableArrayList();
-		this.vm = new BuyCryptoViewModel(this.user, cryptoList, this.holdingsProperty, this.fundsAvailableProperty);
+		this.vm = new BuyCryptoViewModel(this.user, this.holdingsProperty, this.fundsAvailableProperty);
 		this.vm.getSelectedCrypto().set(crypto);
 		this.historicalPrices = new HashMap<String, BigDecimal>();
 		this.historicalPrices.put("2025-01-30", new BigDecimal(10.01));
@@ -76,9 +76,7 @@ class TestBuyCodeViewModel {
 	@Test
 	void testUpdateLineChart() {
 		this.vm.updateLineChart(String.valueOf(320));
-		assertAll(()-> assertTrue(!this.vm.getCryptoList().get().isEmpty()),
-				()-> assertTrue(!this.vm.getLineChartSeriesProperty().getData().isEmpty()));
-				}
+		assertAll(()-> assertTrue(!this.vm.getLineChartSeriesProperty().getData().isEmpty()));}
 	
 	@Test
 	void testNullAmountToBuy() {
