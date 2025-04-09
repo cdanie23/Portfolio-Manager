@@ -138,7 +138,6 @@ public class LandingPageViewModel {
 //					System.out.println(holding.get(property));
 //				}
 //			}
-//		}
 	}
 	
 	/**

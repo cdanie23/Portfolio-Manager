@@ -11,6 +11,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSON"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ZMQ"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Reference libraries"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Refrenced Libraries"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

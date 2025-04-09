@@ -18,7 +18,6 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -62,6 +61,7 @@ public class BuyCryptoViewModel {
 		this.lineChartSeriesProperty = new Series<>();
 		this.client = Client.getInstance();
 	}
+	
 	/**
 	 * Instantiates a new buy crypto view model class for testing that doesn't set the client
 	 * 
@@ -72,6 +72,7 @@ public class BuyCryptoViewModel {
 	 * @param holdingsProperty observable list of holdings
 	 * @param fundsAvailable string property for funds
 	 * @param cryptoList the list of cryptos
+	 * @param test indicates testing constructor
 	 */
 	public BuyCryptoViewModel(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable, String test) {
 		this.user = user;
@@ -83,6 +84,7 @@ public class BuyCryptoViewModel {
 		this.cryptoList = new SimpleListProperty<Crypto>(cryptoList);
 		this.lineChartSeriesProperty = new Series<>();
 	}
+	
 	/**
 	 * Gets the amountProperty
 	 * 

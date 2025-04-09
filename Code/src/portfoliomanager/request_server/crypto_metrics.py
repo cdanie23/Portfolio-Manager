@@ -26,6 +26,3 @@ def getHistoricalData(timespan):
     price_dict = dict(zip(price_dict_str_dates["Date"], price_dict_str_dates["Close"]))
     
     return price_dict
-
-if (__name__=="__main__"):
-    print(getHistoricalData("1y"))
