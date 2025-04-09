@@ -30,7 +30,7 @@ class TestBuyCodeViewModel {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new Account("testuser", "pass@word");
+		this.user = new Account("testuser", "pass@word", "$123");
 		Crypto crypto = new Crypto("a", 9.1);
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.fundsAvailableProperty = new SimpleStringProperty();
@@ -70,7 +70,7 @@ class TestBuyCodeViewModel {
 		()-> assertEquals(954.5, this.vm.getUser().getFundsAvailable()),
 		()-> assertTrue(!this.vm.getHoldingsProperty().get().isEmpty()),
 		()-> assertFalse(this.vm.getHoldingsProperty().get().isEmpty()),
-		()-> assertEquals("$: 954.5", this.vm.getFundsAvailableProperty().get()));
+		()-> assertEquals("Funds Available $: 954.5", this.vm.getFundsAvailableProperty().get()));
 	}
 	
 	@Test

@@ -13,7 +13,7 @@ import java.util.List;
 public class Account {
 	private String username;
 	private String password;
-
+	private String auth;
 	private List<Holding> holdings;
 	private double fundsAvailable;
 	
@@ -22,12 +22,13 @@ public class Account {
 	 *
 	 * @param username the username
 	 * @param password the password
+	 * @auth the auth token the user was given
 	 */
-	public Account(String username, String password) {
-		if (username.isBlank() || password.isBlank()) {
+	public Account(String username, String password, String auth) {
+		if (username.isBlank() || password.isBlank() || auth.isBlank()) {
 			throw new IllegalArgumentException("Username or password don't meet specified requirements.");
 		}
-		
+		this.auth = auth;
 		this.username = username;
 		this.password = password;
 		this.holdings = new ArrayList<Holding>();
@@ -114,11 +115,11 @@ public class Account {
 	public double getFundsAvailable() {
 		return this.fundsAvailable;
 	}
+	
 	/**
 	 * Sets the funds available
 	 * @param amount the amount to set
 	 */
-	
 	public void setFundsAvailable(double amount) {
 		this.fundsAvailable = this.roundToTwoDecimalPlaces(amount);
 	}
@@ -127,6 +128,35 @@ public class Account {
 		BigDecimal bd = new BigDecimal(value);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
+	}
+	
+	/**
+	 * Gets the accounts auth token
+	 * @return the auth token
+	 */
+	public String getAuth() {
+		return this.auth;
+	}
+	
+	/**
+	 * Sets the accounts auth token.
+	 *
+	 * @param authtoken the new authtoken
+	 */
+	public void setAuth(String authtoken) {
+		this.auth = authtoken;
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		Account other = (Account) object;
+		boolean equal = false;
+		if (this.username.equals(other.getUserName())) {
+			if (this.auth.equalsIgnoreCase(other.getAuth())) {
+				equal = true;
+			}
+		}
+		return equal;
 	}
 
 }

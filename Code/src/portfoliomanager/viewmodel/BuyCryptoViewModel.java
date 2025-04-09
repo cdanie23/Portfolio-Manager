@@ -3,7 +3,6 @@ package portfoliomanager.viewmodel;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -16,6 +15,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import portfoliomanager.client.Client;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -34,6 +34,7 @@ public class BuyCryptoViewModel {
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailableProperty;
 	private Series<String, Double> lineChartSeriesProperty;
+	private Client client;
 	
 	/**
 	 * Instantiates a new buy crypto view model class
@@ -53,6 +54,7 @@ public class BuyCryptoViewModel {
 		this.holdingsProperty = holdingsProperty;
 		this.fundsAvailableProperty = fundsAvailable;
 		this.lineChartSeriesProperty = new Series<>();
+		this.client = Client.getInstance();
 	}
 	
 	/**
@@ -159,7 +161,7 @@ public class BuyCryptoViewModel {
 		this.user.addHolding(holding);
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-		this.fundsAvailableProperty.setValue("$: " + this.user.getFundsAvailable());
+		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
 	}
 	
 	/**

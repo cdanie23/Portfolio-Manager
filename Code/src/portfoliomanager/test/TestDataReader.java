@@ -6,28 +6,27 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 
 
-@TestInstance(Lifecycle.PER_CLASS)
+
 class TestDataReader {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private DataReader dataReader;
-	private Client client;
-	private Thread serverThread;
-	private MockServer mockServer;
+	private static Client client;
+	private static Thread serverThread;
+	private static MockServer mockServer;
 	private static String port;
 	
 	@BeforeAll 
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			port = "5557";
-			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + port));
+			mockServer = new MockServer();
+			port = "5558";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
 			System.out.println("Address is in use, but test cases continue");
@@ -41,8 +40,10 @@ class TestDataReader {
 	}
 	
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		client.resetClient();
+		serverThread.interrupt();
 	}
 	
 	@Test

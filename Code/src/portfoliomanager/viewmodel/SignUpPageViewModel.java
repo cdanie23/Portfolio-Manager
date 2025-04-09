@@ -1,12 +1,14 @@
 package portfoliomanager.viewmodel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
+import portfoliomanager.test.MockServer;
 
 /**
  * The Sign Up Page View Model
@@ -15,26 +17,42 @@ import portfoliomanager.model.Account;
  * @version Spring 2025
  */
 public class SignUpPageViewModel {
-	private static final List<Account> ACCOUNTS = new ArrayList<>();
 	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
 	private StringProperty passwordConfirmProperty;
-	private boolean isSignedUp;
+	private ObjectProperty<Boolean> isSignedUp;
 	private Client client;
-	
+	private ObjectProperty<Account> user;
+
 	/**
-	 * Instantiates a new sign up page view model.
+	 * Instantiates a new sign up page view model
+	 * @param user the user
+	 * @param isSignedUp the isSignedUp bool check
+	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
+	 * 		 this.isSignedUp == false, this.Client != null 
 	 */
-	public SignUpPageViewModel() {
-		if (ACCOUNTS.isEmpty()) {
-			ACCOUNTS.add(new Account("user", "pass123"));
-		}
-		
+	public SignUpPageViewModel(ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
+		this.isSignedUp = isSignedUp;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
-		this.isSignedUp = false;
+		this.isSignedUp.setValue(false); 
+		this.user = user;
 		this.client = Client.getInstance();
+	}
+
+	/**
+	 * A constructor used for testing purposes as to not create a new client 
+	 * before setting the appropriate port
+	 * @param test used to signify a test constructor
+	 */
+	public SignUpPageViewModel(String test) {
+		this.usernameProperty = new SimpleStringProperty();
+		this.passwordProperty = new SimpleStringProperty();
+		this.passwordConfirmProperty = new SimpleStringProperty();
+		this.isSignedUp = new SimpleObjectProperty<Boolean>();
+		this.isSignedUp.setValue(false);
+		this.user = new SimpleObjectProperty<Account>();
 	}
 	
 	/**
@@ -71,20 +89,11 @@ public class SignUpPageViewModel {
 	}
 	
 	/**
-	 * Gets the list of accounts.
-	 *
-	 * @return the list of accounts
-	 */
-	public static List<Account> getAccounts() {
-		return ACCOUNTS;
-	}
-	
-	/**
 	 * Returns the signed up status of the account
 	 * @return this.isSignedUp
 	 */
 	public boolean getSignedUpStatus() {
-		return this.isSignedUp;
+		return this.isSignedUp.getValue();
 	}
 	
 	/**
@@ -100,7 +109,16 @@ public class SignUpPageViewModel {
 	}
 	
 	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	public Client getClient() {
+		return this.client;
+	}
+	
+	/**
 	 * Adds the created account to the list of accounts.
+	 * @post if user is validated then this.user == user
 	 */
 	public void createAccount() {
 		String username = this.usernameProperty.get();
@@ -110,17 +128,29 @@ public class SignUpPageViewModel {
 		if (!password.trim().equals(passwordConfirm.trim())) {
 			throw new IllegalArgumentException("Passwords do not match.");
 		}
-		for (Account account : SignUpPageViewModel.ACCOUNTS) {
-	        if (account.getUserName().trim().equalsIgnoreCase(username.trim())) {
-	            throw new IllegalArgumentException("Account with the given username already exists, try logging in.");
-	        }
+		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		if (successCode == -1) {
+			String statusMsg = (String) response.get("error description");
+			throw new IllegalArgumentException(statusMsg);
 		}
 		
-		Account newAccount = new Account(username, password);
-		this.isSignedUp = true;
-		ACCOUNTS.add(newAccount);
-		this.client.makeAuthRequest(Requests.signUp, username, password, passwordConfirm);
-		// Temporary exit until further implementation
-		//this.client.makeRequest(Requests.exit);
+		this.isSignedUp.setValue(true);
+		String auth = (String) response.get("token");
+		Account account = new Account(username, password, auth);
+		if (MockServer.ACCOUNTS.contains(account)) {
+			throw new IllegalArgumentException("Cannot create a duplicate account");
+		}
+		MockServer.ACCOUNTS.add(account);
+		this.user.setValue(account);
+	}
+
+	/**
+	 * Gets the user 
+	 * @return the user
+	 */
+	public ObjectProperty<Account> getUser() {
+		return this.user;
 	}
 }

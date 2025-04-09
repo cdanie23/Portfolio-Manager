@@ -14,6 +14,11 @@ public class RequestCreator {
 	public static final String PASSWORD = "password";
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
 
+	public static final String NAME = "name";
+	public static final String AMOUNT = "amount";
+
+	public static final String AUTHTOKEN = "authtoken";
+	
 	/**
 	 * Creates a request 
 	 * @param requestMade the request to be created
@@ -47,4 +52,37 @@ public class RequestCreator {
         
         return request;
     }
+	
+	/**
+	 * Creates the logout request.
+	 *
+	 * @param requestMade the request to be created
+	 * @param authtoken the token to be used
+	 * 
+	 * @return the request created
+	 */
+	public Map<String, String> createLogoutRequest(Requests requestMade, String authtoken) {
+        Map<String, String> request = new HashMap<>();
+        request.put(TYPE, requestMade.toString());
+        request.put(AUTHTOKEN, authtoken);
+        
+        return request;
+    }
+
+	/**
+	 * Creates a request for a holding of an authorized account
+	 * @param requestMade type of request 
+	 * @param crypto type of crypto
+	 * @param amount the amount of crypto
+	 * @param authtoken the authorization token used
+	 * @return a request for the client to send to the server
+	 */
+	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken) {
+		Map<String, String> request = new HashMap<>();
+		request.put(TYPE, requestMade.toString());
+		request.put(NAME, crypto.toString());
+		request.put(AMOUNT, String.valueOf(amount));
+		request.put(AUTHTOKEN, authtoken);
+		return request;
+	}
 }

@@ -1,22 +1,22 @@
 package portfoliomanager.client;
 
 import java.util.Map;
-
 import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
 import org.json.JSONObject;
+
 /**
  * Sets up client to interact with the server
  * 
  * @author Group 2
  * @version Spring 2025
  */
-
 public final class Client extends Thread {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private static final String DEFAULT_PORT = "5555";
 	private static String serverPort;
+	private static ZMQ.Context context;
+    private static ZMQ.Socket socket;
+	
 	private RequestCreator requestCreator;
 	private Map<String, String> request;
 	private Map<String, Object> response;
@@ -25,10 +25,15 @@ public final class Client extends Thread {
 		this.request = null;
 		this.response = null;
 		this.requestCreator = new RequestCreator();
+		
 		if (serverPort == null) {
 			serverPort = DEFAULT_PORT;
 		}
+		context = ZMQ.context(1);
+		socket = context.socket(ZMQ.REQ);
+		this.run();
 	}
+	
 	/**
 	 * Make a request to the server
 	 * @pre request != null
@@ -36,13 +41,13 @@ public final class Client extends Thread {
 	 * @param request the request to make
 	 * @throws IllegalArgumentException
 	 */
-	
 	public void makeRequest(Requests request) {
 		if (request == null) {
 			throw new IllegalArgumentException("request cannot be null");
 		}
+		
 		this.request = this.requestCreator.createRequest(request);
-		this.run();
+		this.sendRequest();
 	}
 	
 	/**
@@ -64,7 +69,38 @@ public final class Client extends Thread {
 	    }
 
 	    this.request = this.requestCreator.createAuthRequest(request, username, password, confirmPassword);
-	    this.run();
+	    this.sendRequest();
+	}
+	
+	/**
+	 * Makes a request to the server to modify a holding
+	 * @param crypto the type of crypto the holding is
+	 * @param amount the amount of holding to change i.e. remove/add
+	 * @param auth the authorization used 
+	 * @post this.request == the appropriate request to send to the server
+	 */
+	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
+		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
+		this.sendRequest();
+	}
+	
+	/**
+	 * Make a logout request to the server.
+	 *
+	 * @pre request != null
+	 * @pre token != null
+	 * @post this.request != null
+	 * @param request the request
+	 * @param token the token
+	 * @throws IllegalArgumentException
+	 */
+	public void makeLogoutRequest(Requests request, String token) {
+		if (request == null || token == null) {
+	        throw new IllegalArgumentException("Request and token cannot be null");
+	    }
+		
+		this.request = this.requestCreator.createLogoutRequest(request, token);
+		this.run();
 	}
 	
 	/**
@@ -86,16 +122,20 @@ public final class Client extends Thread {
 	
 	@Override
 	public void run() {
-        Context context = ZMQ.context(1);
-
-        System.out.println("Connecting to server");
-        Socket socket = context.socket(ZMQ.REQ);
-        socket.connect(PROTOCOL_IP + Integer.parseInt(Client.serverPort));
+       System.out.println("Connecting to server");
+       socket.connect(PROTOCOL_IP + Integer.parseInt(Client.serverPort)); 
         
-        System.out.println("Client - Sending" + this.request);
+	}
+	
+	/**
+	 * Sends a request to the server
+	 * @pre this.request != null
+	 * @post this.response == the response from the server
+	 */
+	public void sendRequest() {
+		System.out.println("Client - Sending" + this.request);
         JSONObject request = new JSONObject(this.request);
         socket.send(request.toString());
-        
         byte[] reply = socket.recv(0);
         String response = new String(reply, ZMQ.CHARSET);
         System.out.println(response);
@@ -103,24 +143,22 @@ public final class Client extends Thread {
         this.response = jsonResponse.toMap();
 		System.out.println("Client - Received " + this.response);
 
-		if (this.response.containsValue("Exit request received.")) {
+		if (this.response.containsValue("exit")) {
         	socket.close();
             context.term();
             System.out.println("Client - Closing due to server exit");
         	return;
         }
-        socket.close();
-        context.term();
 	}
 	
 	private static final class Holder {
-		static final Client CLIENT = new Client();
+		private static Client client = new Client();
 	}
+	
 	/**
 	 * Gets a singleton instance of the client
 	 * @return the client
 	 */
-	
 	public static Client getInstance() {
 		return Client.getInstance(null);
 	}
@@ -137,8 +175,12 @@ public final class Client extends Thread {
 		} else {
 			Client.serverPort = customPort;
 		}
-		return Holder.CLIENT;
+
+		if (Holder.client != null) {
+			return Holder.client;
+		}
 		
+		return new Client();
 	}
 	
 	/**
@@ -149,5 +191,12 @@ public final class Client extends Thread {
 		return Client.serverPort;
 	}
 	
+	/**
+	 * Sets the client back to null mainly for testing purposes
+	 * @pre Client != null
+	 * @post Client == null
+	 */
+	public void resetClient() {
+		Holder.client = null;
+	}
 }
-

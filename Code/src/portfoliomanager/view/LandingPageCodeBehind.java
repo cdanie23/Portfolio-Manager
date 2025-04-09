@@ -214,9 +214,11 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	void logOutClicked(MouseEvent event) {
-		this.disableLogOutButtons();
-		this.disableTransactionAbility();
-		this.enableLogInButton();
+		if (this.viewModel.handleLogout()) {
+			this.disableLogOutButtons();
+			this.disableTransactionAbility();
+			this.enableLogInButton();
+		}
 	}
 
 	@FXML
@@ -228,7 +230,8 @@ public class LandingPageCodeBehind implements Initializable {
 			SellPageCodeBehind controller = loader.getController();
 
 			Stage stage = new Stage();
-			controller.setData(this.viewModel.getUser(), this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
+			controller.setData(this.viewModel.getUser().getValue(), this.viewModel.getCryptoHoldings(),
+					this.selectedHolding.getValue(), this.viewModel.getFundsAvailabe(), this.holdingsListView);
 			controller.setUpCodeBehind();
 			controller.setStage(stage);
 			stage.setScene(new Scene(root));
@@ -246,7 +249,7 @@ public class LandingPageCodeBehind implements Initializable {
 			Parent root = loader.load();
 			AddFundsCodeBehind addFundController = loader.getController();
 			Stage stage = new Stage();
-			addFundController.setData(this.viewModel.getUser(), this.viewModel.getFundsAvailabe());
+			addFundController.setData(this.viewModel.getUser().getValue(), this.viewModel.getFundsAvailabe());
 			stage.setScene(new Scene(root));
 			stage.show();
 		} catch (Exception exception) {
@@ -260,7 +263,8 @@ public class LandingPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
-			buyCryptoController.setData(this.viewModel.getUser(), this.viewModel.getCryptoListProperty(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+			buyCryptoController.setData(this.viewModel.getUser().getValue(), this.cryptoListView.getItems(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			stage.show();
@@ -292,5 +296,14 @@ public class LandingPageCodeBehind implements Initializable {
 	 */
 	public Label getPortfolioLogOutButton() {
 		return this.logOutPortfolioButton;
+	}
+	/**
+	 * updates the name labels for an authenticated user
+	 * @post user name labels are updated to the authenticated users name
+	 */
+	
+	public void updateNameLabels() {
+		this.viewModel.updateForAuthenticatedUser();
+		
 	}
 }

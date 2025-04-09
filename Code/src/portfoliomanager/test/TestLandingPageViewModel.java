@@ -3,31 +3,29 @@ package portfoliomanager.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
 
-@TestInstance(Lifecycle.PER_CLASS)
 class TestLandingPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	LandingPageViewModel viewModel;
-	private Thread serverThread;
-	private MockServer mockServer;
-	private String port;
+	private static Thread serverThread;
+	private static MockServer mockServer;
+	private static String port;
+	private static Client client;
 	
 	@BeforeAll 
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			this.port = "5558";
-			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
+			mockServer = new MockServer();
+			port = "5559";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
 			System.out.println("Address is in use, but test cases continue");
@@ -37,22 +35,27 @@ class TestLandingPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.viewModel = new LandingPageViewModel();
-		this.viewModel.setClient(this.port);
+		
+		this.viewModel = new LandingPageViewModel("test");
+		this.viewModel.setClient(port);
+		client = this.viewModel.getClient();
 	}
 	
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
-	}
-	
-	@AfterEach
-	void tearDown() throws Exception {
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		serverThread.interrupt();
 	}
 	
 	@Test
+	void testValidConstructor() {
+		LandingPageViewModel viewModel = new LandingPageViewModel();
+		assertEquals(viewModel.getUser().getValue(), null);
+		assertFalse(viewModel.getIsLoggedIn().getValue());
+	}
+	@Test
 	void testGetCryptoCollection() {
-		assertTrue(!this.viewModel.getCryptoListProperty().get().isEmpty());
+		assertTrue(!this.viewModel.getCryptoListProperty().getValue().isEmpty());
 	}
 	@Test
 	void testGetFundsAvailabe() {
@@ -64,18 +67,18 @@ class TestLandingPageViewModel {
 	
 	@Test
 	void testGetCryptoHoldings() {
-		assertTrue(!this.viewModel.getCryptoHoldings().isEmpty());
+		assertTrue(this.viewModel.getCryptoHoldings().isEmpty());
 	}
 	
 	@Test
 	void testGetHoldingsProperty() {
-		assertTrue(!this.viewModel.getHoldingsProperty().get().isEmpty());
+		assertTrue(this.viewModel.getHoldingsProperty().getValue().isEmpty());
 	}
 	@Test
 	void testGetUser() {
-		Account expectedUser = this.viewModel.getUser();
+		Account expectedUser = this.viewModel.getUser().getValue();
 		
-		assertEquals(expectedUser, this.viewModel.getUser());
+		assertEquals(expectedUser, this.viewModel.getUser().getValue());
 	}
 	@Test
 	void testUpdateForAuthenticatedUser() {
@@ -83,7 +86,7 @@ class TestLandingPageViewModel {
 		this.viewModel.updateForAuthenticatedUser();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
-		assertEquals(welcomeText, "Welcome back,"+ this.viewModel.getUser().getUserName());
+		assertEquals(welcomeText, "Welcome back, "+ this.viewModel.getUser().getValue().getUserName());
 	}
 	
 	@Test
@@ -98,7 +101,7 @@ class TestLandingPageViewModel {
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);
 		this.viewModel.updateForAuthenticatedUser();
-		String expectedPortfolioLabel = "user's Portfolio";
+		String expectedPortfolioLabel = "testUser's Portfolio";
 		String actual = this.viewModel.getPortfolioNameProperty().getValue();
 		
 		assertEquals(expectedPortfolioLabel, actual);

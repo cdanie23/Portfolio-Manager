@@ -9,42 +9,41 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 
-@TestInstance(Lifecycle.PER_CLASS)
 class TestClient {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
-	private String port;
+	private static String port;
 	private static Client client;
-	private Thread serverThread;
-	private MockServer mockServer;
+	private static Thread serverThread;
+	private static MockServer mockServer;
 
 	
 	@BeforeAll
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			this.port = "5556";
-			this.serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
-			this.serverThread.start();
+			mockServer = new MockServer();
+			port = "5556";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
+			serverThread.start();
 		} catch (ZMQException e) {
 			System.out.println("Address is in use, but test cases continue");
 		}
 	}
 
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		client.resetClient();
+		serverThread.interrupt();
 	}
 
 	@BeforeEach
 	void setup() {
-		client = Client.getInstance(this.port);
+		client = Client.getInstance(port);
 	}
 
 	@Test
@@ -81,6 +80,20 @@ class TestClient {
 			client.makeAuthRequest(Requests.login, "user", null, null);
 		});
 	}
+	
+	@Test
+	void testNullLogoutRequest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			client.makeLogoutRequest(null, "");
+		});
+	}
+	
+	@Test
+	void testNullLogoutRequestNullToken() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			client.makeLogoutRequest(Requests.logout, null);
+		});
+	}
 
 	@Test
 	void testGetBtcPriceRequest() {
@@ -111,13 +124,14 @@ class TestClient {
 	}
 	
 	@Test
-	void testExitRequest() {
-		client.makeRequest(Requests.exit);
+	void testHandleLogout() {
+		client.makeAuthRequest(Requests.signUp, "user1", "pass123", "pass123");
 		Map<String, Object> response = client.getResponse();
-
-		assertAll(
-		()->assertEquals(-1, response.get("success code")), 
-		()->assertEquals("exit", response.get("type")));
+		
+		client.makeLogoutRequest(Requests.logout, (String) response.get("token"));
+		Map<String, Object> response2 = client.getResponse();
+		
+		assertEquals(1, response2.get("success code"));
 	}
 	
 	@Test

@@ -1,5 +1,6 @@
 package portfoliomanager.viewmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.ListProperty;
@@ -10,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -23,7 +25,7 @@ import portfoliomanager.model.Holding;
  */
 public class LandingPageViewModel {
 	private DataReader dataReader;
-	private Account user;
+	private ObjectProperty<Account> user;
 	private List<Holding> holdings;
 	private ListProperty<Holding> holdingsProperty;
 	private ListProperty<Crypto> cryptoListProperty;
@@ -32,43 +34,71 @@ public class LandingPageViewModel {
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
 	private Client client;
+	
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
 	 */
-	
 	public LandingPageViewModel() {
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
 		this.portfolioNameProperty = new SimpleStringProperty();
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
-		//TODO get the data from the client instead
+		
 		this.client = Client.getInstance();
 		this.dataReader = null;
 		this.cryptoListProperty = null;
+		
 		this.fundsAvailable = new SimpleStringProperty();
-		// Prepopulated for now since we don't have server
-		this.user = new Account("user", "pass123");
-		Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
-		this.user.addHolding(userHolding);
-		this.holdings = this.user.getHoldings();
-		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());
-		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+	
+		this.holdings = new ArrayList<Holding>(); 
+
+		this.holdingsProperty = new SimpleListProperty<Holding>();
+		this.user = new SimpleObjectProperty<Account>();
 	}
+
+	/**
+	 * Used for testing purposes as to not create a new instance of the client
+	 * without setting the appropriate testing port
+	 * @param test used to express it is a testing constructor
+	 */
+	public LandingPageViewModel(String test) {
+		this.welcomeLabelProperty = new SimpleStringProperty();
+		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
+		this.portfolioNameProperty = new SimpleStringProperty();
+		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
+		this.isLoggedIn.setValue(false);
+		//TODO get the data from the client instead
+		this.dataReader = null;
+		this.cryptoListProperty = null;
+		this.fundsAvailable = new SimpleStringProperty();
+		this.holdings = new ArrayList<Holding>(); 		
+		this.holdingsProperty = new SimpleListProperty<Holding>();
+		this.holdingsProperty.setValue(FXCollections.observableList(this.holdings));
+		this.user = new SimpleObjectProperty<Account>(new Account("testUser", "testPass", "$123"));
+		this.fundsAvailable.setValue("$: 0.0");
+		// Prepopulated for now since we don't have server
+		//this.user = new Account("user", "pass123");
+		//Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
+		//this.user.addHolding(userHolding);
+		//this.holdings = this.user.getHoldings();
+		//this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
+		//this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+	}
+	
 	/**
 	 * Gets the portfolio name property
 	 * @return the portfolio name property
 	 */
-	
 	public StringProperty getPortfolioNameProperty() {
 		return this.portfolioNameProperty;
 	}
+	
 	/**
 	 * Gets the welcome label property
 	 * @return the welcome label property
 	 */
-	
 	public StringProperty getWelcomeLabelProperty() {
 		return this.welcomeLabelProperty;
 	}
@@ -77,7 +107,6 @@ public class LandingPageViewModel {
 	 * Gets the funds available 
 	 * @return the string property of the funds available
 	 */
-	
 	public StringProperty getFundsAvailabe() {
 		return this.fundsAvailable;
 	}
@@ -86,10 +115,8 @@ public class LandingPageViewModel {
 	 * Notifies authentication
 	 */
 	public void updateForAuthenticatedUser() {
-		System.out.println("authenticated called");
 		if (this.isLoggedIn.getValue()) {
 			this.updateWelcomeLabels();
-			System.out.println("reached");
 		}
 	}
 	
@@ -97,8 +124,8 @@ public class LandingPageViewModel {
 	 * Updates labels after logging in
 	 */
 	private void updateWelcomeLabels() {
-		this.welcomeLabelProperty.setValue("Welcome back," + this.user.getUserName());
-		this.portfolioNameProperty.setValue(this.user.getUserName() + "'s Portfolio");
+		this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
+		this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
 	}
 	
 	/**
@@ -122,7 +149,7 @@ public class LandingPageViewModel {
 	 * Gets the user 
 	 * @return the user
 	 */
-	public Account getUser() {
+	public ObjectProperty<Account> getUser() {
 		return this.user;
 	}
 	
@@ -132,21 +159,44 @@ public class LandingPageViewModel {
 	 */
 	public ListProperty<Crypto> getCryptoListProperty() {
 		this.readCryptoList();
+		
 		return this.cryptoListProperty;
 	}
 	
+	/**
+	 * Reads the crypto list.
+	 */
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 	}
+	
 	/**
 	 * Gets if the user is logged in 
 	 * @return if user is logged in 
 	 */
-	
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
+	}
+	
+	/**
+	 * Handles the user logout.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean handleLogout() {
+		String token = this.user.get().getAuth();
+		
+		if (token != null && !token.isBlank()) {
+			this.client.makeLogoutRequest(Requests.logout, token);
+			System.out.println(token);
+			this.user.get().setAuth("");
+			
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**
@@ -159,5 +209,13 @@ public class LandingPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
 	}
 }

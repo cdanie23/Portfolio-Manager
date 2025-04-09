@@ -6,32 +6,33 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import javafx.beans.property.SimpleObjectProperty;
+import portfoliomanager.client.Client;
+import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 
-@TestInstance(Lifecycle.PER_CLASS)
 public class TestLoginPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private LoginPageViewModel page;
-	private Thread serverThread;
-	private MockServer mockServer;
-	private String port;
+	private static Thread serverThread;
+	private static MockServer mockServer;
+	private static String port;
+	private static Client client;
 	
 	@BeforeAll
-	void startServer() {
+	static void startServer() {
 		try {
-			this.mockServer = new MockServer();
-			this.port = "5559";
-			serverThread = new Thread(() -> this.mockServer.mockServer(PROTOCOL_IP + this.port));
+			mockServer = new MockServer();
+			port = "5560";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
 			System.out.println("Address is in use, but test cases continue");
@@ -41,33 +42,41 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"));
-		this.page.setClient(this.port);
+		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), "test");
+		this.page.setClient(port);
+		client = this.page.getClient();
 		}
 	
 	@AfterAll
-	void interruptServer() {
-		this.serverThread.interrupt();
+	static void interruptServer() {
+		client.makeRequest(Requests.exit);
+		client.resetClient();
+		serverThread.interrupt();
 	}
-	
+	@Test
+	public void testValidNonTestConstructor() {
+		LoginPageViewModel viewModel = new LoginPageViewModel(new SimpleObjectProperty<>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")));
+		assertFalse(viewModel.getLoginStatus().getValue());
+		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+	}
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
-		assertEquals("user", this.page.getAccounts().get(0).getUserName());
-		assertEquals("pass123", this.page.getAccounts().get(0).getPassword());
-		assertEquals("Sam", this.page.getUser().getUserName());
-		assertEquals("pw", this.page.getUser().getPassword());
+		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
+		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
+		assertEquals("Sam", this.page.getUser().getValue().getUserName());
+		assertEquals("pw", this.page.getUser().getValue().getPassword());
 	}
 	
-	@Test
-	public void testValidLoginPageViewModelConstructorEmptyAccounts() {
-		SignUpPageViewModel.getAccounts().clear();
-		
-		assertTrue(SignUpPageViewModel.getAccounts().isEmpty());
-		
-		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw"));
-		
-		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
-	}
+//	@Test
+//	public void testValidLoginPageViewModelConstructorEmptyAccounts() {
+//		MockServer.ACCOUNTS.clear();
+//		
+//		assertTrue(MockServer.ACCOUNTS.isEmpty());
+//		
+//		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw", "$123"));
+//		
+//		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
+//	}
 	
 	@Test
 	public void testValidVerifyAccount() {

@@ -17,7 +17,7 @@ class TestAddFundsViewModel {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new Account("acc", "pass.145");
+		this.user = new Account("acc", "pass.145", "$123");
 		this.fA = new SimpleStringProperty();
 		this.vm = new AddFundsViewModel(this.user, this.fA);
 	}
