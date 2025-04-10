@@ -8,7 +8,6 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -100,9 +99,9 @@ public class BuyCryptoCodeBehind {
      * @param holdingsProperty observable list of holdings
      * @param fundsAvailable string property for the funds
      */
-    public void setData(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
-    	this.viewModel = new BuyCryptoViewModel(user, cryptoList, holdingsProperty, fundsAvailable);
-    	this.buyCryptoListView.itemsProperty().bindBidirectional(this.viewModel.getCryptoList());
+    public void setData(Account user, ListProperty<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
+    	this.viewModel = new BuyCryptoViewModel(user, holdingsProperty, fundsAvailable);
+    	this.buyCryptoListView.itemsProperty().bindBidirectional(cryptoList);
     	this.viewModel.getAmountProperty().bind(this.amountTextBox.textProperty());
     	this.lineGraph.getData().add(this.viewModel.getLineChartSeriesProperty());
     	CategoryAxis xAxis = (CategoryAxis) this.lineGraph.getXAxis();
@@ -134,9 +133,9 @@ public class BuyCryptoCodeBehind {
                 return change;
             }
 
-            if (newText.matches("[0-9]*")) {
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
                 try {
-                    int value = Integer.parseInt(newText);
+                    Double value = Double.parseDouble(newText);
                     if (value >= 0) {
                         return change; 
                     }

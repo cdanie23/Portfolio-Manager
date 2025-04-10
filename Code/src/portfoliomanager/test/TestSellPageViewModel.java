@@ -26,14 +26,14 @@ class TestSellPageViewModel {
 		SimpleStringProperty fundsAvailable = new SimpleStringProperty();
 		fundsAvailable.setValue("$" + user.getFundsAvailable());
 		
-		this.viewModel = new SellPageViewModel(user, holdingToSell, holdings, fundsAvailable);
+		this.viewModel = new SellPageViewModel(user, holdingToSell, fundsAvailable);
 		double amountToSell = 2;
 		this.viewModel.getAmountToSell().setValue(String.valueOf(amountToSell));
 	}
 
 	@Test
 	void testGetHoldings() {
-		assertTrue(!this.viewModel.getHoldings().isEmpty());
+		assertTrue(!this.viewModel.getHoldingsProperty().get().isEmpty());
 	}
 	
 	@Test
