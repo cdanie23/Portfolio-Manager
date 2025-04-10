@@ -104,9 +104,9 @@ public final class Client extends Thread {
 	}
 	
 	/**
-	 * Adds fund
-	 * @param auth the auth token for the account
-	 * @param amount the amount to be added to funds
+	 * Adds funds to the specified users account
+	 * @param auth the token corresponding to the account
+	 * @param amount the amount to add
 	 */
 	public void makeAddFundsRequest(String auth, double amount) {
 		this.request = this.requestCreator.createAddFundsRequest(Requests.addFunds, auth, amount);

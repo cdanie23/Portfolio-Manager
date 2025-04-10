@@ -5,7 +5,6 @@ Created on Apr 3, 2025
 '''
 class Holding:
    
-    
     def __init__(self, name, amount):
         self.amount_held = amount
         self.name = name
@@ -18,3 +17,5 @@ class Holding:
     
     def getAmountHeld(self):
         return self.amount_held
+        
+
