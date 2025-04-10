@@ -1,16 +1,15 @@
 package portfoliomanager.client;
 
 import java.util.Map;
-
 import org.zeromq.ZMQ;
 import org.json.JSONObject;
+
 /**
  * Sets up client to interact with the server
  * 
  * @author Group 2
  * @version Spring 2025
  */
-
 public final class Client extends Thread {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private static final String DEFAULT_PORT = "5555";
@@ -26,6 +25,7 @@ public final class Client extends Thread {
 		this.request = null;
 		this.response = null;
 		this.requestCreator = new RequestCreator();
+		
 		if (serverPort == null) {
 			serverPort = DEFAULT_PORT;
 		}
@@ -33,6 +33,7 @@ public final class Client extends Thread {
 		socket = context.socket(ZMQ.REQ);
 		this.run();
 	}
+	
 	/**
 	 * Make a request to the server
 	 * @pre request != null
@@ -40,11 +41,11 @@ public final class Client extends Thread {
 	 * @param request the request to make
 	 * @throws IllegalArgumentException
 	 */
-	
 	public void makeRequest(Requests request) {
 		if (request == null) {
 			throw new IllegalArgumentException("request cannot be null");
 		}
+		
 		this.request = this.requestCreator.createRequest(request);
 		this.sendRequest();
 	}
@@ -70,6 +71,7 @@ public final class Client extends Thread {
 	    this.request = this.requestCreator.createAccountRequest(request, username, password, confirmPassword);
 	    this.sendRequest();
 	}
+	
 	/**
 	 * Sends a request to the server to get the holding of an account
 	 * @param auth the token associated with the account
@@ -99,7 +101,7 @@ public final class Client extends Thread {
 	 */
 	
 	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
-		this.request = this.requestCreator.createModifyHoldingRequest(Requests.addHolding, crypto, amount, auth);
+		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
 		this.sendRequest();
 	}
 	
@@ -112,6 +114,26 @@ public final class Client extends Thread {
 		this.request = this.requestCreator.createAddFundsRequest(Requests.addFunds, auth, amount);
 		this.sendRequest();
 	}
+	
+	/**
+	 * Make a logout request to the server.
+	 *
+	 * @pre request != null
+	 * @pre token != null
+	 * @post this.request != null
+	 * @param request the request
+	 * @param token the token
+	 * @throws IllegalArgumentException
+	 */
+	public void makeLogoutRequest(Requests request, String token) {
+		if (request == null || token == null) {
+	        throw new IllegalArgumentException("Request and token cannot be null");
+	    }
+		
+		this.request = this.requestCreator.createLogoutRequest(request, token);
+		this.run();
+	}
+	
 	/**
 	 * Returns the request made to the server
 	 * @return the request made to the server
@@ -163,11 +185,11 @@ public final class Client extends Thread {
 	private static final class Holder {
 		private static Client client = new Client();
 	}
+	
 	/**
 	 * Gets a singleton instance of the client
 	 * @return the client
 	 */
-	
 	public static Client getInstance() {
 		return Client.getInstance(null);
 	}
@@ -184,10 +206,12 @@ public final class Client extends Thread {
 		} else {
 			Client.serverPort = customPort;
 		}
+
 		if (Holder.client != null) {
 			return Holder.client;
 		}
-			return new Client();
+		
+		return new Client();
 	}
 	
 	/**
@@ -197,15 +221,13 @@ public final class Client extends Thread {
 	public String getPort() {
 		return Client.serverPort;
 	}
+	
 	/**
 	 * Sets the client back to null mainly for testing purposes
 	 * @pre Client != null
 	 * @post Client == null
 	 */
-	
 	public void resetClient() {
 		Holder.client = null;
 	}
-	
 }
-

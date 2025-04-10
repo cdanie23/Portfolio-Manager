@@ -1,8 +1,10 @@
 package portfoliomanager.viewmodel;
 
+<<<<<<< HEAD
 import java.math.BigDecimal;
+=======
+>>>>>>> main
 import java.util.Map;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,31 +30,31 @@ public class LoginPageViewModel {
 	/**
 	 * Instantiates a new login page view model.
 	 */
-	
-	public LoginPageViewModel() {
-		this.user = new SimpleObjectProperty<Account>();
-		this.isLoggedIn = new SimpleObjectProperty<Boolean>(false);
+
+	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
+		this.user = user;
+		this.isLoggedIn = isLoggedIn;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.client = Client.getInstance();
 	}
+
 	/**
 	 * Used for testing purposes
 	 * @param test used to express this is a testing constructor 
 	 */
-	
-	public LoginPageViewModel(String test) {
-		this.user = new SimpleObjectProperty<Account>();
-		this.isLoggedIn = new SimpleObjectProperty<Boolean>(false);
+	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user, String test) {
+		this.user = user;
+		this.isLoggedIn = isLoggedIn;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 	}
+
 	/**
 	 * Gets the user name property.
 	 *
 	 * @return the user name property
 	 */
-	
 	public StringProperty getUserNameProperty() {
 		return this.usernameProperty;
 	}
@@ -77,7 +79,39 @@ public class LoginPageViewModel {
 	public ObjectProperty<Boolean> getLoginStatus() {
 		return this.isLoggedIn;
 	}
+
+	/**
+	 * Gets the user
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the user that logs in to the system
+	 */
+	public ObjectProperty<Account> getUser() {
+		return this.user;
+	}
 	
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	public Client getClient() {
+		return this.client;
+	}
+
 	/**
 	 * Verifies the login information for the account.
 	 */
@@ -115,37 +149,5 @@ public class LoginPageViewModel {
 			return;
 		} 
 		throw new IllegalArgumentException("Username or password are incorrect.");
-	}
-
-	/**
-	 * Gets the user
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @return the user that logs in to the system
-	 */
-	public ObjectProperty<Account> getUser() {
-		return this.user;
-	}
-	
-	/**
-	 * Sets the client for a specific port
-	 * 
-	 * @param serverPort port to be changed to 
-	 * Primarily used for testing
-	 */
-	public void setClient(String serverPort) {
-		if (serverPort != null) {
-			this.client = Client.getInstance(serverPort);
-		}
-	}
-	/**
-	 * Gets the client
-	 * @return the client
-	 */
-	
-	public Client getClient() {
-		return this.client;
 	}
 }

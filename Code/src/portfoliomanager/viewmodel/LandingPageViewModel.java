@@ -1,7 +1,9 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,6 +13,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.CryptoCurrencies;
+import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -33,11 +37,11 @@ public class LandingPageViewModel {
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
 	private Client client;
+	
 	/**
 	 * Instantiates an instance of the view-model
 	 * @post this.dataReader != null, this.cryptoObservableList != null
 	 */
-	
 	public LandingPageViewModel() {
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
@@ -55,14 +59,13 @@ public class LandingPageViewModel {
 
 		this.holdingsProperty = new SimpleListProperty<Holding>();
 		this.user = new SimpleObjectProperty<Account>();
-		
 	}
+
 	/**
 	 * Used for testing purposes as to not create a new instance of the client
 	 * without setting the appropriate testing port
 	 * @param test used to express it is a testing constructor
 	 */
-	
 	public LandingPageViewModel(String test) {
 		this.welcomeLabelProperty = new SimpleStringProperty();
 		this.welcomeLabelProperty.setValue("Welcome to Crypto Vault");
@@ -77,21 +80,32 @@ public class LandingPageViewModel {
 		this.holdingsProperty = new SimpleListProperty<Holding>();
 		this.holdingsProperty.setValue(FXCollections.observableList(this.holdings));
 		this.user = new SimpleObjectProperty<Account>(new Account("testUser", "testPass", "$123"));
+<<<<<<< HEAD
 		this.fundsAvailable.setValue("$0.0");
+=======
+		this.fundsAvailable.setValue("$: 0.0");
+		// Prepopulated for now since we don't have server
+		//this.user = new Account("user", "pass123");
+		//Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
+		//this.user.addHolding(userHolding);
+		//this.holdings = this.user.getHoldings();
+		//this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
+		//this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+>>>>>>> main
 	}
+	
 	/**
 	 * Gets the portfolio name property
 	 * @return the portfolio name property
 	 */
-	
 	public StringProperty getPortfolioNameProperty() {
 		return this.portfolioNameProperty;
 	}
+	
 	/**
 	 * Gets the welcome label property
 	 * @return the welcome label property
 	 */
-	
 	public StringProperty getWelcomeLabelProperty() {
 		return this.welcomeLabelProperty;
 	}
@@ -100,7 +114,6 @@ public class LandingPageViewModel {
 	 * Gets the funds available 
 	 * @return the string property of the funds available
 	 */
-	
 	public StringProperty getFundsAvailabe() {
 		return this.fundsAvailable;
 	}
@@ -116,21 +129,26 @@ public class LandingPageViewModel {
 	}
 	
 	private void updateUserProperties() {
-		//TODO make it so whenever you login/signup it sends a request to the server to retrieve the users's holdings and the funds available
+		//TODO test this
 		
 		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getValue().getFundsAvailable()));
 		
-//		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
-//		Map<>response = this.client.getResponse();
-//		
-//		List<Map<String, String>> holdings = (List<Map<String, String>>) response.get("holdings");
-//		
-//		if (!holdings.isEmpty()) {
-//			for (Map<String, String> holding : holdings) {
-//				for (String property : holding.keySet()) {
-//					System.out.println(holding.get(property));
-//				}
-//			}
+		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
+		Map<String, Object>response = this.client.getResponse();
+		
+		List<Map<String, Object>> holdingsList = (List<Map<String, Object>>) response.get("holdings");
+		
+		List<Holding> holdings = new ArrayList<>();
+
+		for (Map<String, Object> item : holdingsList) {
+		    CryptoCurrencies name = (CryptoCurrencies) item.get("name");
+		    double amount = (double) item.get("amount"); 
+		    this.client.makeRequest(Requests.btcPrice);
+		    Map<String, Object> priceResponse = this.client.getResponse();
+		    BigDecimal currPrice = (BigDecimal) priceResponse.get("Price");
+		    holdings.add(new Holding(name, amount, currPrice.doubleValue()));
+		}
+		this.user.getValue().setHoldings(holdings);
 	}
 	
 	/**
@@ -177,21 +195,44 @@ public class LandingPageViewModel {
 	 */
 	public ListProperty<Crypto> getCryptoListProperty() {
 		this.readCryptoList();
+		
 		return this.cryptoListProperty;
 	}
 	
+	/**
+	 * Reads the crypto list.
+	 */
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
 	}
+	
 	/**
 	 * Gets if the user is logged in 
 	 * @return if user is logged in 
 	 */
-	
 	public ObjectProperty<Boolean> getIsLoggedIn() {
 		return this.isLoggedIn;
+	}
+	
+	/**
+	 * Handles the user logout.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean handleLogout() {
+		String token = this.user.get().getAuth();
+		
+		if (token != null && !token.isBlank()) {
+			this.client.makeLogoutRequest(Requests.logout, token);
+			System.out.println(token);
+			this.user.get().setAuth("");
+			
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**

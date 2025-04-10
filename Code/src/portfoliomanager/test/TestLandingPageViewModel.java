@@ -62,7 +62,7 @@ class TestLandingPageViewModel {
 	}
 	@Test
 	void testGetFundsAvailabe() {
-		String expected = "$0.0";
+		String expected = "$: 0.0";
 		String actual = this.viewModel.getFundsAvailabe().getValue();
 		
 		assertEquals(expected, actual);

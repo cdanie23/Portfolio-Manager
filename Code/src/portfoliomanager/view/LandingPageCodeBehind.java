@@ -150,11 +150,13 @@ public class LandingPageCodeBehind implements Initializable {
 
 	@FXML
 	void logOutClicked(MouseEvent event) {
-		this.disableLogOutButtons();
-		this.disableTransactionAbility();
-		this.enableLogInButton();
-		this.viewModel.handleLogOut();
-		this.disableTransactionAbility();
+
+		if (this.viewModel.handleLogout()) {
+			this.disableLogOutButtons();
+			this.disableTransactionAbility();
+			this.enableLogInButton();
+		}
+
 	}
 
 	@FXML

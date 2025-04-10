@@ -1,7 +1,6 @@
 package portfoliomanager.viewmodel;
 
 import java.util.Map;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,33 +17,33 @@ import portfoliomanager.test.MockServer;
  * @version Spring 2025
  */
 public class SignUpPageViewModel {
-	
 	private StringProperty usernameProperty;
 	private StringProperty passwordProperty;
 	private StringProperty passwordConfirmProperty;
 	private ObjectProperty<Boolean> isSignedUp;
 	private Client client;
 	private ObjectProperty<Account> user;
+
 	/**
 	 * Instantiates a new sign up page view model
 	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
 	 * 		 this.isSignedUp == false, this.Client != null 
 	 */
 	
-	public SignUpPageViewModel() {
-		this.isSignedUp = new SimpleObjectProperty<Boolean>(false);
+	public SignUpPageViewModel(ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
+		this.isSignedUp = isSignedUp;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
 		this.user = new SimpleObjectProperty<Account>();
 		this.client = Client.getInstance();
 	}
+
 	/**
 	 * A constructor used for testing purposes as to not create a new client 
 	 * before setting the appropriate port
 	 * @param test used to signify a test constructor
 	 */
-	
 	public SignUpPageViewModel(String test) {
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
@@ -104,7 +103,6 @@ public class SignUpPageViewModel {
 		if (serverPort != null) {
 			this.client = Client.getInstance(serverPort);
 		}
-		
 	}
 	
 	/**
@@ -143,9 +141,7 @@ public class SignUpPageViewModel {
 		}
 		MockServer.ACCOUNTS.add(account);
 		this.user.setValue(account);
-		
 	}
-	
 	/**
 	 * Gets the user 
 	 * @return the user

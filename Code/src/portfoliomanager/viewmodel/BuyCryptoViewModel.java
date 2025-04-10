@@ -3,7 +3,6 @@ package portfoliomanager.viewmodel;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -208,14 +207,18 @@ public class BuyCryptoViewModel {
 		this.user.addHolding(holding);
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
+<<<<<<< HEAD
 		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	
+=======
+		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
+>>>>>>> main
 	}
 	
 	/**
 	 * Updates the line Chart
 	 * 
-	 * @param response the range of days to ge tthe data for
+	 * @param response the range of days to get the data for
 	 */
 	public void updateLineChart(String response) {
 		if (response == null) {
@@ -248,6 +251,7 @@ public class BuyCryptoViewModel {
 		line.setStroke(Color.RED);
 		data.setNode(line);
 	}
+<<<<<<< HEAD
 	/**
 	 * Sets the client for a specific port
 	 * 
@@ -269,3 +273,6 @@ public class BuyCryptoViewModel {
 		return this.client;
 	}
 }
+=======
+}
+>>>>>>> main

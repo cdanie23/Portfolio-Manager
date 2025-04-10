@@ -126,11 +126,11 @@ public class Account {
 	public double getFundsAvailable() {
 		return this.fundsAvailable;
 	}
+	
 	/**
 	 * Sets the funds available
 	 * @param amount the amount to set
 	 */
-	
 	public void setFundsAvailable(double amount) {
 		this.fundsAvailable = amount;
 	}
@@ -141,6 +141,24 @@ public class Account {
 	 */
 	public String getAuth() {
 		return this.auth;
+	}
+	
+	/**
+	 * Sets the accounts auth token.
+	 *
+	 * @param authtoken the new authtoken
+	 */
+	public void setAuth(String authtoken) {
+		this.auth = authtoken;
+	}
+	/**
+	 * Sets the users holdings
+	 * @param holdings the holdings to set
+	 * @post this.holdings == holdings
+	 */
+	
+	public void setHoldings(List<Holding> holdings) {
+		this.holdings = holdings;
 	}
 	
 	@Override

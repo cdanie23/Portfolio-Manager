@@ -52,7 +52,6 @@ class RequestHandler:
                 constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE: "Passwords do not match"
             }
-<<<<<<< HEAD
         for account in self._users:
             if (username == account.get_username()):
                 response = {
@@ -60,15 +59,6 @@ class RequestHandler:
                     constants.KEY_FAILURE_MESSAGE: "Username already exists"
                 }
                 return response
-=======
-        
-        for account in self._users:
-            if account.username == username:    
-                return {
-                    constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
-                    constants.KEY_FAILURE_MESSAGE: "Username already exists"
-                }
->>>>>>> 410a0cf8e33937a2ce5442e1a64e7bf1b2cd2010
         account = Account(username, password)
         self._users.append(account)
         token = str(uuid.uuid4())
@@ -99,16 +89,10 @@ class RequestHandler:
         for token in self._tokens:
             if(token == auth):
                 account = self._tokens[token]
-<<<<<<< HEAD
-                break
+                break;
         return account
-    
-    def findAccountByName(self, username, pw):
-=======
-                return account 
-        
+               
     def findAccountByName(self, username, password):
->>>>>>> 410a0cf8e33937a2ce5442e1a64e7bf1b2cd2010
         for account in self._users:
             if (account == Account(username, password)):
                 return account
@@ -149,6 +133,7 @@ class RequestHandler:
         self._tokens[token] = self.findAccountByName(username, password)
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     
+
     def handleGetFunds(self, request):
         auth = request[constants.KEY_TOKEN]
         account = self.findAccountByAuth(auth)
@@ -177,6 +162,21 @@ class RequestHandler:
                 constants.KEY_TOKEN : auth, 
                 constants.KEY_HOLDINGS : holdings}
         
+
+    def handleLogout(self, request):
+        token = request.get(constants.KEY_TOKEN)
+        
+        if not token or token not in self._tokens:
+            return {
+                constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
+                constants.KEY_FAILURE_MESSAGE: "Invalid or missing token"
+            }
+        
+        del self._tokens[token]
+
+        return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
+    
+
     def handleRequest(self, request):
         response = {constants.KEY_STATUS: constants.UNSUPPORTED_OPERATION_STATUS,
                    constants.KEY_FAILURE_MESSAGE: "Unsupported request type"}
@@ -199,4 +199,7 @@ class RequestHandler:
             response = self.handleGetFunds(request)
         elif(request_type == constants.GET_HOLDINGS):
             response = self.handleGetHoldings(request)
+        elif(request_type == constants.GET_LOGOUT):
+            response = self.handleLogout(request)
+            
         return response
