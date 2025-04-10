@@ -26,7 +26,7 @@ class TestRequestServer(unittest.TestCase):
         self._socket.send_string(json.dumps({constants.KEY_REQUEST_TYPE : constants.EXIT}))
         self._socket.close()
         self._context.term()
-        time.sleep(10)
+        time.sleep(1)
         
     def testUnsupportedRequestType(self):
         request = {constants.KEY_REQUEST_TYPE:-33}
@@ -118,7 +118,6 @@ class TestRequestServer(unittest.TestCase):
 
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
-
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Checking signUp failure with incorrect credentials")
     
     def testHandleLogin(self):
@@ -159,6 +158,11 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
 
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Checking login failure with incorrect credentials")
-        
+    def testHandleAddFunds(self):
+        addFundsRequest = {
+            constants.KEY_REQUEST_TYPE: "addFunds",
+            "token": "user5",
+            "password": "pass123"
+            }   
 if __name__ == "__main__":
     unittest.main()

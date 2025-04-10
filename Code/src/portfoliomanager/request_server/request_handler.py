@@ -13,11 +13,8 @@ class RequestHandler:
         account = Account("user", "pass123")
         self._cryptos = {}
         self._users = [account]
-        self._tokens = {}
+        self._tokens = {"$123" : account}
         
-    def makeAccount(self, username, password):
-        account = Account(username, password)
-        self._users.append(account)
     def authenticate_user(self, username, password):
         for account in self._users:
             if account.username == username and account.verify_password(password):
@@ -50,11 +47,12 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE: "Passwords do not match"
             }
         
-        if username in self._users:
-            return {
-                constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
-                constants.KEY_FAILURE_MESSAGE: "Username already exists"
-            }
+        for account in self._users:
+            if account.username == username:    
+                return {
+                    constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
+                    constants.KEY_FAILURE_MESSAGE: "Username already exists"
+                }
         account = Account(username, password)
         self._users.append(account)
         token = str(uuid.uuid4())
@@ -84,11 +82,11 @@ class RequestHandler:
         for token in self._tokens:
             if(token == auth):
                 account = self._tokens[token]
-                break
-        return account
-    def findAccountByName(self, username, pw):
+                return account 
+        
+    def findAccountByName(self, username, password):
         for account in self._users:
-            if (account == Account(username, pw)):
+            if (account == Account(username, password)):
                 return account
     def handleAddFunds(self, request):
         auth = request[constants.KEY_TOKEN]

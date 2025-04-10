@@ -18,7 +18,6 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -72,7 +71,9 @@ public class BuyCryptoViewModel {
 	 * @param holdingsProperty observable list of holdings
 	 * @param fundsAvailable string property for funds
 	 * @param cryptoList the list of cryptos
+	 * @param test so you know its a test
 	 */
+	
 	public BuyCryptoViewModel(Account user, ObservableList<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable, String test) {
 		this.user = user;
 		this.amountProperty = new SimpleStringProperty();
@@ -91,6 +92,7 @@ public class BuyCryptoViewModel {
 	 * 
 	 * @return the amount Property
 	 */
+	
 	public StringProperty getAmountProperty() {
 		return this.amountProperty;
 	}

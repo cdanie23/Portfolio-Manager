@@ -21,12 +21,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.CryptoCurrencies;
-import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
 import portfoliomanager.viewmodel.BuyCryptoViewModel;
-import portfoliomanager.viewmodel.LoginPageViewModel;
 @TestInstance(Lifecycle.PER_CLASS)
 class TestBuyCodeViewModel {
 
@@ -56,7 +54,7 @@ class TestBuyCodeViewModel {
 	}
 	@AfterAll
 	static void interruptServer() {
-		client.makeRequest(Requests.exit);
+		
 		client.resetClient();
 		
 	}

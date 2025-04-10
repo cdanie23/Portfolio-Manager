@@ -20,7 +20,7 @@ public class Account {
 	 *
 	 * @param username the username
 	 * @param password the password
-	 * @auth the auth token the user was given
+	 * @param auth the token for the account
 	 */
 	public Account(String username, String password, String auth) {
 		if (username.isBlank() || password.isBlank() || auth.isBlank()) {

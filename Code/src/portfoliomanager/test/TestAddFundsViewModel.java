@@ -12,7 +12,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.AddFundsViewModel;
 
@@ -50,7 +49,7 @@ class TestAddFundsViewModel {
 	}
 	@AfterAll
 	static void interruptServer() {
-		client.makeRequest(Requests.exit);
+	
 		client.resetClient();
 		serverThread.interrupt();
 	}
