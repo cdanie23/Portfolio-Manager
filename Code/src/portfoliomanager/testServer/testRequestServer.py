@@ -16,7 +16,6 @@ class TestRequestServer(unittest.TestCase):
     def setUp(self):
         serverThread = Thread(target=server.runServer, args=(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT,))
         serverThread.start()
-        time.sleep(1)
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.REQ)
         serverLocation = "{0}://{1}:{2}".format(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT)
@@ -110,7 +109,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleSignUpDuplicateUser(self):
         signupRequest = {
             constants.KEY_REQUEST_TYPE: "signUp",
-            "username": "user1",
+            "username": "user",
             "password": "pass123",
             "confirmPassword": "pass123"
         }

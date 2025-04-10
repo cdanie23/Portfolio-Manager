@@ -11,6 +11,8 @@ from model.Holding import Holding
 class RequestHandler:
     def __init__(self):
         account = Account("user", "pass123")
+        holding = Holding("Bitcoin", 2.0)
+        account.add_holding(holding)
         self._cryptos = {}
         self._users = [account]
         self._tokens = {"$123" : account}
@@ -53,7 +55,7 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE: "Passwords do not match"
             }
         for account in self._users:
-            if (username == account.get_username()):
+            if (username == account.username):
                 response = {
                     constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS,
                     constants.KEY_FAILURE_MESSAGE: "Username already exists"
@@ -160,7 +162,7 @@ class RequestHandler:
         holdings = account.holdings
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
                 constants.KEY_TOKEN : auth, 
-                constants.KEY_HOLDINGS : holdings}
+                constants.KEY_HOLDINGS : [h.to_dict() for h in holdings]}
         
 
     def handleLogout(self, request):

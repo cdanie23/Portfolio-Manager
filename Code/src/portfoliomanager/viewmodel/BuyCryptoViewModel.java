@@ -207,12 +207,7 @@ public class BuyCryptoViewModel {
 		this.user.addHolding(holding);
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-<<<<<<< HEAD
 		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
-	
-=======
-		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
->>>>>>> main
 	}
 	
 	/**
@@ -251,7 +246,6 @@ public class BuyCryptoViewModel {
 		line.setStroke(Color.RED);
 		data.setNode(line);
 	}
-<<<<<<< HEAD
 	/**
 	 * Sets the client for a specific port
 	 * 
@@ -273,6 +267,6 @@ public class BuyCryptoViewModel {
 		return this.client;
 	}
 }
-=======
-}
->>>>>>> main
+
+
+

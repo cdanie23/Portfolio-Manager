@@ -3,6 +3,7 @@ package portfoliomanager.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 /**
@@ -81,9 +83,9 @@ public class SignUpPageCodeBehind  implements Initializable {
      * @precondition nothing
      * @param view the view
      */
-    public void setLandingPageCodeBehind(LandingPageCodeBehind view) {
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {
     	this.view = view;
-    	this.addAccount = new SignUpPageViewModel();
+    	this.addAccount = new SignUpPageViewModel(user, isLoggedIn);
     	this.bindDataElements();
     }
 }

@@ -140,7 +140,7 @@ public class LandingPageCodeBehind implements Initializable {
 			primaryStage.setOnCloseRequest(_ -> {
 				this.welcomeLabel.setLayoutX(280);
 			});
-			this.loginPageCodeBehind.setData();
+			this.loginPageCodeBehind.setData(this.viewModel.getUser(), this.viewModel.getIsLoggedIn());
 			primaryStage.show();
 			
 		} catch (Exception exception) {

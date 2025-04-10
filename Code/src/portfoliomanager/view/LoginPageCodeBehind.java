@@ -2,6 +2,8 @@ package portfoliomanager.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.ObjectProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 /**
  * The sign up page code behind
@@ -59,8 +62,8 @@ public class LoginPageCodeBehind implements Initializable {
 	 * @postcondition this.account != null, data binding is setup
 	 */
 
-	public void setData() {
-		this.viewModel = new LoginPageViewModel();
+	public void setData(ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {
+		this.viewModel = new LoginPageViewModel(isLoggedIn, user);
 		this.bindDataElements();
 	}
 
@@ -87,7 +90,7 @@ public class LoginPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/SignUpPage.fxml"));
 			Pane root = loader.load();
 			this.signUpPageCodeBehind = loader.getController();
-			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view);
+			this.signUpPageCodeBehind.setLandingPageCodeBehind(this.view, this.viewModel.getUser(), this.viewModel.getLoginStatus());
 			Scene scene = new Scene(root, 376, 531);
 			currentStage.setScene(scene);
 			currentStage.show();

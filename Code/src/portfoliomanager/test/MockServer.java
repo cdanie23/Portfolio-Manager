@@ -9,7 +9,9 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
 
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
+import portfoliomanager.model.Holding;
 
 public class MockServer {
 	private ZMQ.Context context;
@@ -57,6 +59,12 @@ public class MockServer {
 			} else if (jsonRequest.getString("type").equals("addHolding")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("auth", "$123");
+			} else if (jsonRequest.getString("type").equals("getHoldings")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "$123");
+				List<Holding> holdings = new ArrayList<Holding>();
+				holdings.add(new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1), 20.00));
+				jsonResponse.put("holdings", holdings);
 			}
 			if (jsonRequest.getString("type").equals("exit")) {
 				jsonResponse.put("success code", -1);

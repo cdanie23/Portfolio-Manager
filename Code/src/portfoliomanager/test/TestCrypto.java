@@ -129,11 +129,18 @@ class TestCrypto {
 	@Test
 	void testGetPriceForRange() {
 		
+		
 		Double currentPrice = 54.36;
 		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
-		crypto.getHistoricalPrice().put("2024-01-01", new BigDecimal(30.50));
-		crypto.getHistoricalPrice().put("2024-01-02", new BigDecimal(31.52));
-		crypto.getHistoricalPrice().put("2024-01-03", new BigDecimal(40.07));
+		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String today = crypto.getTodaysDate().format(fomatter);
+		String yesterday = crypto.getTodaysDate().minusDays(1).format(fomatter);
+		String dayBefore = crypto.getTodaysDate().minusDays(2).format(fomatter);
+
+		crypto.getHistoricalPrice().put(today, new BigDecimal(30.50));
+		crypto.getHistoricalPrice().put(yesterday, new BigDecimal(31.52));
+		crypto.getHistoricalPrice().put(dayBefore, new BigDecimal(40.07));
+		
 		
 		assertAll(()-> assertTrue(!crypto.getPriceForRange(2).isEmpty()),
 				()-> assertEquals(2, crypto.getPriceForRange(2).size()));

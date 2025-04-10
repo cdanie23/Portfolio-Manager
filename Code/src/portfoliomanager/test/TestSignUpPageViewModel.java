@@ -15,8 +15,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
 @TestInstance(Lifecycle.PER_CLASS)
 public class TestSignUpPageViewModel {
@@ -26,6 +29,8 @@ public class TestSignUpPageViewModel {
 	private static MockServer mockServer;
 	private static String port;
 	private static Client client;
+	ObjectProperty<Account> user = new SimpleObjectProperty<Account>();
+	ObjectProperty<Boolean> isLoggedIn = new SimpleObjectProperty<Boolean>();
 	@BeforeAll
 	static void startServer() {
 		try {
@@ -42,6 +47,7 @@ public class TestSignUpPageViewModel {
 		this.page = new SignUpPageViewModel("test");
 		this.page.setClient(port);
 		client = this.page.getClient();
+		this.isLoggedIn.setValue(false);
 	}
 	
 	@AfterAll
@@ -59,7 +65,7 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testValidConstructor() {
-		SignUpPageViewModel viewModel = new SignUpPageViewModel();
+		SignUpPageViewModel viewModel = new SignUpPageViewModel(user, isLoggedIn);
 		assertFalse(viewModel.getSignedUpStatus().get());
 		assertNull(viewModel.getUser().getValue());
 	}

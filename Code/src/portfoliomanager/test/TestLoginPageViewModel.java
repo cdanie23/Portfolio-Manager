@@ -14,8 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
+import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -26,7 +29,9 @@ public class TestLoginPageViewModel {
 	private static MockServer mockServer;
 	private static String port;
 	private static Client client;
-	
+	ObjectProperty<Account> user = new SimpleObjectProperty<Account>();
+	ObjectProperty<Boolean> isLoggedIn = new SimpleObjectProperty<Boolean>();
+
 	@BeforeAll
 	static void startServer() {
 		try {
@@ -42,7 +47,8 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel("test");
+		isLoggedIn.setValue(false);
+		this.page = new LoginPageViewModel(isLoggedIn, user, "test");
 		this.page.setClient(port);
 		client = this.page.getClient();
 		}
@@ -55,7 +61,7 @@ public class TestLoginPageViewModel {
 	}
 	@Test
 	public void testValidNonTestConstructor() {
-		LoginPageViewModel viewModel = new LoginPageViewModel();
+		LoginPageViewModel viewModel = new LoginPageViewModel(isLoggedIn, user);
 		assertFalse(viewModel.getLoginStatus().getValue());
 		assertNull(viewModel.getUser().getValue());
 	}

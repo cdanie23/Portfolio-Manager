@@ -1,12 +1,10 @@
 package portfoliomanager.viewmodel;
 
-<<<<<<< HEAD
+
 import java.math.BigDecimal;
-=======
->>>>>>> main
+
 import java.util.Map;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
