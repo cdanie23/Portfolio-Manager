@@ -78,7 +78,7 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
-        holding = Holding(cryptoName, amount)
+        holding = Holding(cryptoName, float(amount))
         account.add_holding(holding)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,

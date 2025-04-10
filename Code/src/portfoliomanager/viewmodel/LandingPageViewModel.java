@@ -122,7 +122,7 @@ public class LandingPageViewModel {
 		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getValue().getFundsAvailable()));
 		
 		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
-		Map<String, Object>response = this.client.getResponse();
+		Map<String, Object> response = this.client.getResponse();
 		
 		List<Map<String, Object>> holdingsList = (List<Map<String, Object>>) response.get("holdings");
 		
@@ -131,14 +131,15 @@ public class LandingPageViewModel {
 		for (Map<String, Object> item : holdingsList) {
 			String currencyStr = (String) item.get("name");
 			CryptoCurrencies name = CryptoCurrencies.valueOf(currencyStr);
-		    Integer amountInt = (Integer) item.get("amountHeld"); 
-		    double amount = Double.valueOf(amountInt);
+		    BigDecimal amountDecimal = (BigDecimal) item.get("amount"); 
+		    double amount = amountDecimal.doubleValue();
 		    this.client.makeRequest(Requests.btcPrice);
 		    Map<String, Object> priceResponse = this.client.getResponse();
 		    BigDecimal currPrice = (BigDecimal) priceResponse.get("Price");
-		    holdings.add(new Holding(name, amount, currPrice.doubleValue()));
+		    holdings.add(new Holding(name, currPrice.doubleValue(), amount));
 		}
 		this.user.getValue().setHoldings(holdings);
+		this.holdingsProperty.setValue(FXCollections.observableList(this.user.getValue().getHoldings()));
 	}
 	
 	/**

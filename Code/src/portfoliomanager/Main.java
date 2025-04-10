@@ -23,10 +23,6 @@ public class Main extends Application {
 			Scene scene = new Scene(root, 750, 450);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			primaryStage.setOnCloseRequest((_) -> {
-				Client client = Client.getInstance();
-				client.makeRequest(Requests.exit);
-			});
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
