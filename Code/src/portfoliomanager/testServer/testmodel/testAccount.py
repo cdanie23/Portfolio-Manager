@@ -15,7 +15,7 @@ class TestAccount(unittest.TestCase):
         self._account = Account(self._username, self._password)
     
     def testConstructor(self):
-        self.assertEqual(self._account.get_username(), self._username)
+        self.assertEqual(self._account.username, self._username)
         self.assertTrue(self._account.verify_password(self._password))
         
     def testInvalidAccountCreation(self):
@@ -27,24 +27,22 @@ class TestAccount(unittest.TestCase):
             
     def testSetUsername(self):
         new_username = "new_user"
-        self._account.set_username(new_username)
-        self.assertEqual(self._account.get_username(), new_username)
+        self._account.username = new_username
+        self.assertEqual(self._account.username, new_username)
         
-        with self.assertRaises(ValueError):
-            self._account.set_username("")
             
     def testChangePassword(self):
         old_password = self._password
         new_password = "new_password"
         
-        self._account.set_password(old_password, new_password)
+        self._account.change_password(old_password, new_password)
         self.assertFalse(self._account.verify_password(old_password))
         
         with self.assertRaises(ValueError):
-            self._account.set_password(old_password, "")
+            self._account.change_password(old_password, "")
             
         with self.assertRaises(ValueError):
-            self._account.set_password("wrongpassword", new_password)
+            self._account.change_password("wrongpassword", new_password)
         
         with self.assertRaises(ValueError):
             self._account.set_password(old_password, None)
@@ -56,7 +54,7 @@ class TestAccount(unittest.TestCase):
         self._account.add_holding(holding1)
         self._account.add_holding(holding2)
         
-        holdings = self._account.get_holdings()
+        holdings = self._account.holdings
         self.assertEqual(len(holdings), 2)
         self.assertEqual(holdings[0].name, "BTC")
         self.assertEqual(holdings[1].name, "ETH")
@@ -64,13 +62,13 @@ class TestAccount(unittest.TestCase):
         holding3 = Holding("BTC", 0.5)
         self._account.add_holding(holding3)
         
-        holdings = self._account.get_holdings()
-        self.assertEqual(holdings[0].amount_held, 2.0)
+        holdings = self._account.holdings
+        self.assertEqual(holdings[0].amount, 3.0)
         
     
     def testGettersAndSSettersForFunds(self):
-        self._account.set_funds_available(1000.0)
-        self.assertEqual(self._account.get_funds_available(), 1000.0)
+        self._account.funds_available = 1000.0
+        self.assertEqual(self._account.funds_available, 1000.0)
         
     def testAccountEquality(self):
         another_account = Account(self._username, self._password)

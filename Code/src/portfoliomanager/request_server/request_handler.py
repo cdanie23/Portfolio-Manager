@@ -106,7 +106,7 @@ class RequestHandler:
         if (not account or amount == None or auth == None):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
-                constants.KEY_FAILURE_MESSAGE : "Not a valid request"
+                constants.KEY_FAILURE_MESSAGE : "account with token not found"
                 }
             return response
         

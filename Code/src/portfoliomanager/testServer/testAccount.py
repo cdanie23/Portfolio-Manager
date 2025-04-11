@@ -28,7 +28,7 @@ class testAccount(unittest.TestCase):
         self.account.add_holding(holding)
         self.account.add_holding(holding)
         bitcoinHolding = self.account.get_holding("bitcoin")
-        self.assertTrue(bitcoinHolding.amount_held == 2)
+        self.assertTrue(bitcoinHolding.amount == 2)
     def testEqualAccount(self):
         equalAccount = Account("colby", "pw")
         self.assertTrue(equalAccount == self.account)
