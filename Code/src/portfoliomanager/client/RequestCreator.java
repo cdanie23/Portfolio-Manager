@@ -19,8 +19,6 @@ public class RequestCreator {
 
 	public static final String AUTH = "token";
 
-	
-
 	/**
 	 * Creates a request 
 	 * @param requestMade the request to be created

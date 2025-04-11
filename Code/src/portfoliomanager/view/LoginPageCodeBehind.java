@@ -60,6 +60,10 @@ public class LoginPageCodeBehind implements Initializable {
 	 * 
 	 * @precondition none
 	 * @postcondition this.account != null, data binding is setup
+	 * 
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
 
 	public void setData(ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {

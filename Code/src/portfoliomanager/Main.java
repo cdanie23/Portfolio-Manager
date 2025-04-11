@@ -3,8 +3,6 @@ package portfoliomanager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import portfoliomanager.client.Client;
-import portfoliomanager.client.Requests;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 

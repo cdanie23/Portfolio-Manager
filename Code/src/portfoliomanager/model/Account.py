@@ -30,7 +30,7 @@ class Account:
         """Adds or updates a holding for the user."""
         for curr_holding in self.holdings:
             if curr_holding.name == holding.name:
-                curr_holding.amount = curr_holding.amount + holding.amount
+                curr_holding.amount += float(curr_holding.amount)
                 return True
 
         self.holdings.append(holding)

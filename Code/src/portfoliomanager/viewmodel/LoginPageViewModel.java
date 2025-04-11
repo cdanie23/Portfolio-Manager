@@ -1,6 +1,5 @@
 package portfoliomanager.viewmodel;
 
-
 import java.math.BigDecimal;
 
 import java.util.Map;
@@ -27,6 +26,9 @@ public class LoginPageViewModel {
 	
 	/**
 	 * Instantiates a new login page view model.
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
 
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
@@ -40,6 +42,10 @@ public class LoginPageViewModel {
 	/**
 	 * Used for testing purposes
 	 * @param test used to express this is a testing constructor 
+	 * 
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user, String test) {
 		this.user = user;

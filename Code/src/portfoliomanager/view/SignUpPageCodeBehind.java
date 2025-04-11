@@ -82,6 +82,10 @@ public class SignUpPageCodeBehind  implements Initializable {
     /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind
      * @precondition nothing
      * @param view the view
+     * 
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
      */
     public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {
     	this.view = view;

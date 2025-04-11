@@ -312,7 +312,42 @@ class TestRequestServer(unittest.TestCase):
         
         self.assertEqual(2, len(_request_Handler._users))
         
+    
+    def testHandleLogout(self):
+        signupRequest = {
+            constants.KEY_REQUEST_TYPE: "signUp",
+            "username": "user1",
+            "password": "pass123",
+            "confirmPassword": "pass123"
+        }
+        self._socket.send_string(json.dumps(signupRequest))
 
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        token = response.get(constants.KEY_TOKEN)
+        
+        logoutRequest = {
+            constants.KEY_REQUEST_TYPE: "logout",
+            "token": token
+        }
+        self._socket.send_string(json.dumps(logoutRequest))
+        
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        
+        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout should succeed")
+        
+    def testHandleLogoutInvalidToken(self):
+        logoutRequest = {
+            constants.KEY_REQUEST_TYPE: "logout",
+            constants.KEY_TOKEN: "12345"
+        }
+        self._socket.send_string(json.dumps(logoutRequest))
+        jsonResponse =  self._socket.recv_string()
+        response = json.loads(jsonResponse)
+
+        self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout with invalid token should fail")
+        
         
         
 if __name__ == "__main__":

@@ -28,6 +28,10 @@ public class SignUpPageViewModel {
 	 * Instantiates a new sign up page view model
 	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
 	 * 		 this.isSignedUp == false, this.Client != null 
+	 * 
+	 * @param isSignedUp true if user is signedup
+	 * 					false if user is not signedup
+	 * @param user the objectProperty that holds the account
 	 */
 	
 	public SignUpPageViewModel(ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
@@ -142,6 +146,7 @@ public class SignUpPageViewModel {
 		MockServer.ACCOUNTS.add(account);
 		this.user.setValue(account);
 	}
+	
 	/**
 	 * Gets the user 
 	 * @return the user

@@ -9,9 +9,7 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
 
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
-import portfoliomanager.model.Holding;
 
 public class MockServer {
 	private ZMQ.Context context;

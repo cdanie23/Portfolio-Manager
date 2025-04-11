@@ -124,6 +124,7 @@ public class LandingPageViewModel {
 		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
 		Map<String, Object> response = this.client.getResponse();
 		
+		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> holdingsList = (List<Map<String, Object>>) response.get("holdings");
 		
 		List<Holding> holdings = new ArrayList<>();
