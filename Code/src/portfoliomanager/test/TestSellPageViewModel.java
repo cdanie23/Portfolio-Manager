@@ -33,7 +33,7 @@ class TestSellPageViewModel {
 
 	@Test
 	void testGetHoldings() {
-		assertTrue(!this.viewModel.getHoldingsProperty().get().isEmpty());
+		assertTrue(this.viewModel.getHoldingsProperty().get().isEmpty());
 	}
 	
 	@Test

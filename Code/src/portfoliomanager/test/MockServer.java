@@ -62,9 +62,12 @@ public class MockServer {
 			} else if (jsonRequest.getString("type").equals("getHoldings")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");
-				List<Holding> holdings = new ArrayList<Holding>();
-				holdings.add(new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1), 20.00));
-				jsonResponse.put("holdings", holdings);
+				List<Map<String, Object>> holdingDict = new ArrayList<Map<String, Object>>();
+				Map<String, Object> holdingsMap = new HashMap<String, Object>();
+				holdingsMap.put("amount", new BigDecimal(2.00001));
+				holdingsMap.put("name", "Bitcoin");
+				holdingDict.add(holdingsMap);
+				jsonResponse.put("holdings", holdingDict);
 			}
 			if (jsonRequest.getString("type").equals("exit")) {
 				jsonResponse.put("success code", -1);

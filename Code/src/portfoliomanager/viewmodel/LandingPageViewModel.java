@@ -217,9 +217,8 @@ public class LandingPageViewModel {
 		
 		if (token != null && !token.isBlank()) {
 			this.client.makeLogoutRequest(Requests.logout, token);
-			System.out.println(token);
 			this.user.get().setAuth("");
-			
+			this.handleLogOut();
 			return true;
 		}
 
