@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 
@@ -83,7 +84,7 @@ public class TestAccount {
 	}
 	@Test
 	public void testAddHolding() {
-		Holding holding = new Holding("btc", Double.valueOf(1000), 1);
+		Holding holding = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 1);
 		this.account.addHolding(holding);
 		
 		assertTrue(this.account.getHoldings().contains(holding));
@@ -91,7 +92,7 @@ public class TestAccount {
 	
 	@Test
 	public void testAddHoldingSameName() {
-		Holding holding = new Holding("btc", Double.valueOf(1000), 1);
+		Holding holding = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 1);
 		this.account.addHolding(holding);
 		
 		assertTrue(this.account.getHoldings().contains(holding));

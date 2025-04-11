@@ -58,6 +58,28 @@ public class BuyCryptoViewModel {
 	}
 	
 	/**
+	 * Instantiates a new buy crypto view model class for testing that doesn't set the client
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param user the user who wants to buy
+	 * @param holdingsProperty observable list of holdings
+	 * @param fundsAvailable string property for funds
+	 * @param test so you know its a test
+	 */
+	
+	public BuyCryptoViewModel(Account user, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable, String test) {
+		this.user = user;
+		this.amountProperty = new SimpleStringProperty();
+		this.selectedCrypto = new SimpleObjectProperty<Crypto>();
+		this.cryptoDetailsProperty = new SimpleStringProperty();
+		this.holdingsProperty = holdingsProperty;
+		this.fundsAvailableProperty = fundsAvailable;
+		this.lineChartSeriesProperty = new Series<>();
+	}
+	
+	/**
 	 * Gets the amountProperty
 	 * 
 	 * @precondition none
@@ -65,6 +87,7 @@ public class BuyCryptoViewModel {
 	 * 
 	 * @return the amount Property
 	 */
+	
 	public StringProperty getAmountProperty() {
 		return this.amountProperty;
 	}
@@ -158,10 +181,17 @@ public class BuyCryptoViewModel {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
+		this.client.makeAddHoldingRequest(crypto.getName(), amountToBuy, this.user.getAuth());
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		if (successCode == -1) {
+			String errorMsg = (String) response.get("error description");
+			throw new UnsupportedOperationException(errorMsg);
+		}
 		this.user.addHolding(holding);
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
 		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
-		this.fundsAvailableProperty.setValue("Funds Available $: " + this.user.getFundsAvailable());
+		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}
 	
 	/**
@@ -200,4 +230,27 @@ public class BuyCryptoViewModel {
 		line.setStroke(Color.RED);
 		data.setNode(line);
 	}
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
+	}
 }
+
+
+

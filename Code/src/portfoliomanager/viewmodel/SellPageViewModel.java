@@ -88,9 +88,9 @@ public class SellPageViewModel {
 		if (holding.getAmountHeld() == 0.0) {
 			this.user.getHoldings().remove(holding);
 		}
-		double totalFunds = this.user.getFundsAvailable() + this.getProfit();
-		this.user.setFundsAvailable(totalFunds);
-		this.fundsAvailable.setValue("$" + totalFunds);
+		//TODO make this use the modify holding request from the client
+		this.user.setFundsAvailable(this.user.getFundsAvailable() + this.getProfit());
+		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
 	}
 	/**
 	 * Gets the user

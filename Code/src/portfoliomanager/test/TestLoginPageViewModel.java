@@ -1,5 +1,6 @@
 package portfoliomanager.test;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,15 +11,17 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
-import portfoliomanager.viewmodel.SignUpPageViewModel;
 
-
+@TestInstance(Lifecycle.PER_CLASS)
 public class TestLoginPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private LoginPageViewModel page;
@@ -26,12 +29,14 @@ public class TestLoginPageViewModel {
 	private static MockServer mockServer;
 	private static String port;
 	private static Client client;
-	
+	ObjectProperty<Account> user = new SimpleObjectProperty<Account>();
+	ObjectProperty<Boolean> isLoggedIn = new SimpleObjectProperty<Boolean>();
+
 	@BeforeAll
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5560";
+			port = "5566";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
@@ -42,7 +47,8 @@ public class TestLoginPageViewModel {
 	
 	@BeforeEach
 	public void setUp() {
-		this.page = new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), "test");
+		isLoggedIn.setValue(false);
+		this.page = new LoginPageViewModel(isLoggedIn, user, "test");
 		this.page.setClient(port);
 		client = this.page.getClient();
 		}
@@ -55,16 +61,14 @@ public class TestLoginPageViewModel {
 	}
 	@Test
 	public void testValidNonTestConstructor() {
-		LoginPageViewModel viewModel = new LoginPageViewModel(new SimpleObjectProperty<>(false), new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")));
+		LoginPageViewModel viewModel = new LoginPageViewModel(isLoggedIn, user);
 		assertFalse(viewModel.getLoginStatus().getValue());
-		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+		assertNull(viewModel.getUser().getValue());
 	}
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
 		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
 		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
-		assertEquals("Sam", this.page.getUser().getValue().getUserName());
-		assertEquals("pw", this.page.getUser().getValue().getPassword());
 	}
 	
 //	@Test

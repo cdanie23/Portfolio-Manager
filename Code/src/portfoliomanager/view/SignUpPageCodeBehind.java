@@ -54,7 +54,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     	} catch (Exception exception) {
     		this.showAlert("Error", exception.getMessage());
     	}
-    	if (this.addAccount.getSignedUpStatus()) {
+    	if (this.addAccount.getSignedUpStatus().get()) {
     		Stage stage = (Stage) this.signUpButton.getScene().getWindow();
     		this.enableAccountOptions();
     		stage.close();
@@ -62,10 +62,7 @@ public class SignUpPageCodeBehind  implements Initializable {
     }
     
     private void enableAccountOptions() {
-    	this.view.enableLogOutButtons();
-    	this.view.enableTransactionAbility();
-    	this.view.disableLogInButton();
-    	this.view.updateNameLabels();
+    	this.view.setLoggedInUser(this.addAccount.getUser());
     }
     
     private void showAlert(String title, String message) {
@@ -85,12 +82,14 @@ public class SignUpPageCodeBehind  implements Initializable {
     /** Sets the SignUpPageCodeBehind's LandingPageCodeBehind
      * @precondition nothing
      * @param view the view
-     * @param user the user 
+     * 
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
      */
-    public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
+    public void setLandingPageCodeBehind(LandingPageCodeBehind view, ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {
     	this.view = view;
-    	this.addAccount = new SignUpPageViewModel(user, isSignedUp);
+    	this.addAccount = new SignUpPageViewModel(user, isLoggedIn);
     	this.bindDataElements();
-  
     }
 }

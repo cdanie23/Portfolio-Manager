@@ -6,5 +6,5 @@ package portfoliomanager.client;
  * @version Spring 2025
  */
 public enum CryptoCurrencies {
-	Bitcoin
+	Bitcoin, Ethereum, Doge
 }

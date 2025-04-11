@@ -1,5 +1,7 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
+
 import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,9 +26,11 @@ public class LoginPageViewModel {
 	
 	/**
 	 * Instantiates a new login page view model.
-	 * @param isLoggedIn the login status of the user
-	 * @param user that logs in to the system
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
+
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
 		this.user = user;
 		this.isLoggedIn = isLoggedIn;
@@ -37,9 +41,11 @@ public class LoginPageViewModel {
 
 	/**
 	 * Used for testing purposes
-	 * @param isLoggedIn status of user being logged in 
-	 * @param user the user 
 	 * @param test used to express this is a testing constructor 
+	 * 
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
 	public LoginPageViewModel(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user, String test) {
 		this.user = user;
@@ -133,7 +139,16 @@ public class LoginPageViewModel {
 		int successCode = (int) response.get("success code");
 		String authToken = (String) response.get("token");
 		if (successCode == 1) {
-			this.user.setValue(new Account(username, password, authToken));
+			this.client.makeGetFundsRequest(authToken);
+			response = this.client.getResponse();
+			var fundsAvailable = 0.00;
+			if (response.get("amount") instanceof BigDecimal) {
+				 fundsAvailable = ((BigDecimal) response.get("amount")).doubleValue();
+			} else {
+				fundsAvailable = (Integer) response.get("amount");
+			}
+			
+			this.user.setValue(new Account(username, password, authToken, fundsAvailable));
 			this.isLoggedIn.setValue(true);
 			return;
 		} 

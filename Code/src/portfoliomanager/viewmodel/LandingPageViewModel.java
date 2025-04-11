@@ -1,7 +1,9 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,6 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
@@ -69,7 +72,7 @@ public class LandingPageViewModel {
 		this.portfolioNameProperty = new SimpleStringProperty();
 		this.isLoggedIn = new SimpleObjectProperty<Boolean>();
 		this.isLoggedIn.setValue(false);
-		//TODO get the data from the client instead
+		
 		this.dataReader = null;
 		this.cryptoListProperty = null;
 		this.fundsAvailable = new SimpleStringProperty();
@@ -77,14 +80,7 @@ public class LandingPageViewModel {
 		this.holdingsProperty = new SimpleListProperty<Holding>();
 		this.holdingsProperty.setValue(FXCollections.observableList(this.holdings));
 		this.user = new SimpleObjectProperty<Account>(new Account("testUser", "testPass", "$123"));
-		this.fundsAvailable.setValue("$: 0.0");
-		// Prepopulated for now since we don't have server
-		//this.user = new Account("user", "pass123");
-		//Holding userHolding = new Holding("Bitcoin", Double.valueOf(1000), 2);
-		//this.user.addHolding(userHolding);
-		//this.holdings = this.user.getHoldings();
-		//this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
-		//this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+		this.fundsAvailable.setValue("$0.0");
 	}
 	
 	/**
@@ -114,18 +110,50 @@ public class LandingPageViewModel {
 	/**
 	 * Notifies authentication
 	 */
-	public void updateForAuthenticatedUser() {
+	public void updateLabels() {
 		if (this.isLoggedIn.getValue()) {
 			this.updateWelcomeLabels();
+			this.updateUserProperties();
 		}
+	}
+	
+	private void updateUserProperties() {
+		
+		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getValue().getFundsAvailable()));
+		
+		this.client.makeGetHoldingRequest(this.user.getValue().getAuth());
+		Map<String, Object> response = this.client.getResponse();
+		
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> holdingsList = (List<Map<String, Object>>) response.get("holdings");
+		
+		List<Holding> holdings = new ArrayList<>();
+
+		for (Map<String, Object> item : holdingsList) {
+			String currencyStr = (String) item.get("name");
+			CryptoCurrencies name = CryptoCurrencies.valueOf(currencyStr);
+		    BigDecimal amountDecimal = (BigDecimal) item.get("amount"); 
+		    double amount = amountDecimal.doubleValue();
+		    this.client.makeRequest(Requests.btcPrice);
+		    Map<String, Object> priceResponse = this.client.getResponse();
+		    BigDecimal currPrice = (BigDecimal) priceResponse.get("Price");
+		    holdings.add(new Holding(name, currPrice.doubleValue(), amount));
+		}
+		this.user.getValue().setHoldings(holdings);
+		this.holdingsProperty.setValue(FXCollections.observableList(this.user.getValue().getHoldings()));
 	}
 	
 	/**
 	 * Updates labels after logging in
 	 */
 	private void updateWelcomeLabels() {
-		this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
-		this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
+		if (this.user.getValue() != null) { 
+			this.welcomeLabelProperty.setValue("Welcome back, " + this.user.getValue().getUserName());
+			this.portfolioNameProperty.setValue(this.user.getValue().getUserName() + "'s Portfolio");
+		} else {
+			this.welcomeLabelProperty.setValue("Welcome to Crypto Vault "); 
+			this.portfolioNameProperty.setValue("'s Portfolio");
+		}
 	}
 	
 	/**
@@ -190,9 +218,8 @@ public class LandingPageViewModel {
 		
 		if (token != null && !token.isBlank()) {
 			this.client.makeLogoutRequest(Requests.logout, token);
-			System.out.println(token);
 			this.user.get().setAuth("");
-			
+			this.handleLogOut();
 			return true;
 		}
 
@@ -217,5 +244,18 @@ public class LandingPageViewModel {
 	
 	public Client getClient() {
 		return this.client;
+	}
+	/**
+	 * Handles whenever a user logs out
+	 * @pre must be logged in 
+	 * @post this.isLoggedIn.getValue() == false,
+	 * 		 this.user.getValue() == null,
+	 * 		 the welcome labels are set back to their default value
+	 */
+	
+	public void handleLogOut() {
+		this.isLoggedIn.setValue(false);
+		this.user.setValue(null);
+		this.updateWelcomeLabels();
 	}
 }

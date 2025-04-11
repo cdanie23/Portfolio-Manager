@@ -61,11 +61,12 @@ public class LoginPageCodeBehind implements Initializable {
 	 * @precondition none
 	 * @postcondition this.account != null, data binding is setup
 	 * 
-	 * @param isLoggedIn login status of the user
-	 * @param user the user that logged in the system
+	 * @param isLoggedIn true if user is loggedin 
+	 * 					false if user is not loggedin
+	 * @param user the objectProperty that holds the accoutn
 	 */
 
-	public void setData(ObjectProperty<Boolean> isLoggedIn, ObjectProperty<Account> user) {
+	public void setData(ObjectProperty<Account> user, ObjectProperty<Boolean> isLoggedIn) {
 		this.viewModel = new LoginPageViewModel(isLoggedIn, user);
 		this.bindDataElements();
 	}
@@ -116,9 +117,7 @@ public class LoginPageCodeBehind implements Initializable {
 	}
     
     private void enableAccountOptions() {
-    	this.view.enableLogOutButtons();
-    	this.view.enableTransactionAbility();
-    	this.view.disableLogInButton();
+    	this.view.setLoggedInUser(this.viewModel.getUser());
     }
     
     /** Sets the LogInPageCodeBehind's LandingPageCodeBehind

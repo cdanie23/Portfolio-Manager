@@ -9,24 +9,27 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
-
+import portfoliomanager.model.Account;
+@TestInstance(Lifecycle.PER_CLASS)
 class TestClient {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private static String port;
 	private static Client client;
 	private static Thread serverThread;
 	private static MockServer mockServer;
-
+	private Account user;
 	
 	@BeforeAll
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5556";
+			port = "5553";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (ZMQException e) {
@@ -38,12 +41,12 @@ class TestClient {
 	static void interruptServer() {
 		client.makeRequest(Requests.exit);
 		client.resetClient();
-		serverThread.interrupt();
 	}
 
 	@BeforeEach
 	void setup() {
 		client = Client.getInstance(port);
+		this.user = new Account("colby", "pw", "$123");
 	}
 
 	@Test
@@ -145,5 +148,24 @@ class TestClient {
 		Client newClient = Client.getInstance("");
 		assertEquals("5555", newClient.getPort());
 	}
-	
+	@Test
+	void testHandleAddFunds() {
+		client.makeAddFundsRequest(this.user.getAuth(), 5);
+		Map<String, Object> response = client.getResponse();
+		
+		assertAll(() -> assertEquals(response.get("amount"), 10), () ->
+						assertEquals(response.get("token"), this.user.getAuth()), () ->
+						assertEquals(response.get("success code"), 1)
+				);
+	}
+	@Test
+	void testGetFundsRequest() {
+		client.makeGetFundsRequest(this.user.getAuth());
+		Map<String, Object> response = client.getResponse();
+		
+		assertAll(() -> assertEquals(response.get("amount"), 10), () ->
+						assertEquals(response.get("token"), this.user.getAuth()), () ->
+						assertEquals(response.get("success code"), 1)
+				);
+	}
 }

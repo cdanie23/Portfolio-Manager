@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import org.junit.jupiter.api.Test;
+
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Crypto;
 
 class TestCrypto {
@@ -17,14 +19,13 @@ class TestCrypto {
 	@Test
 	void testConstructor() {
 		//ARRANGE
-		String name = "BTC-USD";
 		Double currentPrice = 54.36;
 		
 		//ACT
-		Crypto crypto = new Crypto(name, currentPrice);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
 		//ASSERT
 		assertAll(
-				()-> assertEquals("BTC-USD", crypto.getName()),
+				()-> assertEquals("Bitcoin", crypto.getName().toString()),
 				()-> assertEquals(54.36, crypto.getCurrentPrice().doubleValue(), 0.01),
 				()-> assertEquals(0, crypto.getHistoricalPrice().size()));
 	}
@@ -32,25 +33,25 @@ class TestCrypto {
 	@Test
 	void TestSetters() {
 		//ARRANGE
-		String name = "BTC-USD";
+		
 		Double currentPrice = 54.36;
 		HashMap<String, BigDecimal> prices = new HashMap<String, BigDecimal>();
 		prices.put("2024-01-01", new BigDecimal(30.50));
 		prices.put("2024-01-02", new BigDecimal(31.52));
 		prices.put("2024-01-03", new BigDecimal(40.07));
-		Crypto crypto = new Crypto(name, currentPrice);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
 		assertAll(
-				()-> assertEquals("BTC-USD", crypto.getName()),
+				()-> assertEquals("Bitcoin", crypto.getName().toString()),
 				()-> assertEquals(54.36, crypto.getCurrentPrice().doubleValue(), 0.01),
 				()-> assertEquals(0, crypto.getHistoricalPrice().size()));
 		
 		//ACT
-		crypto.setName("ETH");
+		crypto.setName(CryptoCurrencies.Ethereum);
 		crypto.setCurrentPrice(9.11);
 		crypto.setHistoricalPrices(prices);
 		//ASSERT
 		assertAll(
-				()-> assertEquals("ETH", crypto.getName()),
+				()-> assertEquals("Ethereum", crypto.getName().toString()),
 				()-> assertEquals(9.11, crypto.getCurrentPrice().doubleValue(), 0.01),
 				()-> assertEquals(3, crypto.getHistoricalPrice().size()),
 				()-> assertEquals(30.50, crypto.getHistoricalPrice().get("2024-01-01").doubleValue(), 0.01),
@@ -66,29 +67,17 @@ class TestCrypto {
 		});
 	}
 	
-	@Test
-	void testEmptyName() {
-		assertThrows(IllegalArgumentException.class,()-> {
-			new Crypto("", 9.11);
-		});
-	}
 	
-	@Test
-	void testBlankName() {
-		assertThrows(IllegalArgumentException.class,()-> {
-			new Crypto("    ", 9.11);
-		});
-	}
 	@Test
 	void testNullCurrentPrice() {
 		assertThrows(IllegalArgumentException.class, ()-> {
-			new Crypto("BTC", null);
+			new Crypto(CryptoCurrencies.Bitcoin, null);
 		});
 	}
 	
 	@Test
 	void testGetOneDayPriceChange() {
-		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(100));
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -100,7 +89,7 @@ class TestCrypto {
 	}
 	@Test
 	void testPriceOneDayIncrease() {
-		Crypto btc = new Crypto("bitcoin", Double.valueOf(100));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(100));
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -112,7 +101,7 @@ class TestCrypto {
 	}
 	@Test
 	void testPriceOneDayDecrease() {
-		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(80));
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -124,7 +113,7 @@ class TestCrypto {
 	}
 	@Test
 	void testToString() {
-		Crypto btc = new Crypto("bitcoin", Double.valueOf(80));
+		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, Double.valueOf(80));
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -139,17 +128,19 @@ class TestCrypto {
 	
 	@Test
 	void testGetPriceForRange() {
-		String name = "BTC-USD";
+		
+		
 		Double currentPrice = 54.36;
-		Crypto crypto = new Crypto(name, currentPrice);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = crypto.getTodaysDate().format(fomatter);
 		String yesterday = crypto.getTodaysDate().minusDays(1).format(fomatter);
 		String dayBefore = crypto.getTodaysDate().minusDays(2).format(fomatter);
-		
+
 		crypto.getHistoricalPrice().put(today, new BigDecimal(30.50));
 		crypto.getHistoricalPrice().put(yesterday, new BigDecimal(31.52));
 		crypto.getHistoricalPrice().put(dayBefore, new BigDecimal(40.07));
+		
 		
 		assertAll(()-> assertTrue(!crypto.getPriceForRange(2).isEmpty()),
 				()-> assertEquals(2, crypto.getPriceForRange(2).size()));
@@ -157,9 +148,8 @@ class TestCrypto {
 	
 	@Test
 	void testGetPriceForRangeNegativeValue() {
-		String name = "BTC-USD";
 		Double currentPrice = 54.36;
-		Crypto crypto = new Crypto(name, currentPrice);
+		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, currentPrice);
 		crypto.getHistoricalPrice().put("2024-01-01", new BigDecimal(30.50));
 		crypto.getHistoricalPrice().put("2024-01-02", new BigDecimal(31.52));
 		crypto.getHistoricalPrice().put("2024-01-03", new BigDecimal(40.07));

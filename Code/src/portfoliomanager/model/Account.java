@@ -22,7 +22,7 @@ public class Account {
 	 *
 	 * @param username the username
 	 * @param password the password
-	 * @auth the auth token the user was given
+	 * @param auth the token for the account
 	 */
 	public Account(String username, String password, String auth) {
 		if (username.isBlank() || password.isBlank() || auth.isBlank()) {
@@ -32,6 +32,19 @@ public class Account {
 		this.username = username;
 		this.password = password;
 		this.holdings = new ArrayList<Holding>();
+	}
+	
+	/**
+	 * Instantiates a new account
+	 * @param username the username
+	 * @param password the password
+	 * @param auth the auth token
+	 * @param fundsAvailable the funds available to the account
+	 * @post this.fundsAvaiable == fundsAvailable
+	 */
+	public Account(String username, String password, String auth, double fundsAvailable) {
+		this(username, password, auth);
+		this.fundsAvailable = fundsAvailable;
 	}
 	
 	/**
@@ -145,6 +158,15 @@ public class Account {
 	 */
 	public void setAuth(String authtoken) {
 		this.auth = authtoken;
+	}
+	/**
+	 * Sets the users holdings
+	 * @param holdings the holdings to set
+	 * @post this.holdings == holdings
+	 */
+	
+	public void setHoldings(List<Holding> holdings) {
+		this.holdings = holdings;
 	}
 	
 	@Override

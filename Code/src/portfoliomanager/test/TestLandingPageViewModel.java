@@ -6,12 +6,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
-
+@TestInstance(Lifecycle.PER_CLASS)
 class TestLandingPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	LandingPageViewModel viewModel;
@@ -24,7 +27,7 @@ class TestLandingPageViewModel {
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5559";
+			port = "5565";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
@@ -44,7 +47,7 @@ class TestLandingPageViewModel {
 	@AfterAll
 	static void interruptServer() {
 		client.makeRequest(Requests.exit);
-		serverThread.interrupt();
+		client.resetClient();
 	}
 	
 	@Test
@@ -59,7 +62,7 @@ class TestLandingPageViewModel {
 	}
 	@Test
 	void testGetFundsAvailabe() {
-		String expected = "$: 0.0";
+		String expected = "$0.0";
 		String actual = this.viewModel.getFundsAvailabe().getValue();
 		
 		assertEquals(expected, actual);
@@ -83,7 +86,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testUpdateForAuthenticatedUser() {
 		this.viewModel.getIsLoggedIn().setValue(true);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		
 		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
 		assertEquals(welcomeText, "Welcome back, "+ this.viewModel.getUser().getValue().getUserName());
@@ -92,7 +95,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testUpdateForNonAuthenticatedUser() {
 		this.viewModel.getIsLoggedIn().setValue(false);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		
 		assertEquals(this.viewModel.getWelcomeLabelProperty().get(), "Welcome to Crypto Vault");
 	}
@@ -100,7 +103,7 @@ class TestLandingPageViewModel {
 	@Test
 	void testPortfolioLabelProperties() {
 		this.viewModel.getIsLoggedIn().setValue(true);
-		this.viewModel.updateForAuthenticatedUser();
+		this.viewModel.updateLabels();
 		String expectedPortfolioLabel = "testUser's Portfolio";
 		String actual = this.viewModel.getPortfolioNameProperty().getValue();
 		

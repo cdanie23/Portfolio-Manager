@@ -1,6 +1,7 @@
 package portfoliomanager.test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,14 +11,17 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.zeromq.ZMQException;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.SignUpPageViewModel;
-
+@TestInstance(Lifecycle.PER_CLASS)
 public class TestSignUpPageViewModel {
 	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
 	private SignUpPageViewModel page;
@@ -25,6 +29,8 @@ public class TestSignUpPageViewModel {
 	private static MockServer mockServer;
 	private static String port;
 	private static Client client;
+	ObjectProperty<Account> user = new SimpleObjectProperty<Account>();
+	ObjectProperty<Boolean> isLoggedIn = new SimpleObjectProperty<Boolean>();
 	@BeforeAll
 	static void startServer() {
 		try {
@@ -41,13 +47,14 @@ public class TestSignUpPageViewModel {
 		this.page = new SignUpPageViewModel("test");
 		this.page.setClient(port);
 		client = this.page.getClient();
+		this.isLoggedIn.setValue(false);
 	}
 	
 	@AfterAll
 	static void interruptServer() {
 		client.makeRequest(Requests.exit);
 		client.resetClient();
-		serverThread.interrupt();
+		
 	}
 	
 	@Test
@@ -58,9 +65,9 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testValidConstructor() {
-		SignUpPageViewModel viewModel = new SignUpPageViewModel(new SimpleObjectProperty<Account>(new Account("Sam", "pw", "$123")), new SimpleObjectProperty<Boolean>(false));
-		assertFalse(viewModel.getSignedUpStatus());
-		assertEquals(viewModel.getUser().getValue().getUserName(), "Sam");
+		SignUpPageViewModel viewModel = new SignUpPageViewModel(user, isLoggedIn);
+		assertFalse(viewModel.getSignedUpStatus().get());
+		assertNull(viewModel.getUser().getValue());
 	}
 	@Test
 	public void testCreateAccount()
@@ -97,6 +104,6 @@ public class TestSignUpPageViewModel {
 	}
 	@Test
 	public void testNotSignedIn() {
-		assertFalse(page.getSignedUpStatus());
+		assertFalse(page.getSignedUpStatus().get());
 	}
  }

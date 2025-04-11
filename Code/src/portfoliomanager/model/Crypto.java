@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import portfoliomanager.client.CryptoCurrencies;
+
 //import java.util.HashMap;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  */
 public class Crypto {
 
-	private String name;
+	private CryptoCurrencies name;
 	private Double currentPrice;
 	private HashMap<String, BigDecimal> historicalPrices;
 	
@@ -29,8 +31,8 @@ public class Crypto {
 	 * @param currentPrice the current price of the crypto
 	 */
 	
-	public Crypto(String name, Double currentPrice) {
-		if (name == null || name.isEmpty() || name.isBlank()) {
+	public Crypto(CryptoCurrencies name, Double currentPrice) {
+		if (name == null) {
 			throw new IllegalArgumentException("Name of the cryptocurrency must not be null or empty.");
 		}
 		if (currentPrice == null) {
@@ -49,7 +51,7 @@ public class Crypto {
 	 * 
 	 * @return the name of the crypto
 	 */
-	public String getName() {
+	public CryptoCurrencies getName() {
 		return this.name;
 	}
 	
@@ -60,7 +62,7 @@ public class Crypto {
 	 * 
 	 * @param name the name of the crypto to be set
 	 */
-	public void setName(String name) {
+	public void setName(CryptoCurrencies name) {
 		this.name = name;
 	}
 	

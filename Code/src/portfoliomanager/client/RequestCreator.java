@@ -17,8 +17,8 @@ public class RequestCreator {
 	public static final String NAME = "name";
 	public static final String AMOUNT = "amount";
 
-	public static final String AUTHTOKEN = "authtoken";
-	
+	public static final String AUTH = "token";
+
 	/**
 	 * Creates a request 
 	 * @param requestMade the request to be created
@@ -40,7 +40,7 @@ public class RequestCreator {
      * 
      * @return the request created
      */
-	public Map<String, String> createAuthRequest(Requests requestMade, String username, String password, String confirmPassword) {
+	public Map<String, String> createAccountRequest(Requests requestMade, String username, String password, String confirmPassword) {
         Map<String, String> request = new HashMap<>();
         request.put(TYPE, requestMade.toString());
         request.put(USERNAME, username);
@@ -64,7 +64,7 @@ public class RequestCreator {
 	public Map<String, String> createLogoutRequest(Requests requestMade, String authtoken) {
         Map<String, String> request = new HashMap<>();
         request.put(TYPE, requestMade.toString());
-        request.put(AUTHTOKEN, authtoken);
+        request.put(AUTH, authtoken);
         
         return request;
     }
@@ -77,12 +77,44 @@ public class RequestCreator {
 	 * @param authtoken the authorization token used
 	 * @return a request for the client to send to the server
 	 */
+
 	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
 		request.put(NAME, crypto.toString());
 		request.put(AMOUNT, String.valueOf(amount));
-		request.put(AUTHTOKEN, authtoken);
+		request.put(AUTH, authtoken);
 		return request;
 	}
+	
+	/**
+	 * Creates a request to add funds to an account
+	 * @param requestMade the type of request
+	 * @param auth the token associated with the account you want to add funds to
+	 * @param amount the amount to add
+	 * @return the appropriate response for the server
+	 */
+	public Map<String, String> createAddFundsRequest(Requests requestMade, String auth, double amount) {
+		Map<String, String> request = new HashMap<String, String>();
+		request.put(TYPE, requestMade.toString());
+		request.put(AUTH, auth);
+		request.put(AMOUNT, String.valueOf(amount));
+		return request;
+	}
+	
+	/**
+	 * Creates a request to get a property associated with the account
+	 * @param requestMade the type of request to make
+	 * @param auth the auth associated with the account
+	 * @return the request needed to get a response from the server to return a property associated with the account
+	 */
+	public Map<String, String> createGetAccountPropertiesRequest(Requests requestMade, String auth) {
+		Map<String, String> request = new HashMap<String, String>();
+		request.put(TYPE, requestMade.toString());
+		request.put(AUTH, auth);
+		return request;
+	}
+	
 }
+
+

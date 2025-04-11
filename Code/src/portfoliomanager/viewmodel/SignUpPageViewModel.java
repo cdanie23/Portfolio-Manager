@@ -26,18 +26,20 @@ public class SignUpPageViewModel {
 
 	/**
 	 * Instantiates a new sign up page view model
-	 * @param user the user
-	 * @param isSignedUp the isSignedUp bool check
 	 * @post this.user == user, username | password | passwordConfirm | properties are initialized
 	 * 		 this.isSignedUp == false, this.Client != null 
+	 * 
+	 * @param isSignedUp true if user is signedup
+	 * 					false if user is not signedup
+	 * @param user the objectProperty that holds the account
 	 */
+	
 	public SignUpPageViewModel(ObjectProperty<Account> user, ObjectProperty<Boolean> isSignedUp) {
 		this.isSignedUp = isSignedUp;
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
-		this.isSignedUp.setValue(false); 
-		this.user = user;
+		this.user = new SimpleObjectProperty<Account>();
 		this.client = Client.getInstance();
 	}
 
@@ -50,8 +52,7 @@ public class SignUpPageViewModel {
 		this.usernameProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
 		this.passwordConfirmProperty = new SimpleStringProperty();
-		this.isSignedUp = new SimpleObjectProperty<Boolean>();
-		this.isSignedUp.setValue(false);
+		this.isSignedUp = new SimpleObjectProperty<Boolean>(false);
 		this.user = new SimpleObjectProperty<Account>();
 	}
 	
@@ -92,8 +93,8 @@ public class SignUpPageViewModel {
 	 * Returns the signed up status of the account
 	 * @return this.isSignedUp
 	 */
-	public boolean getSignedUpStatus() {
-		return this.isSignedUp.getValue();
+	public ObjectProperty<Boolean> getSignedUpStatus() {
+		return this.isSignedUp;
 	}
 	
 	/**
@@ -145,7 +146,7 @@ public class SignUpPageViewModel {
 		MockServer.ACCOUNTS.add(account);
 		this.user.setValue(account);
 	}
-
+	
 	/**
 	 * Gets the user 
 	 * @return the user

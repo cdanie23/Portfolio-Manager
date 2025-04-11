@@ -15,12 +15,13 @@ public class MockServer {
 	private ZMQ.Context context;
 	private ZMQ.Socket socket;
 	public static List<Account> ACCOUNTS = new ArrayList<>(List.of(new Account("user", "pass123", "$123")));
+
 	public void mockServer(String bindingPort) {
 		this.context = ZMQ.context(1);
 		this.socket = this.context.socket(ZMQ.REP);
 		this.socket.bind(bindingPort);
-		
-		while(!Thread.currentThread().isInterrupted()) {
+
+		while (!Thread.currentThread().isInterrupted()) {
 			byte[] request = socket.recv(0);
 			if (request == null) {
 				break;
@@ -32,7 +33,7 @@ public class MockServer {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("Price", new BigDecimal("91.26"));
 			} else if (jsonRequest.getString("type").equals("btcHistory")) {
-				Map<String, BigDecimal>history = new HashMap<>();
+				Map<String, BigDecimal> history = new HashMap<>();
 				history.put("2025-03-21", new BigDecimal("56.5654"));
 				history.put("2024-03-22", new BigDecimal("22.65"));
 				history.put("2025-03-23", new BigDecimal("156.56"));
@@ -44,22 +45,43 @@ public class MockServer {
 			} else if (jsonRequest.getString("type").equals("login")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "abd");
-			} else if (jsonRequest.getString("type").equals("exit")) {
+
+			} else if (jsonRequest.getString("type").equals("addFunds")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "$123");
+				jsonResponse.put("amount", 10);
+			} else if (jsonRequest.getString("type").equals("getFunds")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "$123");
+				jsonResponse.put("amount", 10.00);
+			} else if (jsonRequest.getString("type").equals("addHolding")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("auth", "$123");
+			} else if (jsonRequest.getString("type").equals("getHoldings")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("token", "$123");
+				List<Map<String, Object>> holdingDict = new ArrayList<Map<String, Object>>();
+				Map<String, Object> holdingsMap = new HashMap<String, Object>();
+				holdingsMap.put("amount", new BigDecimal(2.00001));
+				holdingsMap.put("name", "Bitcoin");
+				holdingDict.add(holdingsMap);
+				jsonResponse.put("holdings", holdingDict);
+			}
+			if (jsonRequest.getString("type").equals("exit")) {
 				jsonResponse.put("success code", -1);
 				jsonResponse.put("type", "exit");
-			} else {
+				this.socket.send(jsonResponse.toString().getBytes(ZMQ.CHARSET), 0);
 				return;
 			}
 			this.socket.send(jsonResponse.toString().getBytes(ZMQ.CHARSET), 0);
 		}
 		this.stopServer();
 	}
-	
+
 	public void stopServer() {
 		System.out.println("Stopping server");
 		this.socket.close();
 		this.context.close();
 	}
-
 
 }

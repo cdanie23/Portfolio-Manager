@@ -1,5 +1,7 @@
 package portfoliomanager.viewmodel;
 
+import java.util.Map;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
@@ -29,6 +31,19 @@ public class AddFundsViewModel {
 		this.fundsAvailable = fundsAvailable;
 		this.client = Client.getInstance();
 	}
+	/**
+	 * Instantiates viewmodel object for testing purposes as to not set the client
+	 * 
+	 * @param user the user of the account
+	 * @param fundsAvailable the string property of the funds
+	 * @param test so you know its a test
+	 */
+	
+	public AddFundsViewModel(Account user, StringProperty fundsAvailable, String test) {
+		this.amountProperty = new SimpleStringProperty();
+		this.user = user;
+		this.fundsAvailable = fundsAvailable;
+	}
 	
 	/**
 	 * Gets the string Property for the funds to be added
@@ -52,9 +67,18 @@ public class AddFundsViewModel {
 			throw new IllegalArgumentException("Please enter a valid number.");
 		}
 		double newFunds = Integer.parseInt(this.amountProperty.get());
+		this.client.makeAddFundsRequest(this.user.getAuth(), newFunds);
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		
+		if (successCode == -1) {
+			String errorMsg = (String) response.get("error description");
+			throw new UnsupportedOperationException(errorMsg);
+		}
+		
 		newFunds += this.user.getFundsAvailable();
 		this.user.setFundsAvailable(newFunds);
-		this.fundsAvailable.setValue("$: " + this.user.getFundsAvailable());
+		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}
 	
 	/**
@@ -80,5 +104,24 @@ public class AddFundsViewModel {
 	public Account getUser() {
 		return this.user;
 	}
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
 	
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
+	}
 }

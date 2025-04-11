@@ -1,5 +1,6 @@
 package portfoliomanager.model;
 
+import portfoliomanager.client.CryptoCurrencies;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -9,17 +10,17 @@ import java.math.RoundingMode;
  * @version Spring 2025
  */
 public class Holding extends Crypto {
-	private double amountHeld;
+	private double amount;
 	/**
 	 * Creates an instance of a Holding
 	 * @param name the name 
 	 * @param currentPrice the current price
-	 * @param amountHeld the amount held
+	 * @param amount the amount held
 	 */
 	
-	public Holding(String name, Double currentPrice, double amountHeld) {
+	public Holding(CryptoCurrencies name, Double currentPrice, double amount) {
 		super(name, currentPrice);
-		this.amountHeld = amountHeld;
+		this.amount = amount;
 	}
 	
 	/**
@@ -27,12 +28,12 @@ public class Holding extends Crypto {
 	 * @return the price of the asset
 	 */
 	public double getTotalPrice() {
-		return super.getCurrentPrice() * this.amountHeld;
+		return super.getCurrentPrice() * this.amount;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%10s%25s%25s", super.getName(), this.getTotalPrice(), this.amountHeld);
+		return String.format("%10s%25s%25s", super.getName(), this.getTotalPrice(), this.amount);
 	}
 	/**
 	 * Gets the amount held
@@ -40,7 +41,7 @@ public class Holding extends Crypto {
 	 */
 	
 	public double getAmountHeld() {
-		return this.amountHeld;
+		return this.amount;
 	}
 	/**
 	 * Sets the ammount held
@@ -48,7 +49,8 @@ public class Holding extends Crypto {
 	 */
 	
 	public void setAmountHeld(double amount) {
-		this.amountHeld = this.roundToTwoDecimalPlaces(amount);
+		this.amount = this.roundToTwoDecimalPlaces(amount);
+
 	}
 	
 	private double roundToTwoDecimalPlaces(double value) {
@@ -58,7 +60,7 @@ public class Holding extends Crypto {
 	}
 	
 	/**
-	 * Gets the profift by selling a portion of it 
+	 * Gets the profit by selling a portion of it 
 	 * @param amountToSell the amount you want to sell
 	 * @return the total gain from selling
 	 */
