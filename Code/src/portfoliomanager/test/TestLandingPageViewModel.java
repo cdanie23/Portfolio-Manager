@@ -109,4 +109,19 @@ class TestLandingPageViewModel {
 		
 		assertEquals(expectedPortfolioLabel, actual);
 	}
+	
+	@Test
+	void testHandleUserLogout() {
+		Account user = this.viewModel.getUser().get();
+		user.setAuth("token");
+		this.viewModel.getIsLoggedIn().setValue(true);
+		this.viewModel.updateLabels();
+		
+		String welcomeText = this.viewModel.getWelcomeLabelProperty().getValue();
+		assertEquals(welcomeText, "Welcome back, "+ this.viewModel.getUser().getValue().getUserName());
+		
+		boolean result = this.viewModel.handleLogout();
+		
+		assertTrue(result);
+	}
 }
