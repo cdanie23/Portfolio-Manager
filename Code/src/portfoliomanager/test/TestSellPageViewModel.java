@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleStringProperty;
+import portfoliomanager.client.Client;
 import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
@@ -16,6 +19,29 @@ import portfoliomanager.viewmodel.SellPageViewModel;
 
 class TestSellPageViewModel {
 	SellPageViewModel viewModel;
+	private static final String PROTOCOL_IP = "tcp://127.0.0.1:";
+	private static Thread serverThread;
+	private static MockServer mockServer;
+	private static String port;
+	private static Client client;
+	
+	@BeforeAll
+	static void startServer() {
+		try {
+			mockServer = new MockServer();
+			port = "5563";
+			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
+			serverThread.start();
+		} catch (Exception e){
+			System.out.println("Address is in use, but test cases continue");
+		}
+	}
+	@AfterAll
+	static void interruptServer() {
+		client.resetClient();
+		serverThread.interrupt();
+	}
+	
 	@BeforeEach 
 	void setUp() {
 		Account user = new Account("colby", "password", "$123");
@@ -29,6 +55,8 @@ class TestSellPageViewModel {
 		this.viewModel = new SellPageViewModel(user, holdingToSell, fundsAvailable);
 		double amountToSell = 2;
 		this.viewModel.getAmountToSell().setValue(String.valueOf(amountToSell));
+		this.viewModel.setClient(port);
+		client = this.viewModel.getClient();
 	}
 
 	@Test

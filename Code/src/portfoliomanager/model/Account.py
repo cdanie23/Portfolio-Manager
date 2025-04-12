@@ -23,8 +23,6 @@ class Account:
         self.password_hash = self.hash_password(password)
         self.holdings = []
         self.funds_available = 0.0
-
-    
     
     def hash_password(self, password: str) -> bytes:
         """Hashes a password using bcrypt."""
@@ -34,18 +32,30 @@ class Account:
         """Verifies the provided password against the stored hash."""
         return bcrypt.checkpw(password.encode(), self.password_hash)
 
-    def add_holding(self, holding: Holding) -> bool:
+    def modify_holding(self, holding: Holding, add=True) -> bool:
         '''
         Adds a holding to the account
         @post holding is in holdings
         '''
         for curr_holding in self.holdings:
             if curr_holding.name == holding.name:
-                curr_holding.amount += float(curr_holding.amount)
+                if(add): 
+                    print(f"before adding: {curr_holding.amount}")
+                    curr_holding.amount += float(holding.amount)
+                    print(f"after adding: {curr_holding.amount}")
+                else:
+                    curr_holding.amount -= float(holding.amount)
                 return True
 
         self.holdings.append(holding)
         return True
+    
+    def modify_funds(self, totalCost: float, add= True):
+        if (add):
+            self.funds_available += float(totalCost)
+        else:
+            self.funds_available -= float(totalCost)
+        
     def get_holding(self, name):
         '''
         Gets the holding in the account given the name

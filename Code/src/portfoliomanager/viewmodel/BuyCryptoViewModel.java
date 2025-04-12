@@ -181,7 +181,7 @@ public class BuyCryptoViewModel {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
-		this.client.makeAddHoldingRequest(crypto.getName(), amountToBuy, this.user.getAuth());
+		this.client.makeModifyTradeRequest(crypto.getName(), amountToBuy, this.user.getAuth(), totalCost, true);
 		Map<String, Object> response = this.client.getResponse();
 		int successCode = (int) response.get("success code");
 		if (successCode == -1) {

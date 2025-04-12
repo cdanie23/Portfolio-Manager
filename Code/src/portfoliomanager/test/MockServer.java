@@ -54,7 +54,10 @@ public class MockServer {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");
 				jsonResponse.put("amount", 10.00);
-			} else if (jsonRequest.getString("type").equals("addHolding")) {
+			} else if (jsonRequest.getString("type").equals("buyCrypto")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("auth", "$123");
+			} else if (jsonRequest.getString("type").equals("sellCrypto")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("auth", "$123");
 			} else if (jsonRequest.getString("type").equals("getHoldings")) {

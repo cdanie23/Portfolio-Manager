@@ -1,10 +1,13 @@
 package portfoliomanager.viewmodel;
 
+import java.util.Map;
+
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import portfoliomanager.client.Client;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Holding;
 
@@ -19,6 +22,7 @@ public class SellPageViewModel {
 	private Holding holdingToSell;
 	private ListProperty<Holding> holdingsProperty;
 	private StringProperty fundsAvailable;
+	private Client client;
 	
 	/**
 	 * Instantiates a new sell page view model
@@ -34,6 +38,7 @@ public class SellPageViewModel {
 		this.user = user;
 		this.holdingToSell = holdingToSell;
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
+		this.client = Client.getInstance();
 	}
 	/**
 	 * Gets the holdings of the user
@@ -88,7 +93,14 @@ public class SellPageViewModel {
 		if (holding.getAmountHeld() == 0.0) {
 			this.user.getHoldings().remove(holding);
 		}
-		//TODO make this use the modify holding request from the client
+		Double totalAmount = Double.parseDouble(this.amountToSell.getValue());
+		this.client.makeModifyTradeRequest(holding.getName(), totalAmount, this.user.getAuth(), this.getProfit(), false);
+		Map<String, Object> response = this.client.getResponse();
+		int successCode = (int) response.get("success code");
+		if (successCode == -1) {
+			String errorMsg = (String) response.get("error description");
+			throw new UnsupportedOperationException(errorMsg);
+		}
 		this.user.setFundsAvailable(this.user.getFundsAvailable() + this.getProfit());
 		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
 	}
@@ -107,6 +119,26 @@ public class SellPageViewModel {
 	
 	public StringProperty getAvailableFundsProperty() {
 		return this.fundsAvailable;
+	}
+	/**
+	 * Sets the client for a specific port
+	 * 
+	 * @param serverPort port to be changed to 
+	 * Primarily used for testing
+	 */
+	
+	public void setClient(String serverPort) {
+		if (serverPort != null) {
+			this.client = Client.getInstance(serverPort);
+		}
+	}
+	/**
+	 * Gets the client
+	 * @return the client
+	 */
+	
+	public Client getClient() {
+		return this.client;
 	}
 	
 }

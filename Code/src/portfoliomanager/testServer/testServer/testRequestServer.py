@@ -10,7 +10,6 @@ import json
 from request_server import constants, server
 from request_server.request_handler import RequestHandler
 from threading import Thread
-from _overlapped import NULL
 
 class TestRequestServer(unittest.TestCase):
     
@@ -93,7 +92,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleSignUpNullName(self):
         signupRequest = {
             constants.KEY_REQUEST_TYPE: "signUp",
-            "username": NULL,
+            "username": None,
             "password": "pass123",
             "confirmPassword": "pass123"
         }
@@ -148,7 +147,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleLoginNullName(self):
         loginRequest = {
             constants.KEY_REQUEST_TYPE: "login",
-            "username": NULL,
+            "username": None,
             "password": "pass123"
         }
         self._socket.send_string(json.dumps(loginRequest))
@@ -192,13 +191,14 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldings(self):
+    def testModifyHolding(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: 'BTC-USD',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -206,12 +206,13 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.SUCCESS_STATUS)
     
-    def testAddHoldingsNoAuth(self):
+    def testModifyHoldingsNoAuth(self):
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: None,
             constants.KEY_NAME: 'btc',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -219,13 +220,14 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldingsNoCryptoName(self):
+    def testModifyHoldingsNoCryptoName(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: None,
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -233,13 +235,29 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldingsNoAmount(self):
+    def testModifyHoldingsNoAmount(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: None,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: 'btc',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
+            }
+    
+        self._socket.send_string(json.dumps(add_holding_request))
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
+        
+    def testModifyHoldingsNoTotalCost(self):
+        auth_token = self._login()
+        add_holding_request= {
+            constants.KEY_AMOUNT: 5,
+            constants.KEY_TOKEN: auth_token,
+            constants.KEY_NAME: 'btc',
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: None
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -347,7 +365,8 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
 
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout with invalid token should fail")
-        
+    
+     
         
         
 if __name__ == "__main__":
