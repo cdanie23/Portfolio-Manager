@@ -1,11 +1,8 @@
 Use Case Scenario
 Investor views current trends
-Context: Investor can view the same webpage to check current crypto trends.
+Context: Investor is on the buy crypto page
 
 Primary Flow:  
-1. Investor chooses to view current crypto currency prices. 
-2. System detects user request to view cryptocurrency prices.
-3. System displays current crypto currencies price. 
-4. Investor chooses a crypto currency from the list of cryptocurrencies. 
-5. System detects a crypto choice.
-6. System makes the buy button visible.
+1. Investor chooses a crypto from the list 
+2. Investor chooses a crypto currency from the list of cryptocurrencies. 
+3. System displays graph of historical prices of selected crypto

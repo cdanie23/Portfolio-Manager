@@ -1,13 +1,19 @@
-import yfinance
+from pycoingecko import CoinGeckoAPI
+import datetime
 
-bitcoin = yfinance.Ticker("BTC-USD")
+
+
+cg = CoinGeckoAPI()
 def getCurrBtcPrice():
     '''
     Gets the price from the previous days closing price
     @return the price at the end of the previous day
     '''
-    info = bitcoin.fast_info
-    return info["lastPrice"]
+    info = cg.get_price(ids="bitcoin", vs_currencies="usd")
+    price = info["bitcoin"]["usd"]
+    return float(price)
+    
+    
     # info = bitcoin.info
     # current_price = info.get("regularMarketPrice", None)
     #
@@ -17,12 +23,22 @@ def getCurrBtcPrice():
     #return current_price
 
 
-def getHistoricalData(timespan):
-    history = bitcoin.history(period=timespan, interval="1d")[["Close"]]
+def getHistoricalData():
+    '''
+    Gets the historical data of bitcoin for one year
+    @returns a dictionary of date and price <k,v> pairs
+    '''
+    info = cg.get_coin_market_chart_by_id("bitcoin", "usd", "365")
+    prices = info["prices"]
+    
+    for i in range(len(prices)):
+        pricesArray = prices[i]
+        timeInSecs = pricesArray[0] / 1000
+        pricesArray[0] = datetime.datetime.fromtimestamp(timeInSecs).strftime('%d/%m/%y')
+    
+    price_dict = {date: price for date, price in prices}
 
-    price_dict_str_dates = history["Close"].rename_axis("Date").reset_index()
-    price_dict_str_dates["Date"] = price_dict_str_dates["Date"].dt.strftime("%Y-%m-%d")
-    
-    price_dict = dict(zip(price_dict_str_dates["Date"], price_dict_str_dates["Close"]))
-    
     return price_dict
+
+if (__name__ == "__main__"):
+    print(getCurrBtcPrice())

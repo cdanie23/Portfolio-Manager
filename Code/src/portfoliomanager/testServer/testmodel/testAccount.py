@@ -45,7 +45,7 @@ class TestAccount(unittest.TestCase):
             self._account.change_password("wrongpassword", new_password)
         
         with self.assertRaises(ValueError):
-            self._account.set_password(old_password, None)
+            self._account.change_password(old_password, "")
             
     def testAddHolding(self):
         holding1 = Holding("BTC", 1.5)

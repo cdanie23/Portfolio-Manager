@@ -1,3 +1,694 @@
+commit 0d7b880be6d7776a12464a8efa9ca9e9b15deb6a
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Apr 11 02:06:38 2025 -0400
+
+    Adding updated Class Diagram
+    
+    Adding updated class diagram both client and server side. (PNG and vsdx)
+
+commit 9601106dccd9cfd92790fb51d4851c6007fea73d
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 21:43:49 2025 -0400
+
+    Adds the sprint 2 backlog inside of the doc folder a well as the use
+    case diagram png
+
+commit 547d69106c564eee7d8c4e78ee7648b42412b47d
+Merge: de43528 753b694
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Thu Apr 10 21:13:12 2025 -0400
+
+    Merge pull request #29 from cdanie23/pr-28
+    
+    Merge refactorAccountPropertiesToServer
+
+commit 753b694b56969a1912eb7b41f861af628060a6bb
+Merge: 2a9f948 de43528
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Apr 11 01:11:59 2025 -0400
+
+    Merged main to pr-28
+    
+    Merged main to pr-28. Fixed bug in server about adding float to string. Updated checkstyles.
+
+commit 2a9f948592f540915f0a768f0c6a787139c59318
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Apr 11 01:03:49 2025 -0400
+
+    Fixed a float and str calculation in server
+    
+    Fixed a bug in server where we were adding str and float. Fixed checkstyle issues.
+
+commit 610d008bdb80103da4d2e88d953a57927af461d9
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 20:22:12 2025 -0400
+
+    Fixes a bug in testing from our mock server
+
+commit 90aa31049f8c274f3553d578ba3de4f466f75f3a
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 19:42:54 2025 -0400
+
+    Pre loads with the users holdings added in the server
+
+commit de43528f0d019af7bac713e8f7bb6d279c3684d9
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Thu Apr 10 18:45:23 2025 -0400
+
+    Adds description, setup, execution, and setup to the readme
+
+commit badd6efc64e07eef77462ac6ac90a65529ca82da
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 18:31:37 2025 -0400
+
+    Updates use case scenario to include server interaction
+
+commit 63def9045e3ee31ccf16e6f88386d5c497494aa9
+Merge: 53d3b96 7f420bf
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 17:12:41 2025 -0400
+
+    Merge branch 'main' of https://github.com/cdanie23/Portfolio-Manager into pr-28
+
+commit 53d3b9634087e7d1059d941690b37096ea0d6649
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 17:01:59 2025 -0400
+
+    Fixes test cases from the merge conflicts as well as adds testing for
+    the get holdings
+
+commit 3319aeb06adca79ed1a6df5f7ebe034c75c9a724
+Merge: 7f4955d 33e621b
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 16:03:47 2025 -0400
+
+    Fixes all merge conflicts and Merge branch 'main' into pr-28
+
+commit 7f4955d03c43a2444385aeb0dc34226e70f41439
+Merge: 6dc9119 410a0cf
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Apr 10 15:22:46 2025 -0400
+
+    Merge branch 'refactorAccountToServer' of https://github.com/cdanie23/Portfolio-Manager into pr-28
+
+commit 410a0cf8e33937a2ce5442e1a64e7bf1b2cd2010
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Apr 9 22:56:34 2025 -0400
+
+    Adds testing for the python project for the request handler
+    add funds request handle and get funds request handle. Also adds test
+    for account and holding and request server.
+
+commit 7f420bf306846a5bf6c09f1a5ad1deaaa4aa74b8
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Wed Apr 9 11:21:17 2025 -0400
+
+    Update LandingPageCodeBehind
+    
+    Updated LandingPageCodeBehind to match refactor.
+
+commit 4525d3c276a4e3aaf7a689ea300d238b5e81cab7
+Merge: 06311e1 c78d08d
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Wed Apr 9 10:03:14 2025 -0500
+
+    Merge pull request #26 from cdanie23/feature-ImplementZMQLogout
+    
+    Looks good test are there and the functionality has been met. I like how you let the Account manage the auth token instead of the client. You also delete the token when applicable. Nice!
+
+commit c78d08df2493b59f10a45cb13a184c962931a71b
+Merge: 33e621b 06311e1
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Wed Apr 9 10:01:55 2025 -0500
+
+    Merge branch 'main' into feature-ImplementZMQLogout
+
+commit 6dc911917c49b0bac460b27e5b7acfd787633bc5
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Apr 9 03:17:38 2025 -0400
+
+    Added test cases for the server sides
+    
+    Added test cases for testing server and model classes.
+
+commit 91dc4b825e881ae725c787a3a14fbcc0fe6ae411
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Apr 9 01:26:53 2025 -0400
+
+    Addresses not being able to run junit test as package
+    
+    Enables the test cases to be run as package. Also changed the port in TestLandingPageViewModel so we keep our main server port free.
+
+commit 06311e100dbe3852e26736c114f9b73477fcb051
+Merge: 70d7a05 bcc2ec0
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Tue Apr 8 23:13:08 2025 -0400
+
+    Merge pull request #25 from cdanie23/RefactorBuyCrypto
+    
+    Refactored to allow buying and selling of smaller portion of crypto
+
+commit bcc2ec0ba24f6c904ae77ccc3ad7371add08c242
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Apr 9 00:38:30 2025 -0400
+
+    Refactored to allow buying and selling of smaller portion of crypto
+    
+    Allows buying and selling of crypto in smaller portions, the lowest being 0.01 amount.
+
+commit 4f49a127166ccb9fbd48593b177750a0340446a6
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Apr 8 20:15:20 2025 -0400
+
+    Adds testing for the new requests
+    python side still needs testing as well as the test package will not
+    finish execution.
+
+commit 33e621b467df2b0b86a0b4d4f3c642017a8ce487
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Mon Apr 7 21:22:10 2025 -0400
+
+    Refactor Client Token Access
+    
+    Refactored system to access the account's token through the Account model class instead of through the Client class.
+
+commit 1ae05a933be895c8bd66f8b65305662d5add36f4
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Mon Apr 7 19:18:05 2025 -0400
+
+    Refactored LoginPage and SignUp Page
+    
+    Refactored login page and signup page to prevent passing in null users and updated to propagate a user back to landingview page. Made feature functionalities like enabling/disabling buttons private, so only landing page interacts with it's buttons.
+
+commit 1ab24daadd6846eff933ec96fa04e8ac606bf6c0
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Mon Apr 7 18:35:56 2025 -0400
+
+    Adds functionality to log in and out and have the funds property update
+    accordingly with the funds available to that account. Still needs
+    testing as well as the functionality to get the holdings of the user
+    stored in the server.
+
+commit 1428df7a26f5c727b965cad0f19519dddc682eba
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sun Apr 6 14:43:21 2025 -0400
+
+    Add ZMQ Logout Request/Response Tests
+    
+    Added test cases for the ZMQ logout requests and responses between the client and server.
+
+commit 6d057e1359382d678b3203759c90cf1b09ab1e2b
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sun Apr 6 14:02:05 2025 -0400
+
+    Added the functionality for the add funds and buy crypto request
+    Still need a way to retrieve the users holdings from the server i.e a
+    request. So that we can update the holdings property and funds available
+    properties.
+
+commit ae8ccc33287d8859d8dc34c56b7811615287eec5
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sun Apr 6 12:03:59 2025 -0400
+
+    Created functionality for the add funds request.
+    There is a bug where if you signup/login and then logout and sign back
+    up or login again then the buy button is not enabled in the portfolio.
+    Still needs testing as well.
+
+commit 546998d6df8584116e702652014e1b1de3366a09
+Merge: 6eee9ae 9cc545d
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sun Apr 6 00:33:49 2025 -0400
+
+    Merge branch 'RefactorAccountToServer' into feature-ImplementZMQLogout
+
+commit 9cc545d0fcc24398b11c5d7b5f69ec8338bd7260
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sat Apr 5 20:19:23 2025 -0400
+
+    Added a quality of life change where if you sign up you automatically
+    get signed in. Fixed a bug where the user from the signup/login page was
+    not getting propogated back to the landing page. Updated the testing to
+    test these new changes.
+
+commit 6eee9ae52a3612f22637dbfdbcc9ae88a7c6b5c0
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Apr 5 18:13:59 2025 -0400
+
+    Fix Errors
+    
+    Fixed errors caused by missing lines during merge commit.
+
+commit 7e2fa6036502695bbca1550a57dea57ce209ef90
+Merge: d5b2772 6af6c07
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Apr 5 18:06:54 2025 -0400
+
+    Merge remote-tracking branch 'origin/RefactorAccountToServer' into feature-ImplementZMQLogout
+
+commit d5b2772e245341ded9c8dd63e565e0a8592968f3
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Fri Apr 4 16:34:14 2025 -0400
+
+    Implement ZMQ Logout Request/Response
+    
+    Implemented logout functionality using ZMQ request and response.
+
+commit 6af6c0716687844d0cd9ff7e937bff6e4db189f7
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Apr 4 16:26:37 2025 -0400
+
+    Adds a way to reset the client(mainly for testing purposes). Modifies
+    the client to only connect to the servers socket once, instead of every
+    request. Fixes the test package to appropriately a singleton client
+    object.
+
+commit 70d7a05f8e71f5a58f60bd9b1272c3c1ea9892b1
+Merge: d78f675 10de2da
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Fri Apr 4 14:14:23 2025 -0400
+
+    Merge pull request #23 from cdanie23/Bug-FixHistoricDataInGraph
+    
+    Fixed graph error
+
+commit 10de2da62991949247e96acd9656b4e60b9acaa5
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Thu Apr 3 20:26:05 2025 -0400
+
+    Fixed graph error
+    
+    Updated the graph to access the latest price data for the given range of days in buy crypto page.
+
+commit d78f6759a0add763702f8ac0d732ca7b9abee50c
+Merge: 99bb13e 2ec5af5
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Thu Apr 3 15:02:03 2025 -0500
+
+    Merge pull request #22 from cdanie23/ImplementServer
+    
+    Implement server, everything looks good an overall 95% test coverage is still met on non view classes. The server implementation is nicely factored out. As well as the test use a mock server. The client also is used a singleton object which is great!
+
+commit 2ec5af50ea3e8b0644c34b80cb781e4183c5da1f
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Thu Apr 3 13:45:09 2025 -0400
+
+    Updated test cases to use different ports
+    
+    Updated test cases to use different server ports connection so address in use issue doesn't occur.
+
+commit e4aa770e8dc037dff6c129d08b149e7a7bcda423
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Tue Apr 1 23:02:01 2025 -0400
+
+    Addresses the stack trace
+    
+    Replaces the stack trace with a error message printing. This is to assure test cases can run separately or all together.
+
+commit 77d21a89f2d2daad6622b7607179610a28ca9f28
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Tue Apr 1 21:09:29 2025 -0400
+
+    Updated test cases
+    
+    Updated test cases to use mock server that uses a different port than python server. Has hardcoded response. Also updated crypto class to dynamically calculate oneday price change.
+
+commit bc8c20f342d2d1bc639a46a9d1fba6b2c3d52072
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 29 17:07:25 2025 -0400
+
+    Add More Client Tests
+    
+    Added more Client testing for auth requests to improve code coverage.
+
+commit 8b655b102de16ee13731c3b090014beb38b8df94
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 29 16:37:59 2025 -0400
+
+    Update request_handler.py Test Coverage
+    
+    Updated testRequestServer.py with additional testing to improve coverage of python code to 99%. Uncomment lines 96 in LoginPageViewModel and 113 in SignUpPageViewModel to allow for testing, as it will close early otherwise.
+
+commit 4e5ee669ff086bd6f92d67129341b3356ae7b234
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 29 13:15:37 2025 -0400
+
+    Implement SignUp/Login Server-Client Interaction
+    
+    Implemented SignUp and Login requests and responses for the ZMQ server-client communication.
+
+commit 7b61fa302ecd4d1c186c860d0b4dd5a4f573be1d
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sat Mar 29 12:52:26 2025 -0400
+
+    Delivers 98% total coverage for the server side of our application
+    All tested except the main methods which I can't test or get rid of.
+
+commit 9492854cd6380534e29b87935a6a04b88541adb3
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sat Mar 29 11:22:41 2025 -0400
+
+    Fixes a bug where the client does not shut down when an exit request is
+    being sent to the server.
+
+commit b8b225149e41acf4d1be96fca7761ec56a7958b5
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Fri Mar 28 22:25:50 2025 -0400
+
+    Makes server requestfor current price
+    
+    Makes server request to get the current prices. Fixes previous error. Added few test cases. Server test still required.
+
+commit 54fe52dc4171be760465e3ce506c4f6d37035c15
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Fri Mar 28 19:14:23 2025 -0400
+
+    Minor update on hashmap accessing
+    
+    Hashmap of the price history uses the today's date to access the currentprice than using the firstentry.
+
+commit b9ad47d12d5006ec54af05df2341acdedaccd6d0
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Fri Mar 28 17:37:43 2025 -0400
+
+    Suppress readHistoricalPrices() Warning
+    
+    Suppressed readHistoricalPrices() warning on assumption that the response structure is consistent.
+
+commit 2c6f2313625e1027eef7fb8ddfa5a9c41e11c6c9
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Mar 28 17:07:39 2025 -0400
+
+    Adds requests creator, and requests enum
+
+commit ff4914924daccb652dd4371211c6c34b4e8b4e18
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Fri Mar 28 16:47:24 2025 -0400
+
+    Adds the client as a singleton object, introduces, requests enum,
+    request creator, and functionality for getting the current price for
+    bitcoin. Still needs the price history request for bitcoin and test
+    coverage
+
+commit 7038e9a86353db718a4d395124b6b422fd439c72
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Thu Mar 27 21:50:12 2025 -0400
+
+    Updated server client communication
+    
+    Added test cases and updated client server communication.
+
+commit 4f003bbaa980bea194cb0b019986a3a2c961f74b
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 26 21:54:39 2025 -0400
+
+    Adds yfinance and a crypto metric class to obtain crypto data
+
+commit 5159d85bcbd932d59e9efb64b2b02e8bf14c48e0
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 26 23:10:47 2025 -0400
+
+    Adding jar files
+    
+    Adding jar file.
+
+commit 6ba56921c5a761364e6adb6eafcd6d99ab5cea9d
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Tue Mar 25 22:16:22 2025 -0400
+
+    Updated client and server interaction
+    
+    Updated client and server interaction and added few test cases for server request handling.
+
+commit a772d175a68a3b50e14139ba034754e107b6b0d7
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Tue Mar 25 23:37:22 2025 -0400
+
+    Sets up client server
+    
+    Sets up server pydev project and client class for messaging.
+
+commit 99bb13e6b8a64fdc5ff84e7a38bfdb4cf0202282
+Merge: 176c400 c4fec2d
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Mon Mar 24 13:09:49 2025 -0400
+
+    Merge pull request #21 from cdanie23/reconfigureColorSchemeAndSizing
+    
+    Reconfigured the buttons to ellipses to match the style of landing page.
+
+commit c4fec2d12d426bcdf33c5c0d9757879d04b79b22
+Author: Adhika39 <aadhika1@my.westga.edu>
+Date:   Mon Mar 24 13:09:11 2025 -0400
+
+    Merged main
+    
+    Merged the new changes and removed remaining unused button imports.
+
+commit 1f9fdb7fa5789ac41446311b666e7ed00054e5d8
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sun Mar 23 15:37:56 2025 -0400
+
+    Reconfigured the buttons to ellipses to match the style of landing page.
+    Resized and changed the font of some text.
+
+commit 176c400fbf30e77b5c793ec73b26c4298066217d
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 15 15:12:56 2025 -0400
+
+    Update .classpath
+    
+    Update .classpath
+
+commit 33e509429b249f5cc38d92726dc4c84d84fe87d2
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 15 15:11:09 2025 -0400
+
+    Remove Duplicate Text
+    
+    Removed duplicate text "24hr price trend"
+
+commit 3180c50a8bbc9fe1f9cb08873c06ce3ad947f33b
+Merge: d50efb7 c6f3122
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Sat Mar 15 14:59:49 2025 -0400
+
+    Merge pull request #20 from cdanie23/RefactorBuyCryptoPage
+    
+    Refactor buy crypto page
+
+commit c6f3122a340343d1927c0cab61f98ed03ca063f6
+Merge: 9fd0973 d50efb7
+Author: Sam Blunt <145735642+Mughki@users.noreply.github.com>
+Date:   Sat Mar 15 14:59:38 2025 -0400
+
+    Merge branch 'main' into RefactorBuyCryptoPage
+
+commit 9fd0973b3d64cafa9947d93e574c31f7e54356b5
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Fri Mar 14 18:06:24 2025 -0400
+
+    Fixes multiple creation of same holding
+    
+    Fixed issue where buying same crypto would create instances of two holdings. Now updates the amount held.
+
+commit d50efb7cc5f794874a4fcd2edc61d23e53ddaa60
+Merge: 20e59dd 0e9765e
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 18:50:34 2025 -0400
+
+    Merge pull request #19 from cdanie23/modifyUIText
+    
+    Modify UI text
+
+commit 0e9765e7dcdf1890d3859ce560928354fd49514e
+Merge: 9f57c39 20e59dd
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 18:49:05 2025 -0400
+
+    Merged main to UI branch
+    
+    Merged main with updated UI modifications.
+
+commit 20e59dd83772a839b3674b25c0bb91e81b79403e
+Merge: 40795e5 b92b4d6
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 17:38:42 2025 -0400
+
+    Merge pull request #18 from cdanie23/ImplementSignUpModifications
+    
+    Merged the branch after resolving conflicts. Works well, properly tested and has enough coverages.
+
+commit b92b4d6ec0cd650b47d9b5bfec304b68da7f2d38
+Merge: f8538f4 40795e5
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 17:36:29 2025 -0400
+
+    Merged main to the branch
+    
+    Fixed merge conflicts and assured test coverages as well as functionality.
+
+commit 9f57c394e0971270f015a526b77d7cf2fea96699
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Wed Mar 12 15:46:06 2025 -0400
+
+    Changes the color, font, and size of text. To be easier to view and
+    read.
+
+commit f8538f496c56c99dd97b0f9a43d5b60518121ffd
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 13:50:12 2025 -0400
+
+    Updated for merging
+    
+    Updated few checkstyles, fixed a branch missed during testing.
+
+commit 05359e3794a990eef4cd1f6d29da8df63a885089
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Wed Mar 12 13:05:32 2025 -0400
+
+    Updated buy page size
+    
+    Updated buy crypto page size to proeperly adjust the cryptoList view.
+
+commit a97c7401784f64d0c01ba12bea720d2fc1887cb3
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Tue Mar 11 18:36:52 2025 -0400
+
+    Fixes UI Login page to fit all controls and adds test cases.
+
+commit 40795e5bd8179abc80056870c3d3865c6f680805
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Tue Mar 11 12:26:58 2025 -0400
+
+    Update LandingPageCodeBehind.java
+    
+    Updated landing tab page to switch tab page when logged in and out.
+
+commit ec22eb916262474562e646e51849f9fb357923d3
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Mon Mar 10 18:42:16 2025 -0400
+
+    Improves UI transition between login and sign up, and also fixes spacing
+    between labels upon signing in.
+
+commit 9bfb7f067b035b3e42faade1ffd9fb7d5a164091
+Merge: 705b7c3 8c04bf8
+Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
+Date:   Mon Mar 10 17:23:20 2025 -0500
+
+    Merge pull request #17 from cdanie23/feature-implementLogoutFeature
+    
+    Feature implement logout feature
+
+commit 8c04bf8b52c5a985e9f79f3b1d74db16c47a1daf
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Mon Mar 10 18:21:03 2025 -0400
+
+    Adds test to recover 100% coverage
+
+commit f32656757a735a4f4bfd0d243a45f699f9fb3f5c
+Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
+Date:   Mon Mar 10 13:22:15 2025 -0400
+
+    Refactored Buy Crypto Page
+    
+    Moved refactored to portfolio page for better login flow. Also added a line graph to depict the price change of crypto upto a year.
+
+commit e343722a2b6e30c8d681911e936f41e93b9b3e0b
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Sun Mar 9 19:18:40 2025 -0400
+
+    Secure login/sign up and fluid button transformations
+    
+    Enables secure log in and sign up process and enables features unique to an account. Log in and sign up buttons disappear after logging in or signing up, and reappear when either one of the log out buttons is clicked.
+
+commit f4525248e81293fe1639501eb5b7d7f0a1d307a3
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Sat Mar 8 23:05:31 2025 -0500
+
+    Added functionality that updates the welcome label to yield closure to
+    the user to notify them they are succesfully logged in. Lables still
+    need adjusting. Portfolio needs to disabled/enabled on login status as
+    well.
+
+commit a1037fe06cd1c8aeaa98cba64bbef4cb52e19801
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Sat Mar 8 20:35:07 2025 -0500
+
+    Fix Sign Up Page
+    
+    Fixed the confirmPassword field on the Sign Up Page to properly compare and confirm passwords match.
+
+commit 133241046baa0ac5987631e481b879140056db65
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Fri Mar 7 14:18:01 2025 -0500
+
+    Modify Sign Up and Login Flow
+    
+    Modified application Landing Page to only show one button, login, until functionality of changing text based upon login status is implemented. The Sign Up Page is now accessed from the Login Page via a clickable label under the sign up button.
+
+commit c5ef57fe584b3b8667d1ab0b575435ba3e66d3a0
+Author: Mughki <bluntsam23@hotmail.com>
+Date:   Fri Mar 7 13:44:35 2025 -0500
+
+    Refactor Account to Use Username
+    
+    Refactored Account model class to use username instead of email, and updated all references throughout the system to match the change.
+
+commit a8dd9c5ab7af15b90d2686a8f27442832de5fa9d
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Thu Mar 6 21:59:25 2025 -0500
+
+    Small fixes to LandingPageViewModel
+
+commit 347b36b19ddfb5dca3d0ac4e9993616df6d1324e
+Merge: 1894f1e 2d56eb6
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Thu Mar 6 21:50:37 2025 -0500
+
+    Merge branch 'feature-implementLogoutFeature' of https://github.com/cdanie23/Portfolio-Manager into feature-implementLogoutFeature
+
+commit 1894f1ebd6c6347e49baf693c460ac97ac508eb5
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Thu Mar 6 21:47:49 2025 -0500
+
+    Fixed buy crypto merge
+    
+    Fixed the implementation of buying crypto
+
+commit 2d56eb6a6e575c71f204fc39e037d2bddbba0718
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 20:51:26 2025 -0500
+
+    Fixed a minor issue with merge conflicts and the buy crypto button being
+    deleted
+
+commit a2aefb6e783399baf82c2b27ecf7131720cfa042
+Merge: 871b619 705b7c3
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 20:46:32 2025 -0500
+
+    Merge branch 'main' into feature-implementLogoutFeature
+
+commit 871b619ddd722ff3d8d7f599c2069f9d1b824d46
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 20:41:25 2025 -0500
+
+    Fixed a test case that was bugged from previous commit
+
+commit 705b7c3f1b464979194d4fcd5933ec9f6b0c90c1
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 15:20:18 2025 -0500
+
+    Adds all the UI wireframes for the pages
+
+commit 9fed3972ea880f7647cace4aed58748a565b0ded
+Author: Colby <cdanie23@my.westga.edu>
+Date:   Thu Mar 6 15:15:35 2025 -0500
+
+    Ensures 95% test coverage with all passing test of all non UI classes
+
 commit ec91ece8bc3a9fb65c4de8a7edf43f015f849b4e
 Merge: 1467824 35b0189
 Author: cdanie23 <165082439+cdanie23@users.noreply.github.com>
@@ -20,6 +711,22 @@ Date:   Thu Mar 6 13:52:11 2025 -0500
     Update use cases
     
     Updated use case scenarios and diagram.
+
+commit e573dda9ea2198a10231e8f8c8f978825f5fd600
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Thu Mar 6 12:11:13 2025 -0500
+
+    Implement enabling/disabling states for Portfolio page
+    
+    Makes the portfolio page be enables when a user logs in/signs up, and disables it when a user logs out
+
+commit c2e47c92f71676d62d108f10981300a0b5022c3c
+Author: Liam Cole <lc00136@my.westga.edu>
+Date:   Thu Mar 6 12:05:46 2025 -0500
+
+    Implement basic appearance of log out button
+    
+    Made a basic log out button that appears after logging in/signing up and disapears after closing it
 
 commit 83ae2807c6ea8008cb924115999c00e0e7522c3a
 Author: Adhika39 <165107869+Adhika39@users.noreply.github.com>
