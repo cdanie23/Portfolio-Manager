@@ -1,5 +1,6 @@
 package portfoliomanager.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import javafx.beans.property.ListProperty;
@@ -39,6 +40,23 @@ public class SellPageViewModel {
 		this.holdingToSell = holdingToSell;
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.client = Client.getInstance();
+	}
+	
+	/**
+	 * Instantiates a new sell page view model
+	 * @param user the user 
+	 * @param holdingToSell the selected holding to sell
+	 * @param fundsAvailable the funds available to the user
+	 * @param test indicates the instance of object for testing
+	 * @post  this.amountToSell != null, this.fundsAvailable == fundsAvailable, this.user == user, this.holdingToSell == holdingToSell
+	 *        this.holdings == holdings
+	 */
+	public SellPageViewModel(Account user, Holding holdingToSell, StringProperty fundsAvailable, String test) {
+		this.amountToSell = new SimpleStringProperty();
+		this.fundsAvailable = fundsAvailable;
+		this.user = user;
+		this.holdingToSell = holdingToSell;
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
 	/**
 	 * Gets the holdings of the user
@@ -89,19 +107,25 @@ public class SellPageViewModel {
 	 */
 	public void sellCrypto() {
 		Holding holding = this.getHoldingToSell();
-		holding.setAmountHeld(this.getAmountLeft());
-		if (holding.getAmountHeld() == 0.0) {
-			this.user.getHoldings().remove(holding);
-		}
 		Double totalAmount = Double.parseDouble(this.amountToSell.getValue());
 		this.client.makeModifyTradeRequest(holding.getName(), totalAmount, this.user.getAuth(), this.getProfit(), false);
 		Map<String, Object> response = this.client.getResponse();
 		int successCode = (int) response.get("success code");
+		BigDecimal updatedHoldingAmount = new BigDecimal(0);
+		BigDecimal updatedUserFunds = new BigDecimal(0);
 		if (successCode == -1) {
 			String errorMsg = (String) response.get("error description");
 			throw new UnsupportedOperationException(errorMsg);
+		} else {
+			updatedHoldingAmount = (BigDecimal) response.get("amount");
+			updatedUserFunds = (BigDecimal) response.get("funds");
 		}
-		this.user.setFundsAvailable(this.user.getFundsAvailable() + this.getProfit());
+		holding.setAmountHeld(updatedHoldingAmount.doubleValue());
+		if (holding.getAmountHeld() == 0.00) {
+			this.user.getHoldings().remove(holding);
+			this.holdingsProperty.setValue(FXCollections.observableArrayList(this.user.getHoldings()));
+		}
+		this.user.setFundsAvailable(updatedUserFunds.doubleValue());
 		this.fundsAvailable.setValue("$" + this.user.getFundsAvailable());
 	}
 	/**

@@ -20,13 +20,13 @@ class testAccount(unittest.TestCase):
         self.assertFalse(self.account.verify_password("differentPassword"))    
     def testAddNewHolding(self):
         holding = Holding("bitcoin", 1)
-        self.account.add_holding(holding)
+        self.account.modify_holding(holding, True)
         self.assertFalse(not self.account.holdings)
         self.assertTrue(holding in self.account.holdings)
     def testAddMoreOfSameHolding(self):
         holding = Holding("bitcoin", 1)
-        self.account.add_holding(holding)
-        self.account.add_holding(holding)
+        self.account.modify_holding(holding, True)
+        self.account.modify_holding(holding, True)
         bitcoinHolding = self.account.get_holding("bitcoin")
         self.assertTrue(bitcoinHolding.amount == 2)
     def testEqualAccount(self):

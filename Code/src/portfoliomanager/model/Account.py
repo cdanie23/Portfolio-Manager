@@ -39,13 +39,14 @@ class Account:
         '''
         for curr_holding in self.holdings:
             if curr_holding.name == holding.name:
-                if(add): 
-                    print(f"before adding: {curr_holding.amount}")
+                if(add):
                     curr_holding.amount += float(holding.amount)
-                    print(f"after adding: {curr_holding.amount}")
                 else:
                     curr_holding.amount -= float(holding.amount)
+                
+                holding.set_amount_held(curr_holding.amount)
                 return True
+                
 
         self.holdings.append(holding)
         return True

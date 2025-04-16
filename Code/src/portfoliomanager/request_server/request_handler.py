@@ -8,6 +8,7 @@ from request_server import crypto_metrics
 import uuid
 from model.Account import Account
 from model.Holding import Holding
+from pickle import NONE
 
 class RequestHandler:
     def __init__(self):
@@ -79,12 +80,15 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
-        holding = Holding(cryptoName, float(amount))
+        holding = Holding(cryptoName, amount)
         account.modify_holding(holding, add)
         account.modify_funds(totalCost, not add)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,
-            constants.KEY_TOKEN : auth
+            constants.KEY_TOKEN : auth,
+            constants.KEY_FUNDS: account.funds_available,
+            constants.KEY_AMOUNT: holding.amount,
+            constants.KEY_NAME: holding.getHoldingName()
             }
         return response
     

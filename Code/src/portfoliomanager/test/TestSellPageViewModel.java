@@ -2,6 +2,7 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +53,8 @@ class TestSellPageViewModel {
 		SimpleStringProperty fundsAvailable = new SimpleStringProperty();
 		fundsAvailable.setValue("$" + user.getFundsAvailable());
 		
-		this.viewModel = new SellPageViewModel(user, holdingToSell, fundsAvailable);
-		double amountToSell = 2;
+		this.viewModel = new SellPageViewModel(user, holdingToSell, fundsAvailable, "test");
+		BigDecimal amountToSell = new BigDecimal(2);
 		this.viewModel.getAmountToSell().setValue(String.valueOf(amountToSell));
 		this.viewModel.setClient(port);
 		client = this.viewModel.getClient();
@@ -91,7 +92,7 @@ class TestSellPageViewModel {
 	void testSellPartialAmountOfCrypto() {
 		this.viewModel.sellCrypto();
 		
-		assertEquals(8, this.viewModel.getHoldingToSell().getAmountHeld());
+		assertEquals(8.0, this.viewModel.getHoldingToSell().getAmountHeld());
 		assertEquals(2000, this.viewModel.getUser().getFundsAvailable());
 		String expectedFundsAvailableDisplayed = "$" + 2000.0;
 		
