@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
 
+import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 
 public class MockServer {
@@ -54,9 +55,24 @@ public class MockServer {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");
 				jsonResponse.put("amount", 10.00);
-			} else if (jsonRequest.getString("type").equals("addHolding")) {
+			} else if (jsonRequest.getString("type").equals("buyCrypto")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("auth", "$123");
+				jsonResponse.put("amount", new BigDecimal(5.00001));
+				jsonResponse.put("funds", new BigDecimal(954.50001));
+				jsonResponse.put("name", CryptoCurrencies.Bitcoin);
+			} else if (jsonRequest.getString("type").equals("sellCrypto")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("auth", "$123");
+				double amount = Double.parseDouble(jsonRequest.getString("amount"));
+				if (amount == 2 ) {
+					jsonResponse.put("amount", new BigDecimal(8.00001));
+					jsonResponse.put("funds", new BigDecimal(2000.00001));
+				} if (amount == 10) {
+					jsonResponse.put("amount", new BigDecimal(10.00001));
+					jsonResponse.put("funds", new BigDecimal(10000.00001));
+				}
+				jsonResponse.put("name", CryptoCurrencies.Bitcoin);
 			} else if (jsonRequest.getString("type").equals("getHoldings")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");

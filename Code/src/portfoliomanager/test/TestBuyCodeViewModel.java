@@ -111,7 +111,7 @@ class TestBuyCodeViewModel {
 		()-> assertEquals("$954.50", this.vm.getFundsAvailableProperty().get()),
 		() -> assertEquals(response.get("auth"), "$123"),
 		() -> assertEquals(response.get("success code"), 1)
-		);
+				);
 	}
 	
 	@Test
