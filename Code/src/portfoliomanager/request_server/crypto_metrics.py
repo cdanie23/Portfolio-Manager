@@ -1,18 +1,16 @@
 from pycoingecko import CoinGeckoAPI
 import datetime
 
-
-
 cg = CoinGeckoAPI()
 def getCurrBtcPrice():
     '''
     Gets the price from the previous days closing price
     @return the price at the end of the previous day
     '''
-    info = cg.get_price(ids="bitcoin", vs_currencies="usd")
+    info = cg.get_price(ids="bitcoin", vs_currencies="usd", precision="5")
     price = info["bitcoin"]["usd"]
-    return float(price)
-    
+
+    return price
     
     # info = bitcoin.info
     # current_price = info.get("regularMarketPrice", None)
@@ -21,7 +19,6 @@ def getCurrBtcPrice():
     #     raise ValueError("Could not get current price.")
     
     #return current_price
-
 
 def getHistoricalData():
     '''
