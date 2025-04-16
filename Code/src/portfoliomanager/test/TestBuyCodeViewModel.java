@@ -70,9 +70,9 @@ class TestBuyCodeViewModel {
 		this.vm = new BuyCryptoViewModel(this.user, this.holdingsProperty, this.fundsAvailableProperty, "test");
 		this.vm.getSelectedCrypto().set(crypto);
 		this.historicalPrices = new HashMap<String, BigDecimal>();
-		this.historicalPrices.put("2025-01-30", new BigDecimal(10.01));
-		this.historicalPrices.put("2025-01-31", new BigDecimal(9.56));
-		this.historicalPrices.put("2025-02-01", new BigDecimal(56.4));
+		this.historicalPrices.put("30/01/25", new BigDecimal(10.01));
+		this.historicalPrices.put("31/01/25", new BigDecimal(9.56));
+		this.historicalPrices.put("01/02/25", new BigDecimal(56.4));
 		crypto.setHistoricalPrices(historicalPrices);
 		this.cryptoList.add(crypto);
 		this.vm.setClient(port);
