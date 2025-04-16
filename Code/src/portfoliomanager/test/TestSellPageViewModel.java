@@ -59,6 +59,29 @@ class TestSellPageViewModel {
 		this.viewModel.setClient(port);
 		client = this.viewModel.getClient();
 	}
+	
+	@Test
+	void testConstructor() {
+		Account user = new Account("colby2", "password", "$123");
+	    Holding holdingToSell = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 10);
+	    List<Holding> holdings = new ArrayList<Holding>();
+		holdings.add(holdingToSell);
+		
+		SimpleStringProperty fundsAvailable = new SimpleStringProperty();
+		fundsAvailable.setValue("$" + user.getFundsAvailable());
+
+	    this.viewModel = new SellPageViewModel(user, holdingToSell, fundsAvailable);
+	    BigDecimal amountToSell = new BigDecimal(2);
+		this.viewModel.getAmountToSell().setValue(String.valueOf(amountToSell));
+		this.viewModel.setClient(port);
+		client = this.viewModel.getClient();
+	    
+	    assertNotNull(this.viewModel.getAmountToSell());
+	    assertEquals(fundsAvailable, this.viewModel.getAvailableFundsProperty());
+	    assertEquals(user, this.viewModel.getUser());
+	    assertEquals(holdingToSell, this.viewModel.getHoldingToSell());
+	    assertNotNull(this.viewModel.getClient());
+	}
 
 	@Test
 	void testGetHoldings() {
