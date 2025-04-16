@@ -1,26 +1,23 @@
 Use Case Scenario
 Investor buys a crypto
 
-Context: Investor chooses to buy a crypto from the list of available crypto currencies. 
+Context: Investor is on the buy crypto page 
 
 Primary flow:
-1. Investor chooses to buy a crypto. 
-2. System detects request to buy a crypto.
-3. System displays a form with amount in USD to buy the crypto with. 
-4. Investor enters the amount.
-5. System detects the amount and verifies it.
-6. Investor now owns the crypto bought. 
-7. System adds the bought crypto to investor's portfolio. 
+1. Investor selects a crypto from the list
+2. Investor puts in the amount he wants to buy
+3. Investor buys
+4. Client sends a request to add the crypto to his portfolio
+5. Client sends a request to update the funds available in his account
 
 Alternative flow:
-I. Investor enters out of range amount. 
-A5. System detects the amount and asserts invalid amount.  
-A6. System displays invalid amount. Limit exceeded or limit not met notification. 
-A7. Returns to primary flow step 4.
+A4.  System detects amount is out of range  
+A5. System displays invalid amount. Limit exceeded or limit not met notification. 
+A6. Returns to primary flow step 2.
 
-II. Not enough funds in the account.
-A6. System detects investor does not have enough funds available to buy the crypto. 
-A7. System displays not enough funds. 
-A8. Exits the page.
+Alternative flow:
+A4. System detects not enough funds in the account.
+A5. System displays not enough funds. 
+A6. Returns to primary flow step 2.
 
 

@@ -35,9 +35,9 @@ public class MockServer {
 				jsonResponse.put("Price", new BigDecimal("91.26"));
 			} else if (jsonRequest.getString("type").equals("btcHistory")) {
 				Map<String, BigDecimal> history = new HashMap<>();
-				history.put("2025-03-21", new BigDecimal("56.5654"));
-				history.put("2024-03-22", new BigDecimal("22.65"));
-				history.put("2025-03-23", new BigDecimal("156.56"));
+				history.put("21/03/24", new BigDecimal("56.5654"));
+				history.put("22/03/24", new BigDecimal("22.65"));
+				history.put("23/03/24", new BigDecimal("156.56"));
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("History", history);
 			} else if (jsonRequest.getString("type").equals("signUp")) {

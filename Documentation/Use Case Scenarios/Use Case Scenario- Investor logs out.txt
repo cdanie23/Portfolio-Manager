@@ -1,11 +1,9 @@
 Use Case Scenario
 Investor logs out of the account
 
-Context: Investor decides to sign out of the account. 
+Context: Investor is signed in 
 
 Primary Flow:
 1. Investor selects sign out button. 
-2. System detects sign out request. 
-3. System signs out of the investor account. 
-4. System displays the homepage before login.
-5. Investor transitions to be a user (non account holder).
+2. Client sends a request to logout to the server 
+3. System updates the labels and disables investor privileges

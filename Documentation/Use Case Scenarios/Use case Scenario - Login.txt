@@ -8,9 +8,9 @@ Primary Flow:
 2. System detects sign in request and redirects to sign in page. 
 3. System displays form to enter username and password. 
 4. User enters username and password. 
-5. System verifies the entered information is correct or not. 
+5. Client sends request to server to verify credentials
 6. The entered information is correct. 
-7. User is signed in and transitions to be investor.
+7. User is signed in and transitions to be investor, system updates labels to welcome user
 
 Alternative flow
 II. User does not enter anything in the sign in form.
@@ -25,4 +25,7 @@ A5. System detects invalid username or password.
 A6. System displays credentials do not match notification. 
 A7. Returns to primary flow step 3.
 
-
+Alternative flow:
+A3. User selects sign up 
+A4. System redirects to the sign up page
+A5. Refer to sign up use case scenario

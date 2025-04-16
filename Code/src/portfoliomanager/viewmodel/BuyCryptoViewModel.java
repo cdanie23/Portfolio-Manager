@@ -1,5 +1,8 @@
 package portfoliomanager.viewmodel;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -224,9 +227,12 @@ public class BuyCryptoViewModel {
 	}
 
 	private List<Map.Entry<String, Double>> convertToAscendingOrder(int days) {
-		List<Map.Entry<String, Double>> sortedEntries = this.selectedCrypto.get().getPriceForRange(days).entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toList());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+		List<Map.Entry<String, Double>> sortedEntries = this.selectedCrypto.get().getPriceForRange(days)
+			    .entrySet()
+			    .stream()
+			    .sorted(Comparator.comparing(entry -> LocalDate.parse(entry.getKey(), formatter)))
+			    .collect(Collectors.toList());
 		return sortedEntries;
 	}
 

@@ -1,0 +1,20 @@
+Sign Up	
+
+Context: User is not logged in and is on the sign up page
+
+Primary Flow: 
+1. User enters username, password, and confirm password
+2. User clicks sign up
+3. Client sends a request to enter credentials into server
+4. System updates labels
+5. System redirects signed in user to landing page
+
+Alternative Flow:
+3A. System detects password and confirm password do not match
+4A. System notifies user passwords do not match
+5A. return to primary step 1
+
+Alternative Flow:
+4B. Server detects that a user with that username already exists
+5B. System informs user to log in or use a different username
+6B. Return to primary flow step 1

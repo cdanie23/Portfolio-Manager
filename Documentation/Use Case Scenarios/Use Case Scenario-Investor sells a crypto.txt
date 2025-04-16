@@ -1,26 +1,22 @@
 Use Case Scenario
 Investor sells a crypto
 
-Context: Investor chooses to sell a crypto they currently own. 
+Context: Investor is on the portfolio page and chooses to sell a crypto. 
 
 Primary Flow: 
-1. Investor chooses to sell a crypto from investor's portfolio. 
-2. System detects request to sell a crypto.
-3. System displays total amount the crypto will be sold on with deductions and net pay.
-4. System verifies the ownership of crypto of the entered amount. 
-5. System displays a confirmation page and requires to confirm the sale of crypto.
-6. Investor confirms the sale. 
-7. System asserts the account is valid. The transaction is successful.
-8. System adds the amount the crypto was sold to the users available funds.
-9. System removes the crypto from investor's portfolio. 
+1. Investor selects owned crypto 
+2. Investor selects sell button
+3. System redirects to sell page
+4. Investor enters amount he wants to sell
+5. System displays profit of the sell and amount left of the owned crypto.
+6. Investor clicks sell
+7. Client sends a request to add funds to his account.
+8. Client sends a request to remove the sold holding from his account
+9. Refer to Investor view portfolio use case scenario
 
 Alternative flow:
-I. Investor cancels the sale.
+A4. Investor cancels the sale.
 A5. System detects the cancellation of sale.
-A6. System displays the sale has been cancelled notification. 
-A7. Returns to investor's portfolio.
+A6. Returns to investor's portfolio.
 
-II. Investor chooses invalid account
-7. System asserts the account is invalid. Transaction failed. 
-8. System displays the transaction failed information. 
-9. Returns to primary flow step 8.
+(Note: system will not accept an amount greater than the amount owned of selected crypto)

@@ -136,7 +136,7 @@ public class Crypto {
 	
 	private List<String> getDates(int days) {
 		List<String> dateList = new ArrayList<String>();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		for (int idx = days; idx > 0; idx--) {
 			String date = this.getTodaysDate().minusDays(idx).format(formatter);
 			dateList.add(date);
@@ -161,7 +161,7 @@ public class Crypto {
 	public double getOneDayPriceChange() {
 		LocalDate today = this.getTodaysDate();
 		LocalDate yesterday = today.minusDays(1);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 	    String formattedDate = yesterday.format(formatter);
 	    BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
 	    if (yesterdaysPrice == null) {

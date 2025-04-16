@@ -35,7 +35,7 @@ class RequestHandler:
                 "Price" : currPrice}
     
     def _getBtcPriceHistory(self):
-        history = crypto_metrics.getHistoricalData("1y")
+        history = crypto_metrics.getHistoricalData()
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
                 "History" : history}
         
