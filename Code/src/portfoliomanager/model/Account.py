@@ -47,7 +47,6 @@ class Account:
                 holding.set_amount_held(curr_holding.amount)
                 return True
                 
-
         self.holdings.append(holding)
         return True
     
@@ -65,6 +64,7 @@ class Account:
         for holding in self.holdings:
             if (holding.name == name):
                 return holding
+            
     def change_password(self, current_password: str, new_password: str):
         """Changes the account password after verifying the current one."""
         if not new_password.strip():
@@ -74,6 +74,7 @@ class Account:
             raise ValueError("Current password is incorrect.")
         
         self.password_hash = self.hash_password(new_password)
+        
     def __eq__(self, other):
         '''
         Overrides the == operator with the following'''

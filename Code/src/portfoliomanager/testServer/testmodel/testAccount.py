@@ -94,6 +94,15 @@ class TestAccount(unittest.TestCase):
         
         self.assertEqual(self._account.funds_available, 65.00)
         
+    def testGetHolding(self):
+        holding = Holding("BTC", 1.5)
+        self._account.modify_holding(holding)
+        self.assertEqual(holding, self._account.get_holding("BTC"))
+        
+    def testGetHoldingIncorrectName(self):
+        holding = Holding("BTC", 1.5)
+        self._account.modify_holding(holding)
+        self.assertNotEqual(holding, self._account.get_holding("Bitcoin"))
     
     def testGettersAndSSettersForFunds(self):
         self._account.funds_available = 1000.0
