@@ -27,6 +27,7 @@ ADD_FUNDS = "addFunds"
 GET_FUNDS = "getFunds"
 GET_HOLDINGS = "getHoldings"
 GET_LOGOUT = "logout"
+GET_CRYPTO_DATA = "getData"
 
 # user keys
 KEY_TOKEN = "token"
@@ -37,3 +38,4 @@ KEY_AMOUNT = "amount"
 KEY_NAME = "name"
 KEY_FUNDS = "funds"
 KEY_HOLDINGS = "holdings"
+KEY_CRYPTO_DATA = "data"

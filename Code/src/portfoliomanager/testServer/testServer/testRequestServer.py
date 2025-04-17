@@ -348,6 +348,15 @@ class TestRequestServer(unittest.TestCase):
 
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout with invalid token should fail")
         
+    def testGetAllCryptoData(self):
+        request = {"type" : "getData"}
+        self._socket.send_string(json.dumps(request))
+        jsonResponse =  self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        cryptoData = response["data"]
+        successCode = response["success code"]
+        self.assertEqual(1, successCode)
+        self.assertIsInstance(cryptoData, dict)
         
         
 if __name__ == "__main__":
