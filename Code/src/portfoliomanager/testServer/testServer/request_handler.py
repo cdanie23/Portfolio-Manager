@@ -62,5 +62,15 @@ class TestRequestHandler(unittest.TestCase):
     def testFindAccountByInvalidName(self): 
         account = self.requestHandler.findAccountByName("nottUSer", "notpass")
         self.assertTrue(not account)
+    def testGetAllCryptoData(self):
+        response = self.requestHandler.handleGetAllCryptoData()
+        cryptoData = response["data"]
+        self.assertEqual(1, response["success code"])
+        self.assertFalse(not cryptoData)
+        self.assertIsInstance(cryptoData, dict, "check if a dictionary")
+    def testGetAllCryptoDataWhenFileDoesNotExist(self):
+        response = self.requestHandler.handleGetAllCryptoData("Wrong/path/file")
+        self.assertEqual(response["success code"], -1)
+        self.assertEqual(response["error description"], "Empty crypto data")
 if (__name__ == "__main__"):
     unittest.main()  

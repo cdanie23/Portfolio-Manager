@@ -8,7 +8,8 @@ from request_server import crypto_metrics
 import uuid
 from model.Account import Account
 from model.Holding import Holding
-from pickle import NONE
+from request_server.crypto_metrics import getHistoricalDataForAllCoins,\
+    cache_dir_crypto_metrics
 
 class RequestHandler:
     def __init__(self):
@@ -35,7 +36,7 @@ class RequestHandler:
                 "Price" : currPrice}
     
     def _getBtcPriceHistory(self):
-        history = crypto_metrics.getHistoricalData()
+        history = crypto_metrics.getHistoricalData("bitcoin")
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
                 "History" : history}
         
@@ -184,7 +185,17 @@ class RequestHandler:
 
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
     
-
+    def handleGetAllCryptoData(self, filepath=cache_dir_crypto_metrics):
+        cryptoData = getHistoricalDataForAllCoins(filepath)
+        if (not cryptoData):
+            return { 
+                    constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
+                    constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
+                    }
+        return { 
+                constants.KEY_STATUS: constants.SUCCESS_STATUS, 
+                constants.KEY_CRYPTO_DATA: cryptoData
+                }
     def handleRequest(self, request):
         response = {constants.KEY_STATUS: constants.UNSUPPORTED_OPERATION_STATUS,
                    constants.KEY_FAILURE_MESSAGE: "Unsupported request type"}
@@ -209,6 +220,8 @@ class RequestHandler:
             response = self.handleGetHoldings(request)
         elif(request_type == constants.GET_LOGOUT):
             response = self.handleLogout(request)
+        elif(request_type == constants.GET_CRYPTO_DATA):
+            response = self.handleGetAllCryptoData()
         elif(request_type == constants.GET_SELL):
             response = self.handleModifyHolding(request, False)
             
