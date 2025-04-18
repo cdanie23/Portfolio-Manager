@@ -59,22 +59,6 @@ class TestRequestServer(unittest.TestCase):
     
         self.assertEqual(constants.BAD_MESSAGE_STATUS, response[constants.KEY_STATUS], "checking status of response")
     
-    def testGetCurrBtcPrice(self):
-        jsonRequest = json.dumps({constants.KEY_REQUEST_TYPE : constants.GET_BTC_CURR_PRICE})
-        self._socket.send_string(jsonRequest)
-    
-        jsonResponse = self._socket.recv_string()
-        response = json.loads(jsonResponse)
-        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "checking status of response")
-    
-    def testGetBtcPriceHistory(self):
-        jsonRequest = json.dumps({constants.KEY_REQUEST_TYPE : constants.GET_BTC_PRICE_HISTORY})
-        self._socket.send_string(jsonRequest)
-    
-        jsonResponse = self._socket.recv_string()
-        response = json.loads(jsonResponse)
-        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "checking status of response")
-    
     def testHandleSignUp(self):
         signupRequest = {
             constants.KEY_REQUEST_TYPE: "signUp",
@@ -357,7 +341,7 @@ class TestRequestServer(unittest.TestCase):
         self.assertEqual(1, successCode)
         self.assertIsInstance(cryptoData, dict)
     
-        
+    
     def testHandlePriceRequest(self):
         request= {constants.KEY_REQUEST_TYPE: "getPrice",
                   constants.GET_CRYPTO_NAME: "bitcoin"
@@ -369,7 +353,7 @@ class TestRequestServer(unittest.TestCase):
         successCode = response["success code"]
         self.assertEqual(1, successCode)
         self.assertIsInstance(cryptoPrice, float)
-        
+    
     def testHandlePriceRequestNoName(self):
         request= {constants.KEY_REQUEST_TYPE: "getPrice",
                   constants.GET_CRYPTO_NAME: None
@@ -377,10 +361,15 @@ class TestRequestServer(unittest.TestCase):
         self._socket.send_string(json.dumps(request))
         jsonResponse =  self._socket.recv_string()
         response = json.loads(jsonResponse)
-        cryptoPrice = response["price"]
         successCode = response["success code"]
-        self.assertEqual(1, successCode)
-        self.assertIsInstance(cryptoPrice, float)
+        self.assertEqual(-1, successCode)
+        
+        
+    def testCmGetHistoricalData(self):
+        _request_Handler = RequestHandler()
+        cryptoData = _request_Handler.crypto_metrics.getHistoricalData("bitcoin")
+        
+        self.assertIsInstance(cryptoData, dict)
         
         
         

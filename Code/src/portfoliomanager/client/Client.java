@@ -94,14 +94,14 @@ public final class Client extends Thread {
 	}
 	/**
 	 * Makes a request to the server to modify a holding
-	 * @param crypto the type of crypto the holding is
+	 * @param string the type of crypto the holding is
 	 * @param amount the amount of holding to change i.e. remove/add
 	 * @param auth the authorization used 
 	 * @post this.request == the appropriate request to send to the server
 	 */
 	
-	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
-		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
+	public void makeAddHoldingRequest(String string, double amount, String auth) {
+		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, string, amount, auth);
 		this.sendRequest();
 	}
 	

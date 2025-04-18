@@ -29,16 +29,6 @@ class RequestHandler:
             if account.username == username and account.verify_password(password):
                 return True  
         return False  
-    
-    def _getCurrBtcPrice(self):
-        currPrice = self.crypto_metrics.getCurrBtcPrice()
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
-                "Price" : currPrice}
-    
-    def _getBtcPriceHistory(self):
-        history = self.crypto_metrics.getHistoricalData("bitcoin")
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
-                "History" : history}
         
     def handleSignUp(self, request):
         username = request.get(constants.KEY_USERNAME)
@@ -182,7 +172,7 @@ class RequestHandler:
     
     def handleGetAllCryptoData(self, filepath=cache_dir_crypto_metrics):
         cryptoData = self.crypto_metrics.getHistoricalDataForAllCoins(filepath)
-        if (not cryptoData):
+        if (cryptoData == None):
             return { 
                     constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
                     constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
@@ -194,7 +184,7 @@ class RequestHandler:
         
     def handlePriceRequest(self, request):
         name = request[constants.GET_CRYPTO_NAME]
-        if (not name):
+        if (name == None):
             return {
             constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
             constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
@@ -210,11 +200,7 @@ class RequestHandler:
         
         request_type = request.get(constants.KEY_REQUEST_TYPE, None)
         
-        if(request_type == constants.GET_BTC_CURR_PRICE):
-            response = self._getCurrBtcPrice()
-        elif(request_type == constants.GET_BTC_PRICE_HISTORY):
-            response = self._getBtcPriceHistory()
-        elif(request_type == constants.GET_SIGN_UP):
+        if(request_type == constants.GET_SIGN_UP):
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)

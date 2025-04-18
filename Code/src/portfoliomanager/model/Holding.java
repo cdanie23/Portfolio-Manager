@@ -1,6 +1,5 @@
 package portfoliomanager.model;
 
-import portfoliomanager.client.CryptoCurrencies;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -18,7 +17,7 @@ public class Holding extends Crypto {
 	 * @param amount the amount held
 	 */
 	
-	public Holding(CryptoCurrencies name, Double currentPrice, double amount) {
+	public Holding(String name, Double currentPrice, double amount) {
 		super(name, currentPrice);
 		this.amount = amount;
 	}

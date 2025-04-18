@@ -13,7 +13,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
@@ -131,13 +130,12 @@ public class LandingPageViewModel {
 
 		for (Map<String, Object> item : holdingsList) {
 			String currencyStr = (String) item.get("name");
-			CryptoCurrencies name = CryptoCurrencies.valueOf(currencyStr);
 		    BigDecimal amountDecimal = (BigDecimal) item.get("amount"); 
 		    double amount = amountDecimal.doubleValue();
 		    this.client.makeRequest(Requests.btcPrice);
 		    Map<String, Object> priceResponse = this.client.getResponse();
 		    BigDecimal currPrice = (BigDecimal) priceResponse.get("Price");
-		    holdings.add(new Holding(name, currPrice.doubleValue(), amount));
+		    holdings.add(new Holding(currencyStr, currPrice.doubleValue(), amount));
 		}
 		this.user.getValue().setHoldings(holdings);
 		this.holdingsProperty.setValue(FXCollections.observableList(this.user.getValue().getHoldings()));

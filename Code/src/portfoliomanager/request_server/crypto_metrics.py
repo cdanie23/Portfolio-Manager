@@ -15,16 +15,6 @@ class CryptoMetric():
     def __init__(self):
         self.curr_trend = cg.get_coins_markets("usd")
     
-    def getCurrBtcPrice(self):
-        '''
-        Gets the price from the previous days closing price
-        @return the price at the end of the previous day
-        '''
-        info = cg.get_price(ids="bitcoin", vs_currencies="usd", precision="5")
-        price = info["bitcoin"]["usd"]
-        
-        return price
-    
     def getCurrCryptoPrice(self, crypto_id):
         '''
         Gets the price from the previous days closing price
@@ -66,5 +56,4 @@ class CryptoMetric():
         if (os.path.exists(filepath)):
             readCache = ReadCache(filepath)
             return readCache.readCache()
-        
         return None

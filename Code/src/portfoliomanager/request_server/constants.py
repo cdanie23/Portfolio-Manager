@@ -18,8 +18,6 @@ KEY_FAILURE_MESSAGE = "error description"
 KEY_STATUS = "success code"
 EXIT = "exit"
 
-GET_BTC_CURR_PRICE = "btcPrice"
-GET_BTC_PRICE_HISTORY = "btcHistory"
 GET_SIGN_UP = "signUp"
 GET_LOGIN = "login"
 ADD_HOLDING = "addHolding"

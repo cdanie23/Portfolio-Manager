@@ -72,16 +72,16 @@ public class RequestCreator {
 	/**
 	 * Creates a request for a holding of an authorized account
 	 * @param requestMade type of request 
-	 * @param crypto type of crypto
+	 * @param string type of crypto
 	 * @param amount the amount of crypto
 	 * @param authtoken the authorization token used
 	 * @return a request for the client to send to the server
 	 */
 
-	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken) {
+	public Map<String, String> createHoldingRequest(Requests requestMade, String string, double amount, String authtoken) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
-		request.put(NAME, crypto.toString());
+		request.put(NAME, string.toString());
 		request.put(AMOUNT, String.valueOf(amount));
 		request.put(AUTH, authtoken);
 		return request;
