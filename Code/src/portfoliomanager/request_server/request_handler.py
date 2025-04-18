@@ -10,16 +10,16 @@ from model.Account import Account
 from model.Holding import Holding
 from request_server.crypto_metrics import getHistoricalDataForAllCoins,\
     cache_dir_crypto_metrics
+
 class RequestHandler:
     def __init__(self):
         account = Account("user", "pass123")
         holding = Holding("Bitcoin", 2.0)
-        account.add_holding(holding)
+        account.modify_holding(holding)
         self._cryptos = {}
         self._users = [account]
         self._tokens = {"$123" : account}
         
-
     def makeAccount(self, username, password):
         account = Account(username, password)
         self._users.append(account)
@@ -69,22 +69,27 @@ class RequestHandler:
         self._tokens[token] = account
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     
-    def handleAddHolding(self, request):
+    def handleModifyHolding(self, request, add=True):
         auth = request[constants.KEY_TOKEN]
         amount = request[constants.KEY_AMOUNT]
         cryptoName = request[constants.KEY_NAME]
+        totalCost = request[constants.KEY_FUNDS]
         account = self.findAccountByAuth(auth)
-        if (not account or auth == None or amount == None or cryptoName == None):
+        if (not account or auth == None or amount == None or cryptoName == None or totalCost == None):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
-        holding = Holding(cryptoName, float(amount))
-        account.add_holding(holding)
+        holding = Holding(cryptoName, amount)
+        account.modify_holding(holding, add)
+        account.modify_funds(totalCost, not add)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,
-            constants.KEY_TOKEN : auth
+            constants.KEY_TOKEN : auth,
+            constants.KEY_FUNDS: account.funds_available,
+            constants.KEY_AMOUNT: holding.amount,
+            constants.KEY_NAME: holding.getHoldingName()
             }
         return response
     
@@ -112,7 +117,7 @@ class RequestHandler:
                 }
             return response
         
-        account.funds_available += float(amount)
+        account.modify_funds(amount)
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
                 constants.KEY_TOKEN : auth,
                 constants.KEY_FUNDS : account.funds_available}
@@ -205,8 +210,8 @@ class RequestHandler:
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)
-        elif(request_type == constants.ADD_HOLDING):
-            response = self.handleAddHolding(request)
+        elif(request_type == constants.GET_BUY):
+            response = self.handleModifyHolding(request)
         elif(request_type == constants.ADD_FUNDS):
             response = self.handleAddFunds(request)
         elif(request_type == constants.GET_FUNDS):
@@ -217,5 +222,7 @@ class RequestHandler:
             response = self.handleLogout(request)
         elif(request_type == constants.GET_CRYPTO_DATA):
             response = self.handleGetAllCryptoData()
+        elif(request_type == constants.GET_SELL):
+            response = self.handleModifyHolding(request, False)
             
         return response
