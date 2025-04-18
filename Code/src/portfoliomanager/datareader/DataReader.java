@@ -39,13 +39,27 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
-		this.client.makeRequest(Requests.btcPrice);
-		Object price = this.client.getResponse().get("Price");
-		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, Double.parseDouble(price.toString()));
-		this.cryptos.addCrypto(crypto);
-		crypto.setHistoricalPrices(prices);
+//		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
+//		this.client.makeRequest(Requests.btcPrice);
+//		Object price = this.client.getResponse().get("Price");
+//		Crypto bitcoin = new Crypto(CryptoCurrencies.Bitcoin, Double.parseDouble(price.toString()));
+//		this.cryptos.addCrypto(bitcoin);
+//		bitcoin.setHistoricalPrices(prices);
 		//this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
+	
+		this.client.makeRequest(Requests.getData);
+		HashMap<String, HashMap<String, BigDecimal>> data = (HashMap<String, HashMap<String, BigDecimal>>) this.client.getResponse().get("data");
+		String cryptoName = "";
+		HashMap<String, BigDecimal> cryptoData = new HashMap<String, BigDecimal>();
+		for (HashMap.Entry<String, HashMap<String, BigDecimal>> entry : data.entrySet()) {
+			 cryptoName = entry.getKey();
+			 cryptoData = entry.getValue();
+			 this.client.makeCryptoPriceRequest(Requests.getPrice, cryptoName);
+			 BigDecimal currPrice = (BigDecimal) this.client.getResponse().get("price");
+			 Crypto crypto = new Crypto(CryptoCurrencies.valueOf(cryptoName), currPrice.doubleValue());
+			 this.cryptos.add(crypto);
+			 crypto.setHistoricalPrices(cryptoData);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

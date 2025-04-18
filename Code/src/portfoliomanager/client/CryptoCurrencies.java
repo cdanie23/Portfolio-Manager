@@ -6,5 +6,5 @@ package portfoliomanager.client;
  * @version Spring 2025
  */
 public enum CryptoCurrencies {
-	Bitcoin, Ethereum, Doge
+	Bitcoin, Ethereum, Tether, XRP, BNB, Solana, USDC, TRON, Dogecoin, Cardano, Doge
 }

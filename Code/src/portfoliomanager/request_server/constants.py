@@ -28,6 +28,8 @@ GET_FUNDS = "getFunds"
 GET_HOLDINGS = "getHoldings"
 GET_LOGOUT = "logout"
 GET_CRYPTO_DATA = "getData"
+GET_CRYPTO_PRICE = "getPrice"
+GET_CRYPTO_NAME = "cryptoName"
 
 # user keys
 KEY_TOKEN = "token"
@@ -39,3 +41,4 @@ KEY_NAME = "name"
 KEY_FUNDS = "funds"
 KEY_HOLDINGS = "holdings"
 KEY_CRYPTO_DATA = "data"
+KEY_CRYPTO_PRICE = "price"

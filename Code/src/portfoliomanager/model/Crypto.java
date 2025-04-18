@@ -128,7 +128,7 @@ public class Crypto {
 		HashMap<String, Double> rangeHistorics = new LinkedHashMap<String, Double>();
 		for (var currdate : this.getDates(days)) {
 			if (this.getHistoricalPrice().get(currdate) != null) {
-				rangeHistorics.put(currdate, this.getHistoricalPrice().get(currdate).doubleValue());
+				rangeHistorics.put(currdate, this.returnBigDecimal(this.getHistoricalPrice().get(currdate)).doubleValue());
 			}
 		}
 		return rangeHistorics;
@@ -163,12 +163,23 @@ public class Crypto {
 		LocalDate yesterday = today.minusDays(1);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 	    String formattedDate = yesterday.format(formatter);
-	    BigDecimal yesterdaysPrice = this.historicalPrices.get(formattedDate);
+	    Object price = this.historicalPrices.get(formattedDate);
+	    BigDecimal yesterdaysPrice = this.returnBigDecimal(price);
 	    if (yesterdaysPrice == null) {
 	    	String dayBeforeDate = today.minusDays(2).format(formatter);
 	    	yesterdaysPrice = this.historicalPrices.get(dayBeforeDate);
 	    }
 		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
+	}
+
+	private BigDecimal returnBigDecimal(Object price) {
+		BigDecimal amount = null;
+		if (price instanceof Integer) {
+	    	amount = new BigDecimal((Integer) price);
+	    } else if (price instanceof BigDecimal) {
+	    	amount = (BigDecimal) price;
+	    }
+		return amount;
 	}
 	
 	/**

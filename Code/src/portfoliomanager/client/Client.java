@@ -230,4 +230,19 @@ public final class Client extends Thread {
 	public void resetClient() {
 		Holder.client = null;
 	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param cryptoName
+	 */
+	public void makeCryptoPriceRequest(Requests request, String cryptoName) {
+		if (request == null || cryptoName == null) {
+	        throw new IllegalArgumentException("Request and token cannot be null");
+	    }
+		System.out.println(request.toString() + cryptoName);
+		this.request = this.requestCreator.createPriceRequestByCrypto(request, cryptoName);
+		this.sendRequest();
+		
+	}
 }
