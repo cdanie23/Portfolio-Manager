@@ -10,7 +10,6 @@ import json
 from request_server import constants, server
 from request_server.request_handler import RequestHandler
 from threading import Thread
-from _overlapped import NULL
 
 class TestRequestServer(unittest.TestCase):
     
@@ -93,7 +92,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleSignUpNullName(self):
         signupRequest = {
             constants.KEY_REQUEST_TYPE: "signUp",
-            "username": NULL,
+            "username": None,
             "password": "pass123",
             "confirmPassword": "pass123"
         }
@@ -148,7 +147,7 @@ class TestRequestServer(unittest.TestCase):
     def testHandleLoginNullName(self):
         loginRequest = {
             constants.KEY_REQUEST_TYPE: "login",
-            "username": NULL,
+            "username": None,
             "password": "pass123"
         }
         self._socket.send_string(json.dumps(loginRequest))
@@ -305,13 +304,13 @@ class TestRequestServer(unittest.TestCase):
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
-        
+    
     def testMakeAccount(self):
         _request_Handler = RequestHandler()
         _request_Handler.makeAccount("test_user", "test")
-        
+    
         self.assertEqual(2, len(_request_Handler._users))
-        
+    
     
     def testHandleLogout(self):
         signupRequest = {
@@ -321,22 +320,22 @@ class TestRequestServer(unittest.TestCase):
             "confirmPassword": "pass123"
         }
         self._socket.send_string(json.dumps(signupRequest))
-
+    
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
         token = response.get(constants.KEY_TOKEN)
-        
+    
         logoutRequest = {
             constants.KEY_REQUEST_TYPE: "logout",
             "token": token
         }
         self._socket.send_string(json.dumps(logoutRequest))
-        
+    
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
-        
+    
         self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout should succeed")
-        
+    
     def testHandleLogoutInvalidToken(self):
         logoutRequest = {
             constants.KEY_REQUEST_TYPE: "logout",
@@ -345,9 +344,9 @@ class TestRequestServer(unittest.TestCase):
         self._socket.send_string(json.dumps(logoutRequest))
         jsonResponse =  self._socket.recv_string()
         response = json.loads(jsonResponse)
-
+    
         self.assertNotEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "Logout with invalid token should fail")
-        
+    
     def testGetAllCryptoData(self):
         request = {"type" : "getData"}
         self._socket.send_string(json.dumps(request))
@@ -357,6 +356,32 @@ class TestRequestServer(unittest.TestCase):
         successCode = response["success code"]
         self.assertEqual(1, successCode)
         self.assertIsInstance(cryptoData, dict)
+    
+        
+    def testHandlePriceRequest(self):
+        request= {constants.KEY_REQUEST_TYPE: "getPrice",
+                  constants.GET_CRYPTO_NAME: "bitcoin"
+                  }
+        self._socket.send_string(json.dumps(request))
+        jsonResponse =  self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        cryptoPrice = response["price"]
+        successCode = response["success code"]
+        self.assertEqual(1, successCode)
+        self.assertIsInstance(cryptoPrice, float)
+        
+    def testHandlePriceRequestNoName(self):
+        request= {constants.KEY_REQUEST_TYPE: "getPrice",
+                  constants.GET_CRYPTO_NAME: None
+                  }
+        self._socket.send_string(json.dumps(request))
+        jsonResponse =  self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        cryptoPrice = response["price"]
+        successCode = response["success code"]
+        self.assertEqual(1, successCode)
+        self.assertIsInstance(cryptoPrice, float)
+        
         
         
 if __name__ == "__main__":

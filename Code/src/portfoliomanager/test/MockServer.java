@@ -66,6 +66,18 @@ public class MockServer {
 				holdingsMap.put("name", "Bitcoin");
 				holdingDict.add(holdingsMap);
 				jsonResponse.put("holdings", holdingDict);
+			} else if (jsonRequest.getString("type").equals("getData")) {
+				HashMap<String, HashMap<String, BigDecimal>> data = new HashMap<String, HashMap<String, BigDecimal>>();
+				HashMap<String, BigDecimal> historicalData = new HashMap<String, BigDecimal>();
+				historicalData.put("01/01/25", new BigDecimal(0.59845));
+				historicalData.put("02/01/25", new BigDecimal(1.025));
+				historicalData.put("03/01/25", new BigDecimal(4.5685));
+				data.put("Bitcoin", historicalData);
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("data", data);
+			} else if (jsonRequest.getString("type").equals("getPrice")) {
+				jsonResponse.put("success code", 1);
+				jsonResponse.put("price", 15.20);
 			}
 			if (jsonRequest.getString("type").equals("exit")) {
 				jsonResponse.put("success code", -1);

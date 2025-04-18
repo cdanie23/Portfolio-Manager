@@ -56,10 +56,12 @@ class TestLandingPageViewModel {
 		assertEquals(viewModel.getUser().getValue(), null);
 		assertFalse(viewModel.getIsLoggedIn().getValue());
 	}
+	
 	@Test
 	void testGetCryptoCollection() {
 		assertTrue(!this.viewModel.getCryptoListProperty().getValue().isEmpty());
 	}
+	
 	@Test
 	void testGetFundsAvailabe() {
 		String expected = "$0.0";

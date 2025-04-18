@@ -118,6 +118,7 @@ public class RequestCreator {
 	/**
 	 * Creates a request to get a property associated with the account
 	 * @param requestMade the type of request to make
+	 * @param cryptoName the name of the crypto to fetch the price for
 	 * @return the request needed to get a response from the server to return a property associated with the account
 	 */
 	public Map<String, String> createPriceRequestByCrypto(Requests requestMade, String cryptoName) {

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
@@ -39,15 +38,8 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-//		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
-//		this.client.makeRequest(Requests.btcPrice);
-//		Object price = this.client.getResponse().get("Price");
-//		Crypto bitcoin = new Crypto(CryptoCurrencies.Bitcoin, Double.parseDouble(price.toString()));
-//		this.cryptos.addCrypto(bitcoin);
-//		bitcoin.setHistoricalPrices(prices);
-		//this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
-	
 		this.client.makeRequest(Requests.getData);
+		@SuppressWarnings("unchecked")
 		HashMap<String, HashMap<String, BigDecimal>> data = (HashMap<String, HashMap<String, BigDecimal>>) this.client.getResponse().get("data");
 		String cryptoName = "";
 		HashMap<String, BigDecimal> cryptoData = new HashMap<String, BigDecimal>();
@@ -60,22 +52,6 @@ public class DataReader {
 			 this.cryptos.add(crypto);
 			 crypto.setHistoricalPrices(cryptoData);
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private HashMap<String, BigDecimal> readHistoricalPrices() {
-		this.client.makeRequest(Requests.btcHistory);
-		//TODO convert this into a hashmap since that is what is returned
-		//if (this.client.getResponse().get("History") instanceof HashMap<String, BigDecimal>) {
-		//	return (HashMap<String, BigDecimal>) this.client.getResponse().get("History");
-		//}
-		Object historyData = this.client.getResponse().get("History");
-
-	    if (historyData instanceof Map) {
-	        return (HashMap<String, BigDecimal>) historyData;
-	    }
-	    
-	    throw new ClassCastException("History is not a valid HashMap<String, BigDecimal>");
 	}
 	
 	/** Returns the collection of crypto

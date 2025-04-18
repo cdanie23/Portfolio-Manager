@@ -193,7 +193,6 @@ class RequestHandler:
                 }
         
     def handlePriceRequest(self, request):
-        print("here")
         name = request[constants.GET_CRYPTO_NAME]
         if (not name):
             return {
