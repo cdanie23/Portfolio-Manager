@@ -32,6 +32,12 @@ public class LandingPageViewModel {
 	private List<Holding> holdings;
 	private ListProperty<Holding> holdingsProperty;
 	private ListProperty<Crypto> cryptoListProperty;
+	private boolean ascendingName = true;
+	private boolean ascendingPrice = true;
+	private boolean ascendingTrend = true;
+	private StringProperty listNameLabel;
+    private StringProperty listPriceLabel;
+    private StringProperty listTrendLabel;
 	private ObjectProperty<Boolean> isLoggedIn;
 	private StringProperty welcomeLabelProperty;
 	private StringProperty portfolioNameProperty;
@@ -59,6 +65,10 @@ public class LandingPageViewModel {
 
 		this.holdingsProperty = new SimpleListProperty<Holding>();
 		this.user = new SimpleObjectProperty<Account>();
+		
+		this.listNameLabel = new SimpleStringProperty("Name");
+	    this.listPriceLabel = new SimpleStringProperty("Price");
+	    this.listTrendLabel = new SimpleStringProperty("24hr Price Trend");
 	}
 
 	/**
@@ -81,6 +91,10 @@ public class LandingPageViewModel {
 		this.holdingsProperty.setValue(FXCollections.observableList(this.holdings));
 		this.user = new SimpleObjectProperty<Account>(new Account("testUser", "testPass", "$123"));
 		this.fundsAvailable.setValue("$0.0");
+		
+		this.listNameLabel = new SimpleStringProperty("Name");
+	    this.listPriceLabel = new SimpleStringProperty("Price");
+	    this.listTrendLabel = new SimpleStringProperty("24hr Price Trend");
 	}
 	
 	/**
@@ -117,6 +131,9 @@ public class LandingPageViewModel {
 		}
 	}
 	
+	/**
+	 * Updates user properties after logging in
+	 */
 	private void updateUserProperties() {
 		
 		this.fundsAvailable.setValue(String.format("$%.2f", this.user.getValue().getFundsAvailable()));
@@ -192,12 +209,148 @@ public class LandingPageViewModel {
 	}
 	
 	/**
+	 * Gets the list property for cryptos for testing
+	 * 
+	 * @return the list property for cryptos
+	 */
+	public ListProperty<Crypto> getCryptoList() {
+		return this.cryptoListProperty;
+	}
+	
+	/**
 	 * Reads the crypto list.
 	 */
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
 		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+	}
+	
+	/**
+	 * Gets the name label.
+	 *
+	 * @return the name label
+	 */
+	public StringProperty getNameLabel() {
+        return this.listNameLabel;
+    }
+
+    /**
+     * Gets the price label.
+     *
+     * @return the price label
+     */
+    public StringProperty getPriceLabel() {
+        return this.listPriceLabel;
+    }
+
+    /**
+     * Gets the trend label.
+     *
+     * @return the trend label
+     */
+    public StringProperty getTrendLabel() {
+        return this.listTrendLabel;
+    }
+	
+	/**
+	 * Sorts the crypto list by name.
+	 */
+	public void sortByName() {
+		if (this.cryptoListProperty != null) {
+		    FXCollections.sort(this.cryptoListProperty, (c1, c2) -> {
+		        int comparator = c1.getName().name().compareToIgnoreCase(c2.getName().name());
+		        
+		        if (this.ascendingName) {
+		            return comparator;
+		        } else {
+		            return -comparator;
+		        }
+		    });
+		}
+	    
+	    this.ascendingName = !this.ascendingName;
+	    this.updateSortIndicators("name", this.ascendingName);
+	}
+
+	/**
+	 * Sorts the crypto list by price.
+	 */
+	public void sortByPrice() {
+	    if (this.cryptoListProperty != null) {
+	    	FXCollections.sort(this.cryptoListProperty, (c1, c2) -> {
+		        int comparator = Double.compare(c1.getCurrentPrice(), c2.getCurrentPrice());
+		        
+		        if (this.ascendingPrice) {
+		            return comparator;
+		        } else {
+		            return -comparator;
+		        }
+		    });
+	    }
+	    
+	    this.ascendingPrice = !this.ascendingPrice;
+	    this.updateSortIndicators("price", this.ascendingPrice);
+	}
+
+	/**
+	 * Sorts the crypto list by trend.
+	 */
+	public void sortByTrend() {
+	    if (this.cryptoListProperty != null) {
+	    	FXCollections.sort(this.cryptoListProperty, (c1, c2) -> {
+		        int comparator = Double.compare(c1.getOneDayPriceChange(), c2.getOneDayPriceChange());
+		        
+		        if (this.ascendingTrend) {
+		            return comparator;
+		        } else {
+		            return -comparator;
+		        }
+		    });
+	    }
+	    
+	    this.ascendingTrend = !this.ascendingTrend;
+	    this.updateSortIndicators("trend", this.ascendingTrend);
+	}
+	
+	/**
+	 * Adds arrow indicator next to the currently sorted label to indicate ascending/descending sort
+	 * 
+	 * @param label which label to update
+	 * @param ascending which sort direction
+	 */
+	private void updateSortIndicators(String label, boolean ascending) {
+	    String upArrow = "\u21A5";
+	    // \u21A5 \u21E7
+	    String downArrow = "\u21A7";
+	    // \u21A7 \u21E9
+	    
+	    String arrow;
+	    if (ascending) {
+	        arrow = upArrow;
+	    } else {
+	        arrow = downArrow;
+	    }
+
+	    switch (label) {
+	        case "name":
+	        	this.listNameLabel.setValue("Name " + arrow);
+	        	this.listPriceLabel.setValue("Price");
+	    	    this.listTrendLabel.setValue("24hr Price Trend");
+	        	break;
+	        case "price":
+	        	this.listNameLabel.setValue("Name");
+	        	this.listPriceLabel.setValue("Price " + arrow);
+	        	this.listTrendLabel.setValue("24hr Price Trend");
+	        	break;
+	        case "trend":
+	        	this.listNameLabel.setValue("Name");
+	    	    this.listPriceLabel.setValue("Price");
+	        	this.listTrendLabel.setValue("24hr Price Trend " + arrow);
+	        	break;
+	        default:
+	        	break;
+	    }
 	}
 	
 	/**
@@ -237,14 +390,15 @@ public class LandingPageViewModel {
 			this.client = Client.getInstance(serverPort);
 		}
 	}
+	
 	/**
 	 * Gets the client
 	 * @return the client
 	 */
-	
 	public Client getClient() {
 		return this.client;
 	}
+	
 	/**
 	 * Handles whenever a user logs out
 	 * @pre must be logged in 
@@ -252,7 +406,6 @@ public class LandingPageViewModel {
 	 * 		 this.user.getValue() == null,
 	 * 		 the welcome labels are set back to their default value
 	 */
-	
 	public void handleLogOut() {
 		this.isLoggedIn.setValue(false);
 		this.user.setValue(null);
