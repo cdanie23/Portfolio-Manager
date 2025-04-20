@@ -6,5 +6,6 @@ package portfoliomanager.client;
  * @version Spring 2025
  */
 public enum Requests {
-	exit, cryptos, getPrice, getData, btcPrice, btcHistory, signUp, login, addHolding, addFunds, getHoldings, getFunds, logout
+	exit, cryptos, getPrice, getData, btcPrice, btcHistory, signUp, login, addHolding, addFunds, getHoldings, getFunds, logout, buyCrypto, sellCrypto
+
 }

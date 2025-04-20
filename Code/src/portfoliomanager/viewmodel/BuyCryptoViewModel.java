@@ -3,6 +3,7 @@ package portfoliomanager.viewmodel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -184,16 +185,22 @@ public class BuyCryptoViewModel {
 			throw new IllegalArgumentException("You do not have enough funds in your account.");
 		}
 		Holding holding = new Holding(crypto.getName(), crypto.getCurrentPrice(), amountToBuy);
-		this.client.makeAddHoldingRequest(crypto.getName(), amountToBuy, this.user.getAuth());
+		this.client.makeModifyTradeRequest(crypto.getName(), amountToBuy, this.user.getAuth(), totalCost, true);
 		Map<String, Object> response = this.client.getResponse();
+		BigDecimal updatedHoldingAmount = new BigDecimal(0.0);
+		BigDecimal updatedUserFunds = new BigDecimal(0.0);
 		int successCode = (int) response.get("success code");
 		if (successCode == -1) {
 			String errorMsg = (String) response.get("error description");
 			throw new UnsupportedOperationException(errorMsg);
+		} else {
+			updatedHoldingAmount = (BigDecimal) response.get("amount");
+			updatedUserFunds = (BigDecimal) response.get("funds");
 		}
+		holding.setAmountHeld(updatedHoldingAmount.doubleValue());
 		this.user.addHolding(holding);
 		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
-		this.user.setFundsAvailable(this.user.getFundsAvailable() - totalCost);
+		this.user.setFundsAvailable(updatedUserFunds.doubleValue());
 		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}
 	
@@ -224,6 +231,7 @@ public class BuyCryptoViewModel {
 		if (this.selectedCrypto.get() == null) {
 			throw new NullPointerException("Please select a crypto from the list of cryptos below to see it's price trends");
 		}
+
 		List<Map.Entry<String, Double>> sortedEntries = this.selectedCrypto.get().getPriceForRange(days)
 		    .entrySet()
 		    .stream()

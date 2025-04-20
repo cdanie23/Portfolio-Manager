@@ -13,11 +13,10 @@ public class RequestCreator {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
-
 	public static final String NAME = "name";
 	public static final String AMOUNT = "amount";
-
 	public static final String AUTH = "token";
+	public static final String FUNDS = "funds";
 
 	/**
 	 * Creates a request 
@@ -75,6 +74,7 @@ public class RequestCreator {
 	 * @param string type of crypto
 	 * @param amount the amount of crypto
 	 * @param authtoken the authorization token used
+	 * @param totalCost amount to change for the user
 	 * @return a request for the client to send to the server
 	 */
 
@@ -84,6 +84,7 @@ public class RequestCreator {
 		request.put(NAME, string.toString());
 		request.put(AMOUNT, String.valueOf(amount));
 		request.put(AUTH, authtoken);
+		request.put(FUNDS, String.valueOf(totalCost));
 		return request;
 	}
 	

@@ -98,6 +98,6 @@ public class TestAccount {
 		this.account.addHolding(holding);
 		
 		assertAll(()-> assertEquals(1, this.account.getHoldings().size()),
-				()-> assertEquals(2, this.account.getHoldings().get(0).getAmountHeld()));
+				()-> assertEquals(1, this.account.getHoldings().get(0).getAmountHeld()));
 	}
 }

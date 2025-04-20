@@ -28,6 +28,9 @@ GET_LOGOUT = "logout"
 GET_CRYPTO_DATA = "getData"
 GET_CRYPTO_PRICE = "getPrice"
 GET_CRYPTO_NAME = "cryptoName"
+GET_BUY = "buyCrypto"
+GET_SELL = "sellCrypto"
+
 
 # user keys
 KEY_TOKEN = "token"

@@ -76,7 +76,10 @@ class TestCrypto {
 	
 	@Test
 	void testGetOneDayPriceChange() {
+
 		Crypto btc = new Crypto("Bitcoin", Double.valueOf(100));
+
+	
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -88,7 +91,9 @@ class TestCrypto {
 	}
 	@Test
 	void testPriceOneDayIncrease() {
+
 		Crypto btc = new Crypto("Bitcoin", Double.valueOf(100));
+
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -101,6 +106,7 @@ class TestCrypto {
 	@Test
 	void testPriceOneDayDecrease() {
 		Crypto btc = new Crypto("Bitcoin", Double.valueOf(80));
+
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -112,7 +118,9 @@ class TestCrypto {
 	}
 	@Test
 	void testToString() {
+
 		Crypto btc = new Crypto("Bitcoin", Double.valueOf(80));
+
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		String today = btc.getTodaysDate().format(fomatter);
 		String yesterday = btc.getTodaysDate().minusDays(1).format(fomatter);
@@ -130,7 +138,9 @@ class TestCrypto {
 		
 		
 		Double currentPrice = 54.36;
+
 		Crypto crypto = new Crypto("Bitcoin", currentPrice);
+
 		DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		String today = crypto.getTodaysDate().format(fomatter);
 		String yesterday = crypto.getTodaysDate().minusDays(1).format(fomatter);
