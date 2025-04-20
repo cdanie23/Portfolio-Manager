@@ -12,8 +12,11 @@ cache_dir_crypto_metrics = current_file.parent.parent.parent.parent / "cache" / 
 
 class CryptoMetric():
     
-    def __init__(self):
-        self.curr_trend = cg.get_coins_markets("usd")
+    def __init__(self, curr_trend = None):
+        if curr_trend is not None:
+            self.curr_trend = curr_trend
+        else:
+            self.curr_trend = cg.get_coins_markets("usd")
     
     def getCurrCryptoPrice(self, crypto_id):
         '''

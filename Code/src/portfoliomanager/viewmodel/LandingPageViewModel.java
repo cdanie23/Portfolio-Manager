@@ -132,9 +132,9 @@ public class LandingPageViewModel {
 			String currencyStr = (String) item.get("name");
 		    BigDecimal amountDecimal = (BigDecimal) item.get("amount"); 
 		    double amount = amountDecimal.doubleValue();
-		    this.client.makeRequest(Requests.btcPrice);
+		    this.client.makeCryptoPriceRequest(Requests.getPrice, currencyStr);
 		    Map<String, Object> priceResponse = this.client.getResponse();
-		    BigDecimal currPrice = (BigDecimal) priceResponse.get("Price");
+		    BigDecimal currPrice = (BigDecimal) priceResponse.get("price");
 		    holdings.add(new Holding(currencyStr, currPrice.doubleValue(), amount));
 		}
 		this.user.getValue().setHoldings(holdings);
@@ -216,7 +216,7 @@ public class LandingPageViewModel {
 		
 		if (token != null && !token.isBlank()) {
 			this.client.makeLogoutRequest(Requests.logout, token);
-			this.user.get().setAuth("");
+			this.user.get().setAuth((String) this.client.getResponse().get("token"));
 			this.handleLogOut();
 			return true;
 		}

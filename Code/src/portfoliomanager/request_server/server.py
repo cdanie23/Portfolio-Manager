@@ -8,12 +8,15 @@ import zmq
 import json
 from request_server import constants
 from request_server.request_handler import RequestHandler
+from request_server.crypto_metrics import CryptoMetric
+import sys
 
 def log(message):
-    print("Server::{0}".format(message))
+    sys.stdout.write("Server::{0}\n".format(message))
 
-def runServer(protocol, ip_address, port):
-    request_handler = RequestHandler()
+
+def runServer(protocol, ip_address, port, curr_trend = None):
+    request_handler = RequestHandler(curr_trend)
     
     context = zmq.Context()
     socket = context.socket(zmq.REP)
@@ -48,4 +51,5 @@ def runServer(protocol, ip_address, port):
             socket.send_string(json_response)
         
 if(__name__ == "__main__"):
-    runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT)
+    curr_trend = CryptoMetric()
+    runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT, curr_trend)

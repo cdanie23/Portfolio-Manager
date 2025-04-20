@@ -86,7 +86,7 @@ public class BuyCryptoCodeBehind {
     	this.selectedCrypto = new SimpleObjectProperty<Crypto>();
     	this.setUpListeners();
     	this.buyCryptoButton.setDisable(true);
-    	this.rangeSelection.getItems().addAll("3 days", "7 days", "30 days", "180 days", "375 days");
+    	this.rangeSelection.getItems().addAll("7 days", "30 days", "180 days", "365 days");
     	this.rangeSelection.getSelectionModel().select("30 days");
     	this.rangeSelection.setOnAction(_ -> this.updateLineChart());
     }

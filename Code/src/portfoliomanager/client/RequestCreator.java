@@ -122,8 +122,6 @@ public class RequestCreator {
 	 * @return the request needed to get a response from the server to return a property associated with the account
 	 */
 	public Map<String, String> createPriceRequestByCrypto(Requests requestMade, String cryptoName) {
-
-		System.out.println(requestMade.toString() + cryptoName);
 		Map<String, String> request = new HashMap<String, String>();
 		request.put(TYPE, requestMade.toString());
 		request.put("cryptoName", cryptoName);

@@ -10,11 +10,18 @@ import json
 from request_server import constants, server
 from request_server.request_handler import RequestHandler
 from threading import Thread
+from request_server.crypto_metrics import CryptoMetric
 
 class TestRequestServer(unittest.TestCase):
     
     def setUp(self):
-        serverThread = Thread(target=server.runServer, args=(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT,))
+        mocked_trend = [
+        {"id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "current_price": 60000, "total_volume": 30000},
+        {"id": "ethereum", "symbol": "eth", "name": "Ethereum", "current_price": 3000, "total_volume": 15000}
+        ]
+        self.crypto_metric_mock = CryptoMetric(curr_trend=mocked_trend)
+        serverThread = Thread(target=lambda: server.runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT, self.crypto_metric_mock))
+        serverThread.daemon = True
         serverThread.start()
         time.sleep(1)
         self._context = zmq.Context()
@@ -290,11 +297,12 @@ class TestRequestServer(unittest.TestCase):
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
     def testMakeAccount(self):
-        _request_Handler = RequestHandler()
+        _request_Handler = RequestHandler(self.crypto_metric_mock)
         _request_Handler.makeAccount("test_user", "test")
     
         self.assertEqual(2, len(_request_Handler._users))
     
+
     
     def testHandleLogout(self):
         signupRequest = {
@@ -364,14 +372,14 @@ class TestRequestServer(unittest.TestCase):
         successCode = response["success code"]
         self.assertEqual(-1, successCode)
         
-        
     def testCmGetHistoricalData(self):
-        _request_Handler = RequestHandler()
+        _request_Handler = RequestHandler(self.crypto_metric_mock)
         cryptoData = _request_Handler.crypto_metrics.getHistoricalData("bitcoin")
-        
+    
         self.assertIsInstance(cryptoData, dict)
         
         
         
 if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

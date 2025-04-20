@@ -7,11 +7,11 @@ from request_server import constants
 import uuid
 from model.Account import Account
 from model.Holding import Holding
-from request_server.crypto_metrics import CryptoMetric
 from request_server.crypto_metrics import cache_dir_crypto_metrics
+
 class RequestHandler:
-    def __init__(self):
-        self.crypto_metrics = CryptoMetric()
+    def __init__(self, curr_trend):
+        self.crypto_metrics = curr_trend
         account = Account("user", "pass123")
         holding = Holding("Bitcoin", 2.0)
         account.add_holding(holding)

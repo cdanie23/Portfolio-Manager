@@ -231,16 +231,15 @@ public final class Client extends Thread {
 		Holder.client = null;
 	}
 
-	/**
+	/** Makes the request to get price for the specified crypto
 	 * 
-	 * @param request
-	 * @param cryptoName
+	 * @param request the request to be made to the server
+	 * @param cryptoName the name of the crypto to get the price for
 	 */
 	public void makeCryptoPriceRequest(Requests request, String cryptoName) {
 		if (request == null || cryptoName == null) {
 	        throw new IllegalArgumentException("Request and token cannot be null");
 	    }
-		System.out.println(request.toString() + cryptoName);
 		this.request = this.requestCreator.createPriceRequestByCrypto(request, cryptoName);
 		this.sendRequest();
 		

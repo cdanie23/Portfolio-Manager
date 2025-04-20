@@ -4,12 +4,18 @@ Created on Mar 25, 2025
 @author: Aayush
 '''
 import unittest
-from request_server import constants
+
 from request_server.request_handler import RequestHandler
-from model.Account import Account
+from request_server.crypto_metrics import CryptoMetric
+
 class TestRequestHandler(unittest.TestCase):
     def setUp(self):
-        self.requestHandler = RequestHandler()
+        mocked_trend = [
+        {"id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "current_price": 60000, "total_volume": 30000},
+        {"id": "ethereum", "symbol": "eth", "name": "Ethereum", "current_price": 3000, "total_volume": 15000}
+        ]
+        crypto_metric_mock = CryptoMetric(curr_trend=mocked_trend)
+        self.requestHandler = RequestHandler(crypto_metric_mock)
     def testConstructor(self):
         self.assertFalse(not self.requestHandler._users)
         self.assertFalse(not self.requestHandler._tokens)
