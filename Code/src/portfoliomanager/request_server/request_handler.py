@@ -4,15 +4,16 @@ Created on Mar 25, 2025
 @author: Aayush
 '''
 from request_server import constants
-from request_server import crypto_metrics
 import uuid
 from model.Account import Account
 from model.Holding import Holding
 from request_server.crypto_metrics import getHistoricalDataForAllCoins,\
     cache_dir_crypto_metrics
 
+
 class RequestHandler:
-    def __init__(self):
+    def __init__(self, trend):
+        self.trend = trend
         account = Account("user", "pass123")
         holding = Holding("Bitcoin", 2.0)
         account.modify_holding(holding)
@@ -29,16 +30,6 @@ class RequestHandler:
             if account.username == username and account.verify_password(password):
                 return True  
         return False  
-    
-    def _getCurrBtcPrice(self):
-        currPrice = crypto_metrics.getCurrBtcPrice()
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
-                "Price" : currPrice}
-    
-    def _getBtcPriceHistory(self):
-        history = crypto_metrics.getHistoricalData("bitcoin")
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
-                "History" : history}
         
     def handleSignUp(self, request):
         username = request.get(constants.KEY_USERNAME)
@@ -186,8 +177,9 @@ class RequestHandler:
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
     
     def handleGetAllCryptoData(self, filepath=cache_dir_crypto_metrics):
-        cryptoData = getHistoricalDataForAllCoins(filepath)
-        if (not cryptoData):
+        crypto_metrics = self.trend.getCurrTrend()
+        cryptoData = crypto_metrics.getHistoricalDataForAllCoins(filepath)
+        if (cryptoData == None):
             return { 
                     constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
                     constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
@@ -196,17 +188,27 @@ class RequestHandler:
                 constants.KEY_STATUS: constants.SUCCESS_STATUS, 
                 constants.KEY_CRYPTO_DATA: cryptoData
                 }
+        
+    def handlePriceRequest(self, request):
+        name = request[constants.GET_CRYPTO_NAME]
+        if (name == None):
+            return {
+            constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
+            constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
+            }
+        price = self.trend.getCurrTrend().getCurrCryptoPrice(name)
+        return {
+            constants.KEY_STATUS: constants.SUCCESS_STATUS, 
+            constants.KEY_CRYPTO_PRICE: float(price)
+            }
+    
     def handleRequest(self, request):
         response = {constants.KEY_STATUS: constants.UNSUPPORTED_OPERATION_STATUS,
                    constants.KEY_FAILURE_MESSAGE: "Unsupported request type"}
         
         request_type = request.get(constants.KEY_REQUEST_TYPE, None)
         
-        if(request_type == constants.GET_BTC_CURR_PRICE):
-            response = self._getCurrBtcPrice()
-        elif(request_type == constants.GET_BTC_PRICE_HISTORY):
-            response = self._getBtcPriceHistory()
-        elif(request_type == constants.GET_SIGN_UP):
+        if(request_type == constants.GET_SIGN_UP):
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)
@@ -220,6 +222,8 @@ class RequestHandler:
             response = self.handleGetHoldings(request)
         elif(request_type == constants.GET_LOGOUT):
             response = self.handleLogout(request)
+        elif(request_type == constants.GET_CRYPTO_PRICE):
+            response = self.handlePriceRequest(request)
         elif(request_type == constants.GET_CRYPTO_DATA):
             response = self.handleGetAllCryptoData()
         elif(request_type == constants.GET_SELL):

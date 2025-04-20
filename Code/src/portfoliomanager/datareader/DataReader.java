@@ -4,9 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
@@ -39,29 +37,20 @@ public class DataReader {
 	 * @postcondition none
 	 */
 	public void readCryptoData() {
-		HashMap<String, BigDecimal> prices = this.readHistoricalPrices();
-		this.client.makeRequest(Requests.btcPrice);
-		Object price = this.client.getResponse().get("Price");
-		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, Double.parseDouble(price.toString()));
-		this.cryptos.addCrypto(crypto);
-		crypto.setHistoricalPrices(prices);
-		//this.client.makeRequest(Requests.exit); //Shutting server only when required to shut down server.
-	}
-	
-	@SuppressWarnings("unchecked")
-	private HashMap<String, BigDecimal> readHistoricalPrices() {
-		this.client.makeRequest(Requests.btcHistory);
-		//TODO convert this into a hashmap since that is what is returned
-		//if (this.client.getResponse().get("History") instanceof HashMap<String, BigDecimal>) {
-		//	return (HashMap<String, BigDecimal>) this.client.getResponse().get("History");
-		//}
-		Object historyData = this.client.getResponse().get("History");
-
-	    if (historyData instanceof Map) {
-	        return (HashMap<String, BigDecimal>) historyData;
-	    }
-	    
-	    throw new ClassCastException("History is not a valid HashMap<String, BigDecimal>");
+		this.client.makeRequest(Requests.getData);
+		@SuppressWarnings("unchecked")
+		HashMap<String, HashMap<String, BigDecimal>> data = (HashMap<String, HashMap<String, BigDecimal>>) this.client.getResponse().get("data");
+		String cryptoName = "";
+		HashMap<String, BigDecimal> cryptoData = new HashMap<String, BigDecimal>();
+		for (HashMap.Entry<String, HashMap<String, BigDecimal>> entry : data.entrySet()) {
+			 cryptoName = entry.getKey();
+			 cryptoData = entry.getValue();
+			 this.client.makeCryptoPriceRequest(Requests.getPrice, cryptoName);
+			 BigDecimal currPrice = (BigDecimal) this.client.getResponse().get("price");
+			 Crypto crypto = new Crypto(cryptoName, currPrice.doubleValue());
+			 this.cryptos.add(crypto);
+			 crypto.setHistoricalPrices(cryptoData);
+		}
 	}
 	
 	/** Returns the collection of crypto

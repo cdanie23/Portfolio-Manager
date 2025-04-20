@@ -5,15 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Holding;
 
 class TestHolding {
 	Holding holding;
 	@BeforeEach
 	void setUp() {
-		 this.holding = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 10);
+		 this.holding = new Holding("Bitcoin", Double.valueOf(1000), 10);
 		 
 	}
 	@AfterEach

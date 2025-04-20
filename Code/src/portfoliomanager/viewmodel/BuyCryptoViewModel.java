@@ -228,11 +228,16 @@ public class BuyCryptoViewModel {
 
 	private List<Map.Entry<String, Double>> convertToAscendingOrder(int days) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+		if (this.selectedCrypto.get() == null) {
+			throw new NullPointerException("Please select a crypto from the list of cryptos below to see it's price trends");
+		}
+
 		List<Map.Entry<String, Double>> sortedEntries = this.selectedCrypto.get().getPriceForRange(days)
-			    .entrySet()
-			    .stream()
-			    .sorted(Comparator.comparing(entry -> LocalDate.parse(entry.getKey(), formatter)))
-			    .collect(Collectors.toList());
+		    .entrySet()
+		    .stream()
+		    .sorted(Comparator.comparing(entry -> LocalDate.parse(entry.getKey(), formatter)))
+		    .collect(Collectors.toList());
+		
 		return sortedEntries;
 	}
 

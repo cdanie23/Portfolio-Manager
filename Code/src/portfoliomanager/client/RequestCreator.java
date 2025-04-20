@@ -71,17 +71,17 @@ public class RequestCreator {
 	/**
 	 * Creates a request for a holding of an authorized account
 	 * @param requestMade type of request 
-	 * @param crypto type of crypto
+	 * @param string type of crypto
 	 * @param amount the amount of crypto
 	 * @param authtoken the authorization token used
 	 * @param totalCost amount to change for the user
 	 * @return a request for the client to send to the server
 	 */
 
-	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken, double totalCost) {
+	public Map<String, String> createHoldingRequest(Requests requestMade, String string, double amount, String authtoken) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
-		request.put(NAME, crypto.toString());
+		request.put(NAME, string.toString());
 		request.put(AMOUNT, String.valueOf(amount));
 		request.put(AUTH, authtoken);
 		request.put(FUNDS, String.valueOf(totalCost));
@@ -113,6 +113,19 @@ public class RequestCreator {
 		Map<String, String> request = new HashMap<String, String>();
 		request.put(TYPE, requestMade.toString());
 		request.put(AUTH, auth);
+		return request;
+	}
+
+	/**
+	 * Creates a request to get a property associated with the account
+	 * @param requestMade the type of request to make
+	 * @param cryptoName the name of the crypto to fetch the price for
+	 * @return the request needed to get a response from the server to return a property associated with the account
+	 */
+	public Map<String, String> createPriceRequestByCrypto(Requests requestMade, String cryptoName) {
+		Map<String, String> request = new HashMap<String, String>();
+		request.put(TYPE, requestMade.toString());
+		request.put("cryptoName", cryptoName);
 		return request;
 	}
 	

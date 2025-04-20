@@ -94,7 +94,7 @@ public final class Client extends Thread {
 	}
 	/**
 	 * Makes a request to the server to modify a holding
-	 * @param crypto the type of crypto the holding is
+	 * @param string the type of crypto the holding is
 	 * @param amount the amount of holding to change i.e. remove/add
 	 * @param auth the authorization used 
 	 * @param totalCost totalCost to be added to the funds of the user if sold
@@ -240,5 +240,22 @@ public final class Client extends Thread {
 	public void resetClient() {
 		Holder.client = null;
 	}
+
+
+	/** Makes the request to get price for the specified crypto
+	 * 
+	 * @param request the request to be made to the server
+	 * @param cryptoName the name of the crypto to get the price for
+	 */
+	public void makeCryptoPriceRequest(Requests request, String cryptoName) {
+		if (request == null || cryptoName == null) {
+	        throw new IllegalArgumentException("Request and token cannot be null");
+	    }
+		this.request = this.requestCreator.createPriceRequestByCrypto(request, cryptoName);
+		this.sendRequest();
+		
+	}
+
 	
+
 }
