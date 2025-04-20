@@ -123,7 +123,14 @@ public class BuyCryptoCodeBehind {
     
     private void updateLineChart() {
     	String response = this.rangeSelection.getSelectionModel().getSelectedItem();
-    	this.viewModel.updateLineChart(response);
+    	try {
+    		this.viewModel.updateLineChart(response);
+    	} catch (NullPointerException nullException) {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setContentText(nullException.getLocalizedMessage());
+    		alert.showAndWait();
+    	}
+    	
     }
     
     private void setUpTextFilter() {

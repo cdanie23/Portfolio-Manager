@@ -10,8 +10,8 @@ from model.Holding import Holding
 from request_server.crypto_metrics import cache_dir_crypto_metrics
 
 class RequestHandler:
-    def __init__(self, curr_trend):
-        self.crypto_metrics = curr_trend
+    def __init__(self, trend):
+        self.trend = trend
         account = Account("user", "pass123")
         holding = Holding("Bitcoin", 2.0)
         account.add_holding(holding)
@@ -171,7 +171,8 @@ class RequestHandler:
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
     
     def handleGetAllCryptoData(self, filepath=cache_dir_crypto_metrics):
-        cryptoData = self.crypto_metrics.getHistoricalDataForAllCoins(filepath)
+        crypto_metrics = self.trend.getCurrTrend()
+        cryptoData = crypto_metrics.getHistoricalDataForAllCoins(filepath)
         if (cryptoData == None):
             return { 
                     constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
@@ -189,9 +190,10 @@ class RequestHandler:
             constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
             constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
             }
+        price = self.trend.getCurrTrend().getCurrCryptoPrice(name)
         return {
             constants.KEY_STATUS: constants.SUCCESS_STATUS, 
-            constants.KEY_CRYPTO_PRICE: float(self.crypto_metrics.getCurrCryptoPrice(name))
+            constants.KEY_CRYPTO_PRICE: float(price)
             }
     
     def handleRequest(self, request):

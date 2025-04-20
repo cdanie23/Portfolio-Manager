@@ -149,5 +149,13 @@ class TestBuyCodeViewModel {
 			this.vm.updateLineChart(null);
 		});
 	}
+	
+	@Test
+	void testNullSelectedCrypto() {
+		this.vm.getSelectedCrypto().set(null);
+		assertThrows(NullPointerException.class, ()-> {
+			this.vm.updateLineChart(String.valueOf(15));
+		});
+	}
 
 }
