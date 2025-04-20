@@ -7,8 +7,7 @@ from request_server import constants
 import uuid
 from model.Account import Account
 from model.Holding import Holding
-from request_server.crypto_metrics import getHistoricalDataForAllCoins,\
-    cache_dir_crypto_metrics
+from request_server.crypto_metrics import cache_dir_crypto_metrics
 
 
 class RequestHandler:

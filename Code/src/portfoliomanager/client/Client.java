@@ -106,11 +106,11 @@ public final class Client extends Thread {
 	 * @post this.request == the appropriate request to send to the server
 	 */
 	
-	public void makeModifyTradeRequest(CryptoCurrencies crypto, double amount, String auth, double totalCost, Boolean buyRequest) {
+	public void makeModifyTradeRequest(String cryptoName, double amount, String auth, double totalCost, Boolean buyRequest) {
 		if (buyRequest) {
-			this.request = this.requestCreator.createHoldingRequest(Requests.buyCrypto, crypto, amount, auth, totalCost);
+			this.request = this.requestCreator.createHoldingRequest(Requests.buyCrypto, cryptoName, amount, auth, totalCost);
 		} else {
-			this.request = this.requestCreator.createHoldingRequest(Requests.sellCrypto, crypto, amount, auth, totalCost);
+			this.request = this.requestCreator.createHoldingRequest(Requests.sellCrypto, cryptoName, amount, auth, totalCost);
 		}
 		this.sendRequest();
 	}

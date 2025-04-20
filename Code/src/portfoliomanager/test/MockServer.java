@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
-
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 
 public class MockServer {
@@ -60,7 +58,7 @@ public class MockServer {
 				jsonResponse.put("auth", "$123");
 				jsonResponse.put("amount", new BigDecimal(5.00001));
 				jsonResponse.put("funds", new BigDecimal(954.50001));
-				jsonResponse.put("name", CryptoCurrencies.Bitcoin);
+				jsonResponse.put("name", "Bitcoin");
 			} else if (jsonRequest.getString("type").equals("sellCrypto")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("auth", "$123");
@@ -72,7 +70,7 @@ public class MockServer {
 					jsonResponse.put("amount", new BigDecimal(10.00001));
 					jsonResponse.put("funds", new BigDecimal(10000.00001));
 				}
-				jsonResponse.put("name", CryptoCurrencies.Bitcoin);
+				jsonResponse.put("name", "Bitcoin");
 			} else if (jsonRequest.getString("type").equals("getHoldings")) {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");
