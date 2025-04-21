@@ -78,7 +78,7 @@ public class RequestCreator {
 	 * @return a request for the client to send to the server
 	 */
 
-	public Map<String, String> createHoldingRequest(Requests requestMade, String string, double amount, String authtoken) {
+	public Map<String, String> createHoldingRequest(Requests requestMade, String string, double amount, String authtoken, double totalCost) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
 		request.put(NAME, string.toString());

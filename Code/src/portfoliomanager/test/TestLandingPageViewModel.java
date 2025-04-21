@@ -2,6 +2,11 @@ package portfoliomanager.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
+import portfoliomanager.model.Crypto;
 import portfoliomanager.viewmodel.LandingPageViewModel;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -110,6 +118,50 @@ class TestLandingPageViewModel {
 		String actual = this.viewModel.getPortfolioNameProperty().getValue();
 		
 		assertEquals(expectedPortfolioLabel, actual);
+	}
+	
+	@SuppressWarnings("serial")
+	@Test
+	void testSortingWithClient() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+	    String yesterday = LocalDate.now().minusDays(1).format(formatter);
+		Crypto btc = new Crypto("Bitcoin", 70000.00);
+		btc.setHistoricalPrices(new HashMap<>() {{
+			put(yesterday, BigDecimal.valueOf(69000.00));
+		}});
+		Crypto sol = new Crypto("Solana", 130.00);
+		sol.setHistoricalPrices(new HashMap<>() {{
+			put(yesterday, BigDecimal.valueOf(131.00));
+		}});
+		Crypto xrp = new Crypto("XRP", 2.00);
+		xrp.setHistoricalPrices(new HashMap<>() {{
+			put(yesterday, BigDecimal.valueOf(2.00));
+		}});
+		
+		ObservableList<Crypto> testList = FXCollections.observableArrayList(btc, sol, xrp);	
+		this.viewModel.getCryptoListProperty().setAll(testList);
+		
+		assertEquals("Name", this.viewModel.getNameLabel().getValue());
+		this.viewModel.sortByName();
+		assertEquals("Name ↧", this.viewModel.getNameLabel().getValue());
+		assertEquals("Bitcoin", this.viewModel.getCryptoList().get(0).getName().toString());
+		this.viewModel.sortByName();
+		assertEquals("Name ↥", this.viewModel.getNameLabel().getValue());
+		assertEquals("XRP", this.viewModel.getCryptoList().get(0).getName().toString());
+		
+		assertEquals("Price", this.viewModel.getPriceLabel().getValue());
+		this.viewModel.sortByPrice();
+		assertEquals("Price ↧", this.viewModel.getPriceLabel().getValue());
+		assertEquals("XRP", this.viewModel.getCryptoList().get(0).getName().toString());
+		this.viewModel.sortByPrice();
+		assertEquals("Price ↥", this.viewModel.getPriceLabel().getValue());
+		assertEquals("Bitcoin", this.viewModel.getCryptoList().get(0).getName().toString());
+		
+		assertEquals("24hr Price Trend", this.viewModel.getTrendLabel().getValue());
+		this.viewModel.sortByTrend();
+		assertEquals("24hr Price Trend ↧", this.viewModel.getTrendLabel().getValue());
+		this.viewModel.sortByTrend();
+		assertEquals("24hr Price Trend ↥", this.viewModel.getTrendLabel().getValue());
 	}
 	
 	@Test

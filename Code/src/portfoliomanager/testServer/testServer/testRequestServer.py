@@ -13,7 +13,6 @@ from threading import Thread
 
 from request_server.crypto_metrics import CryptoMetric
 from unittest.mock import MagicMock, patch
-import runpy
 
 class MockTrendHolder:
     def __init__(self, curr_trend):
@@ -441,7 +440,7 @@ class TestRequestServer(unittest.TestCase):
     @patch("request_server.server.runServer")
     @patch("request_server.server.startTrendUpdate")
     def test_main_runs_server_and_updater(self, mock_updater, mock_runserver):
-        from request_server import server
+        #from request_server import server
         server.main()
         mock_updater.assert_called_once()
         mock_runserver.assert_called_once()

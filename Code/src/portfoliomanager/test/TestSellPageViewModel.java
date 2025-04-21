@@ -64,7 +64,7 @@ class TestSellPageViewModel {
 	@Test
 	void testConstructor() {
 		Account user = new Account("colby2", "password", "$123");
-	    Holding holdingToSell = new Holding(CryptoCurrencies.Bitcoin, Double.valueOf(1000), 10);
+	    Holding holdingToSell = new Holding("Bitcoin", Double.valueOf(1000), 10);
 	    List<Holding> holdings = new ArrayList<Holding>();
 		holdings.add(holdingToSell);
 		

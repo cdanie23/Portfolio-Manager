@@ -94,6 +94,13 @@ public class LandingPageCodeBehind implements Initializable {
 	private LandingPageViewModel viewModel;
 	private LoginPageCodeBehind loginPageCodeBehind;
 	
+	@FXML
+	private Label listNameLabel;
+	@FXML
+	private Label listPriceLabel;
+	@FXML
+	private Label listTrendLabel;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Image image = new Image(getClass().getResource("/CryptoVaultLogo.jpg").toExternalForm());
@@ -114,6 +121,9 @@ public class LandingPageCodeBehind implements Initializable {
 		this.welcomeLabel.textProperty().bindBidirectional(this.viewModel.getWelcomeLabelProperty());
 		this.totalFundsLabel.textProperty().bindBidirectional(this.viewModel.getFundsAvailabe());
 		this.portfolioNameLabel.textProperty().bindBidirectional(this.viewModel.getPortfolioNameProperty());
+		this.listNameLabel.textProperty().bind(this.viewModel.getNameLabel());
+		this.listPriceLabel.textProperty().bind(this.viewModel.getPriceLabel());
+		this.listTrendLabel.textProperty().bind(this.viewModel.getTrendLabel());
 	}
 
 	private void setUpListeners() {
@@ -210,6 +220,33 @@ public class LandingPageCodeBehind implements Initializable {
 			exception.printStackTrace();
 		}
 	}
+	
+	@FXML
+    private void sortByNameClicked() {
+		try {
+			this.viewModel.sortByName();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+    }
+
+    @FXML
+    private void sortByPriceClicked() {
+    	try {
+			this.viewModel.sortByPrice();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+    }
+
+    @FXML
+    private void sortByTrendClicked() {
+    	try {
+			this.viewModel.sortByTrend();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+    }
 	
 	/** Returns the landing page's log out label
 	 * 

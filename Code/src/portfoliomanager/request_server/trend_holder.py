@@ -8,14 +8,14 @@ from pycoingecko import CoinGeckoAPI
 from request_server.crypto_metrics import CryptoMetric
 cg = CoinGeckoAPI()
 
-class TrendHolder(object):
+class TrendHolder:
     '''
-    classdocs
+    A wrapper class to hold trend data
     '''
 
     def __init__(self):
         '''
-        Constructor
+        Instantiates a new trendHolder
         '''
         self.curr_trend = CryptoMetric()
         self.lock = threading.Lock()

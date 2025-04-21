@@ -94,7 +94,7 @@ public final class Client extends Thread {
 	}
 	/**
 	 * Makes a request to the server to modify a holding
-	 * @param string the type of crypto the holding is
+	 * @param crypto the type of crypto the holding is
 	 * @param amount the amount of holding to change i.e. remove/add
 	 * @param auth the authorization used 
 	 * @param totalCost totalCost to be added to the funds of the user if sold
@@ -106,7 +106,7 @@ public final class Client extends Thread {
 	 * @post this.request == the appropriate request to send to the server
 	 */
 	
-	public void makeModifyTradeRequest(CryptoCurrencies crypto, double amount, String auth, double totalCost, Boolean buyRequest) {
+	public void makeModifyTradeRequest(String crypto, double amount, String auth, double totalCost, Boolean buyRequest) {
 		if (buyRequest) {
 			this.request = this.requestCreator.createHoldingRequest(Requests.buyCrypto, crypto, amount, auth, totalCost);
 		} else {

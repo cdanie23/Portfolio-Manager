@@ -7,8 +7,7 @@ from request_server import constants
 import uuid
 from model.Account import Account
 from model.Holding import Holding
-from request_server.crypto_metrics import getHistoricalDataForAllCoins,\
-    cache_dir_crypto_metrics
+from request_server.crypto_metrics import cache_dir_crypto_metrics
 
 
 class RequestHandler:
@@ -66,20 +65,20 @@ class RequestHandler:
         cryptoName = request[constants.KEY_NAME]
         totalCost = request[constants.KEY_FUNDS]
         account = self.findAccountByAuth(auth)
-        if (not account or auth == None or amount == None or cryptoName == None or totalCost == None):
+        if (not account or auth == None or not amount or cryptoName == None or totalCost == None):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
-        holding = Holding(cryptoName, amount)
+        holding = Holding(cryptoName, float(amount))
         account.modify_holding(holding, add)
         account.modify_funds(totalCost, not add)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,
             constants.KEY_TOKEN : auth,
             constants.KEY_FUNDS: account.funds_available,
-            constants.KEY_AMOUNT: holding.amount,
+            constants.KEY_AMOUNT: float(holding.amount),
             constants.KEY_NAME: holding.getHoldingName()
             }
         return response
