@@ -132,4 +132,13 @@ class TestSellPageViewModel {
 		String expectedFundsAvailableDisplayed = "$" + 10000.0;
 		assertTrue(expectedFundsAvailableDisplayed.equals(this.viewModel.getAvailableFundsProperty().getValue()));
 	}
+	@Test
+	void testNonSuccessfulRequest() {
+		Account badUser = new Account("colby", "pw", "badAuth");
+		this.viewModel.setUser(badUser);
+		this.viewModel.getAmountToSell().setValue(String.valueOf(10));
+		
+		
+		assertThrows(UnsupportedOperationException.class, () -> this.viewModel.sellCrypto());
+	}
 }

@@ -157,5 +157,10 @@ class TestBuyCodeViewModel {
 			this.vm.updateLineChart(String.valueOf(15));
 		});
 	}
+	@Test
+	void testBuyNegativeAmount() {
+		this.vm.getAmountProperty().setValue(String.valueOf(-5.00));
+		assertThrows(UnsupportedOperationException.class, () ->this.vm.buyCrypto());
+	}
 
 }

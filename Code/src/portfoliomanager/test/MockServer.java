@@ -39,35 +39,54 @@ public class MockServer {
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("History", history);
 			} else if (jsonRequest.getString("type").equals("signUp")) {
-				jsonResponse.put("success code", 1);
+				int successCode = 1;
+				if (jsonRequest.getString("username").equals("uglyName")) {
+					successCode = -1;
+				}
+				jsonResponse.put("success code", successCode);
 				jsonResponse.put("token", "abs");
 			} else if (jsonRequest.getString("type").equals("login")) {
-				jsonResponse.put("success code", 1);
+				int successCode = 1;
+				
+				jsonResponse.put("success code", successCode);
 				jsonResponse.put("token", "abd");
-
 			} else if (jsonRequest.getString("type").equals("addFunds")) {
-				jsonResponse.put("success code", 1);
+				int successCode = 1;
+				if (jsonRequest.get("amount").equals("-5.0")) {
+					successCode = -1;
+				}
+				jsonResponse.put("success code", successCode);
 				jsonResponse.put("token", "$123");
 				jsonResponse.put("amount", 10);
 			} else if (jsonRequest.getString("type").equals("getFunds")) {
+				
 				jsonResponse.put("success code", 1);
 				jsonResponse.put("token", "$123");
-				jsonResponse.put("amount", 10.00);
+				jsonResponse.put("amount", 10);
 			} else if (jsonRequest.getString("type").equals("buyCrypto")) {
-				jsonResponse.put("success code", 1);
+				int successCode = 1;
+				if (jsonRequest.get("amount").equals("-5.0")) {
+					successCode = -1;
+				}
+				jsonResponse.put("success code", successCode);
 				jsonResponse.put("auth", "$123");
 				jsonResponse.put("amount", new BigDecimal(5.00001));
 				jsonResponse.put("funds", new BigDecimal(954.50001));
 				jsonResponse.put("name", "Bitcoin");
 			} else if (jsonRequest.getString("type").equals("sellCrypto")) {
-				jsonResponse.put("success code", 1);
+				String auth = jsonRequest.getString("token");
+				int successCode = 1;
+				if (auth.equals("badAuth")) {
+					successCode = -1;
+				}
+				jsonResponse.put("success code", successCode);
 				jsonResponse.put("auth", "$123");
 				double amount = Double.parseDouble(jsonRequest.getString("amount"));
-				if (amount == 2 ) {
+				if (amount == 2) {
 					jsonResponse.put("amount", new BigDecimal(8.00001));
 					jsonResponse.put("funds", new BigDecimal(2000.00001));
 				} if (amount == 10) {
-					jsonResponse.put("amount", new BigDecimal(10.00001));
+					jsonResponse.put("amount", new BigDecimal(0.000000000));
 					jsonResponse.put("funds", new BigDecimal(10000.00001));
 				}
 				jsonResponse.put("name", "Bitcoin");

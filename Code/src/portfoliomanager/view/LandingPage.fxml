@@ -29,17 +29,17 @@
                      </font>
                   </Label>
                   
-                  <Label fx:id="listNameLabel" layoutX="96.0" layoutY="138.0" text="Name" textFill="#f8f8f8" onMouseClicked="#sortByNameClicked">
+                  <Label fx:id="listNameLabel" layoutX="96.0" layoutY="138.0" onMouseClicked="#sortByNameClicked" text="Name" textFill="#f8f8f8">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="listPriceLabel" layoutX="340.0" layoutY="138.0" text="Price" textFill="WHITE" onMouseClicked="#sortByPriceClicked">
+                  <Label fx:id="listPriceLabel" layoutX="340.0" layoutY="138.0" onMouseClicked="#sortByPriceClicked" text="Price" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="listTrendLabel" layoutX="550.0" layoutY="137.0" text="24hr Price Trend" textFill="WHITE" onMouseClicked="#sortByTrendClicked">
+                  <Label fx:id="listTrendLabel" layoutX="550.0" layoutY="137.0" onMouseClicked="#sortByTrendClicked" text="24hr Price Trend" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font></Label>
