@@ -190,7 +190,6 @@ public class Crypto {
 	
 	@Override
 	public String toString() {
-		return String.format("%25s%68.2f%66.2f", this.name, this.currentPrice, this.getOneDayPriceChange()) + "%";
-	
+		return String.format("%-25s %25.2f %25.2f%%", this.name, this.currentPrice, this.getOneDayPriceChange());
 	}
 }
