@@ -130,15 +130,29 @@ public class LandingPageViewModel {
 
 		for (Map<String, Object> item : holdingsList) {
 			String currencyStr = (String) item.get("name");
-		    BigDecimal amountDecimal = (BigDecimal) item.get("amount"); 
-		    double amount = amountDecimal.doubleValue();
+		    double amount = 0.0;
+		    amount = this.getDoubleAmountValue(item);
 		    this.client.makeCryptoPriceRequest(Requests.getPrice, currencyStr);
 		    Map<String, Object> priceResponse = this.client.getResponse();
 		    BigDecimal currPrice = (BigDecimal) priceResponse.get("price");
-		    holdings.add(new Holding(currencyStr, currPrice.doubleValue(), amount));
+		    if (amount > 0.00) {
+		    	holdings.add(new Holding(currencyStr, currPrice.doubleValue(), amount));
+		    }
 		}
 		this.user.getValue().setHoldings(holdings);
 		this.holdingsProperty.setValue(FXCollections.observableList(this.user.getValue().getHoldings()));
+	}
+
+	private double getDoubleAmountValue(Map<String, Object> item) {
+		BigDecimal amountDecimal;
+		double amount;
+		if (item.get("amount") instanceof BigDecimal) {
+			amountDecimal = (BigDecimal) item.get("amount");
+			amount = amountDecimal.doubleValue();
+		} else {
+			amount = Double.parseDouble((String) item.get("amount"));
+		}
+		return amount;
 	}
 	
 	/**

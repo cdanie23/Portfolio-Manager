@@ -71,14 +71,14 @@ class RequestHandler:
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
-        holding = Holding(cryptoName, amount)
+        holding = Holding(cryptoName, float(amount))
         account.modify_holding(holding, add)
         account.modify_funds(totalCost, not add)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,
             constants.KEY_TOKEN : auth,
             constants.KEY_FUNDS: account.funds_available,
-            constants.KEY_AMOUNT: holding.amount,
+            constants.KEY_AMOUNT: float(holding.amount),
             constants.KEY_NAME: holding.getHoldingName()
             }
         return response
@@ -132,7 +132,6 @@ class RequestHandler:
         self._tokens[token] = self.findAccountByName(username, password)
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     
-
     def handleGetFunds(self, request):
         auth = request[constants.KEY_TOKEN]
         account = self.findAccountByAuth(auth)
