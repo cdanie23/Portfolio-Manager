@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.CryptoCollection;
@@ -48,7 +47,7 @@ public class DataReader {
 			 cryptoData = entry.getValue();
 			 this.client.makeCryptoPriceRequest(Requests.getPrice, cryptoName);
 			 BigDecimal currPrice = (BigDecimal) this.client.getResponse().get("price");
-			 Crypto crypto = new Crypto(CryptoCurrencies.valueOf(cryptoName), currPrice.doubleValue());
+			 Crypto crypto = new Crypto(cryptoName, currPrice.doubleValue());
 			 this.cryptos.add(crypto);
 			 crypto.setHistoricalPrices(cryptoData);
 		}

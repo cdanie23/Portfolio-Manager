@@ -86,7 +86,7 @@ public class BuyCryptoCodeBehind {
     	this.selectedCrypto = new SimpleObjectProperty<Crypto>();
     	this.setUpListeners();
     	this.buyCryptoButton.setDisable(true);
-    	this.rangeSelection.getItems().addAll("3 days", "7 days", "30 days", "180 days", "375 days");
+    	this.rangeSelection.getItems().addAll("7 days", "30 days", "180 days", "365 days");
     	this.rangeSelection.getSelectionModel().select("30 days");
     	this.rangeSelection.setOnAction(_ -> this.updateLineChart());
     }
@@ -123,7 +123,14 @@ public class BuyCryptoCodeBehind {
     
     private void updateLineChart() {
     	String response = this.rangeSelection.getSelectionModel().getSelectedItem();
-    	this.viewModel.updateLineChart(response);
+    	try {
+    		this.viewModel.updateLineChart(response);
+    	} catch (NullPointerException nullException) {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setContentText(nullException.getLocalizedMessage());
+    		alert.showAndWait();
+    	}
+    	
     }
     
     private void setUpTextFilter() {

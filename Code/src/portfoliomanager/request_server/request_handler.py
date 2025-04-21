@@ -7,19 +7,19 @@ from request_server import constants
 import uuid
 from model.Account import Account
 from model.Holding import Holding
-from request_server.crypto_metrics import CryptoMetric
 from request_server.crypto_metrics import cache_dir_crypto_metrics
+
+
 class RequestHandler:
-    def __init__(self):
-        self.crypto_metrics = CryptoMetric()
+    def __init__(self, trend):
+        self.trend = trend
         account = Account("user", "pass123")
         holding = Holding("Bitcoin", 2.0)
-        account.add_holding(holding)
+        account.modify_holding(holding)
         self._cryptos = {}
         self._users = [account]
         self._tokens = {"$123" : account}
         
-
     def makeAccount(self, username, password):
         account = Account(username, password)
         self._users.append(account)
@@ -29,16 +29,6 @@ class RequestHandler:
             if account.username == username and account.verify_password(password):
                 return True  
         return False  
-    
-    def _getCurrBtcPrice(self):
-        currPrice = self.crypto_metrics.getCurrBtcPrice()
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
-                "Price" : currPrice}
-    
-    def _getBtcPriceHistory(self):
-        history = self.crypto_metrics.getHistoricalData("bitcoin")
-        return {constants.KEY_STATUS : constants.SUCCESS_STATUS,
-                "History" : history}
         
     def handleSignUp(self, request):
         username = request.get(constants.KEY_USERNAME)
@@ -69,22 +59,27 @@ class RequestHandler:
         self._tokens[token] = account
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, constants.KEY_TOKEN: token}
     
-    def handleAddHolding(self, request):
+    def handleModifyHolding(self, request, add=True):
         auth = request[constants.KEY_TOKEN]
         amount = request[constants.KEY_AMOUNT]
         cryptoName = request[constants.KEY_NAME]
+        totalCost = request[constants.KEY_FUNDS]
         account = self.findAccountByAuth(auth)
-        if (not account or auth == None or amount == None or cryptoName == None):
+        if (not account or auth == None or not amount or cryptoName == None or totalCost == None):
             response = {
                 constants.KEY_STATUS : constants.BAD_MESSAGE_STATUS,
                 constants.KEY_FAILURE_MESSAGE : "Not a valid request"
                 }
             return response
         holding = Holding(cryptoName, float(amount))
-        account.add_holding(holding)
+        account.modify_holding(holding, add)
+        account.modify_funds(totalCost, not add)
         response = {
             constants.KEY_STATUS : constants.SUCCESS_STATUS,
-            constants.KEY_TOKEN : auth
+            constants.KEY_TOKEN : auth,
+            constants.KEY_FUNDS: account.funds_available,
+            constants.KEY_AMOUNT: float(holding.amount),
+            constants.KEY_NAME: holding.getHoldingName()
             }
         return response
     
@@ -112,7 +107,7 @@ class RequestHandler:
                 }
             return response
         
-        account.funds_available += float(amount)
+        account.modify_funds(amount)
         return {constants.KEY_STATUS : constants.SUCCESS_STATUS, 
                 constants.KEY_TOKEN : auth,
                 constants.KEY_FUNDS : account.funds_available}
@@ -181,8 +176,9 @@ class RequestHandler:
         return {constants.KEY_STATUS: constants.SUCCESS_STATUS, "message": "Logout successful"}
     
     def handleGetAllCryptoData(self, filepath=cache_dir_crypto_metrics):
-        cryptoData = self.crypto_metrics.getHistoricalDataForAllCoins(filepath)
-        if (not cryptoData):
+        crypto_metrics = self.trend.getCurrTrend()
+        cryptoData = crypto_metrics.getHistoricalDataForAllCoins(filepath)
+        if (cryptoData == None):
             return { 
                     constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
                     constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
@@ -194,14 +190,15 @@ class RequestHandler:
         
     def handlePriceRequest(self, request):
         name = request[constants.GET_CRYPTO_NAME]
-        if (not name):
+        if (name == None):
             return {
             constants.KEY_STATUS: constants.BAD_MESSAGE_STATUS, 
             constants.KEY_FAILURE_MESSAGE : "Empty crypto data"
             }
+        price = self.trend.getCurrTrend().getCurrCryptoPrice(name)
         return {
             constants.KEY_STATUS: constants.SUCCESS_STATUS, 
-            constants.KEY_CRYPTO_PRICE: float(self.crypto_metrics.getCurrCryptoPrice(name))
+            constants.KEY_CRYPTO_PRICE: float(price)
             }
     
     def handleRequest(self, request):
@@ -210,16 +207,12 @@ class RequestHandler:
         
         request_type = request.get(constants.KEY_REQUEST_TYPE, None)
         
-        if(request_type == constants.GET_BTC_CURR_PRICE):
-            response = self._getCurrBtcPrice()
-        elif(request_type == constants.GET_BTC_PRICE_HISTORY):
-            response = self._getBtcPriceHistory()
-        elif(request_type == constants.GET_SIGN_UP):
+        if(request_type == constants.GET_SIGN_UP):
             response = self.handleSignUp(request)
         elif(request_type == constants.GET_LOGIN):
             response = self.handleLogin(request)
-        elif(request_type == constants.ADD_HOLDING):
-            response = self.handleAddHolding(request)
+        elif(request_type == constants.GET_BUY):
+            response = self.handleModifyHolding(request)
         elif(request_type == constants.ADD_FUNDS):
             response = self.handleAddFunds(request)
         elif(request_type == constants.GET_FUNDS):
@@ -232,5 +225,7 @@ class RequestHandler:
             response = self.handlePriceRequest(request)
         elif(request_type == constants.GET_CRYPTO_DATA):
             response = self.handleGetAllCryptoData()
+        elif(request_type == constants.GET_SELL):
+            response = self.handleModifyHolding(request, False)
             
         return response

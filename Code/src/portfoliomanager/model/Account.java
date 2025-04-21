@@ -112,11 +112,11 @@ public class Account {
 	public boolean addHolding(Holding holding) {
 		for (Holding currHolding : this.holdings) {
 			if (currHolding != null && currHolding.getName().equals(holding.getName())) {
-				currHolding.setAmountHeld(currHolding.getAmountHeld() + holding.getAmountHeld());
+				currHolding.setAmountHeld(holding.getAmountHeld());
 				return true;
 			}
 		}
-			this.holdings.add(holding);
+		this.holdings.add(holding);
 		
 		return true;
 	}

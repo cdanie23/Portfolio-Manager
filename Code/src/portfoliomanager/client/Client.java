@@ -97,11 +97,21 @@ public final class Client extends Thread {
 	 * @param crypto the type of crypto the holding is
 	 * @param amount the amount of holding to change i.e. remove/add
 	 * @param auth the authorization used 
+	 * @param totalCost totalCost to be added to the funds of the user if sold
+	 * 					totalCost to be subtracted from the funds of the user if bought
+	 * @param buyRequest buyRequest if true
+	 * 					sellRequest if false
+	 * 
+	 * 
 	 * @post this.request == the appropriate request to send to the server
 	 */
 	
-	public void makeAddHoldingRequest(CryptoCurrencies crypto, double amount, String auth) {
-		this.request = this.requestCreator.createHoldingRequest(Requests.addHolding, crypto, amount, auth);
+	public void makeModifyTradeRequest(String crypto, double amount, String auth, double totalCost, Boolean buyRequest) {
+		if (buyRequest) {
+			this.request = this.requestCreator.createHoldingRequest(Requests.buyCrypto, crypto, amount, auth, totalCost);
+		} else {
+			this.request = this.requestCreator.createHoldingRequest(Requests.sellCrypto, crypto, amount, auth, totalCost);
+		}
 		this.sendRequest();
 	}
 	
@@ -231,18 +241,21 @@ public final class Client extends Thread {
 		Holder.client = null;
 	}
 
-	/**
+
+	/** Makes the request to get price for the specified crypto
 	 * 
-	 * @param request
-	 * @param cryptoName
+	 * @param request the request to be made to the server
+	 * @param cryptoName the name of the crypto to get the price for
 	 */
 	public void makeCryptoPriceRequest(Requests request, String cryptoName) {
 		if (request == null || cryptoName == null) {
 	        throw new IllegalArgumentException("Request and token cannot be null");
 	    }
-		System.out.println(request.toString() + cryptoName);
 		this.request = this.requestCreator.createPriceRequestByCrypto(request, cryptoName);
 		this.sendRequest();
 		
 	}
+
+	
+
 }

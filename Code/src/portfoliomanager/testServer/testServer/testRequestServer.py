@@ -11,10 +11,27 @@ from request_server import constants, server
 from request_server.request_handler import RequestHandler
 from threading import Thread
 
+from request_server.crypto_metrics import CryptoMetric
+from unittest.mock import MagicMock, patch
+
+class MockTrendHolder:
+    def __init__(self, curr_trend):
+        self.curr_trend = CryptoMetric(curr_trend)
+
+    def getCurrTrend(self):
+        return self.curr_trend
+
+
 class TestRequestServer(unittest.TestCase):
     
     def setUp(self):
-        serverThread = Thread(target=server.runServer, args=(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT,))
+        mocked_trend = [
+        {"id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "current_price": 60000, "total_volume": 30000},
+        {"id": "ethereum", "symbol": "eth", "name": "Ethereum", "current_price": 3000, "total_volume": 15000}
+        ]
+        self.mock_trend_holder = MockTrendHolder(mocked_trend)
+        serverThread = Thread(target=lambda: server.runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT, self.mock_trend_holder))
+        serverThread.daemon = True
         serverThread.start()
         time.sleep(1)
         self._context = zmq.Context()
@@ -58,22 +75,6 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
     
         self.assertEqual(constants.BAD_MESSAGE_STATUS, response[constants.KEY_STATUS], "checking status of response")
-    
-    def testGetCurrBtcPrice(self):
-        jsonRequest = json.dumps({constants.KEY_REQUEST_TYPE : constants.GET_BTC_CURR_PRICE})
-        self._socket.send_string(jsonRequest)
-    
-        jsonResponse = self._socket.recv_string()
-        response = json.loads(jsonResponse)
-        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "checking status of response")
-    
-    def testGetBtcPriceHistory(self):
-        jsonRequest = json.dumps({constants.KEY_REQUEST_TYPE : constants.GET_BTC_PRICE_HISTORY})
-        self._socket.send_string(jsonRequest)
-    
-        jsonResponse = self._socket.recv_string()
-        response = json.loads(jsonResponse)
-        self.assertEqual(constants.SUCCESS_STATUS, response[constants.KEY_STATUS], "checking status of response")
     
     def testHandleSignUp(self):
         signupRequest = {
@@ -191,13 +192,29 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldings(self):
+    def testModifyHolding(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: 'BTC-USD',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
+            }
+    
+        self._socket.send_string(json.dumps(add_holding_request))
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        self.assertEqual(response[constants.KEY_STATUS], constants.SUCCESS_STATUS)
+        
+    def testModifyHoldingSelling(self):
+        auth_token = self._login()
+        add_holding_request= {
+            constants.KEY_AMOUNT: 50.2,
+            constants.KEY_TOKEN: auth_token,
+            constants.KEY_NAME: 'BTC-USD',
+            constants.KEY_REQUEST_TYPE: constants.GET_SELL,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -205,12 +222,13 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.SUCCESS_STATUS)
     
-    def testAddHoldingsNoAuth(self):
+    def testModifyHoldingsNoAuth(self):
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: None,
             constants.KEY_NAME: 'btc',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -218,13 +236,14 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldingsNoCryptoName(self):
+    def testModifyHoldingsNoCryptoName(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: 50.2,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: None,
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -232,13 +251,29 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
-    def testAddHoldingsNoAmount(self):
+    def testModifyHoldingsNoAmount(self):
         auth_token = self._login()
         add_holding_request= {
             constants.KEY_AMOUNT: None,
             constants.KEY_TOKEN: auth_token,
             constants.KEY_NAME: 'btc',
-            constants.KEY_REQUEST_TYPE: constants.ADD_HOLDING
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: 5.0
+            }
+    
+        self._socket.send_string(json.dumps(add_holding_request))
+        jsonResponse = self._socket.recv_string()
+        response = json.loads(jsonResponse)
+        self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
+        
+    def testModifyHoldingsNoTotalCost(self):
+        auth_token = self._login()
+        add_holding_request= {
+            constants.KEY_AMOUNT: 5,
+            constants.KEY_TOKEN: auth_token,
+            constants.KEY_NAME: 'btc',
+            constants.KEY_REQUEST_TYPE: constants.GET_BUY,
+            constants.KEY_FUNDS: None
             }
     
         self._socket.send_string(json.dumps(add_holding_request))
@@ -306,11 +341,12 @@ class TestRequestServer(unittest.TestCase):
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
     
     def testMakeAccount(self):
-        _request_Handler = RequestHandler()
+        _request_Handler = RequestHandler(self.mock_trend_holder)
         _request_Handler.makeAccount("test_user", "test")
     
         self.assertEqual(2, len(_request_Handler._users))
     
+
     
     def testHandleLogout(self):
         signupRequest = {
@@ -357,7 +393,7 @@ class TestRequestServer(unittest.TestCase):
         self.assertEqual(1, successCode)
         self.assertIsInstance(cryptoData, dict)
     
-        
+    
     def testHandlePriceRequest(self):
         request= {constants.KEY_REQUEST_TYPE: "getPrice",
                   constants.GET_CRYPTO_NAME: "bitcoin"
@@ -369,20 +405,46 @@ class TestRequestServer(unittest.TestCase):
         successCode = response["success code"]
         self.assertEqual(1, successCode)
         self.assertIsInstance(cryptoPrice, float)
-        
+    
     def testHandlePriceRequestNoName(self):
         request= {constants.KEY_REQUEST_TYPE: "getPrice",
-                  constants.GET_CRYPTO_NAME: None
-                  }
+                  constants.GET_CRYPTO_NAME: None }
         self._socket.send_string(json.dumps(request))
         jsonResponse =  self._socket.recv_string()
         response = json.loads(jsonResponse)
-        cryptoPrice = response["price"]
         successCode = response["success code"]
-        self.assertEqual(1, successCode)
-        self.assertIsInstance(cryptoPrice, float)
+        self.assertEqual(-1, successCode)
         
+    def testCmGetHistoricalData(self):
+        _request_Handler = RequestHandler(self.mock_trend_holder)
+        cryptoData = _request_Handler.trend.getCurrTrend().getHistoricalData("bitcoin")
+        self.assertIsInstance(cryptoData, dict)
         
+    def testStartTrendUpdateCallsUpdateTrend(self):
+        mock_trend_holder = self.mock_trend_holder
+        mock_trend_holder.updateTrend = MagicMock()
+        original_sleep = time.sleep
+        time.sleep = lambda _: original_sleep(0.1)
+    
+        try:
+            server.startTrendUpdate(mock_trend_holder)
+            time.sleep(0.3)
+    
+            self.assertGreaterEqual(
+                mock_trend_holder.updateTrend.call_count,
+                1,
+            )
+        finally:
+            time.sleep = original_sleep
+
+    @patch("request_server.server.runServer")
+    @patch("request_server.server.startTrendUpdate")
+    def test_main_runs_server_and_updater(self, mock_updater, mock_runserver):
+        #from request_server import server
+        server.main()
+        mock_updater.assert_called_once()
+        mock_runserver.assert_called_once()
         
 if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

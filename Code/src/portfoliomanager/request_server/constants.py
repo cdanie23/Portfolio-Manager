@@ -18,8 +18,6 @@ KEY_FAILURE_MESSAGE = "error description"
 KEY_STATUS = "success code"
 EXIT = "exit"
 
-GET_BTC_CURR_PRICE = "btcPrice"
-GET_BTC_PRICE_HISTORY = "btcHistory"
 GET_SIGN_UP = "signUp"
 GET_LOGIN = "login"
 ADD_HOLDING = "addHolding"
@@ -30,6 +28,9 @@ GET_LOGOUT = "logout"
 GET_CRYPTO_DATA = "getData"
 GET_CRYPTO_PRICE = "getPrice"
 GET_CRYPTO_NAME = "cryptoName"
+GET_BUY = "buyCrypto"
+GET_SELL = "sellCrypto"
+
 
 # user keys
 KEY_TOKEN = "token"

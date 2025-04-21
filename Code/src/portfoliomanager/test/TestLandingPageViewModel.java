@@ -17,7 +17,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -126,15 +125,15 @@ class TestLandingPageViewModel {
 	void testSortingWithClient() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 	    String yesterday = LocalDate.now().minusDays(1).format(formatter);
-		Crypto btc = new Crypto(CryptoCurrencies.Bitcoin, 70000.00);
+		Crypto btc = new Crypto("Bitcoin", 70000.00);
 		btc.setHistoricalPrices(new HashMap<>() {{
 			put(yesterday, BigDecimal.valueOf(69000.00));
 		}});
-		Crypto sol = new Crypto(CryptoCurrencies.Solana, 130.00);
+		Crypto sol = new Crypto("Solana", 130.00);
 		sol.setHistoricalPrices(new HashMap<>() {{
 			put(yesterday, BigDecimal.valueOf(131.00));
 		}});
-		Crypto xrp = new Crypto(CryptoCurrencies.XRP, 2.00);
+		Crypto xrp = new Crypto("XRP", 2.00);
 		xrp.setHistoricalPrices(new HashMap<>() {{
 			put(yesterday, BigDecimal.valueOf(2.00));
 		}});

@@ -8,12 +8,17 @@ import zmq
 import json
 from request_server import constants
 from request_server.request_handler import RequestHandler
+from request_server.trend_holder import TrendHolder
+import time
+import threading
+import sys
 
 def log(message):
-    print("Server::{0}".format(message))
+    sys.stdout.write("Server::{0}\n".format(message))
 
-def runServer(protocol, ip_address, port):
-    request_handler = RequestHandler()
+
+def runServer(protocol, ip_address, port, trend_holder):
+    request_handler = RequestHandler(trend_holder)
     
     context = zmq.Context()
     socket = context.socket(zmq.REP)
@@ -46,6 +51,21 @@ def runServer(protocol, ip_address, port):
             response = request_handler.handleRequest(request)
             json_response = json.dumps(response)
             socket.send_string(json_response)
-        
+            
+def startTrendUpdate(trend_holder):
+    def update_loop():
+        while True:
+            print("Started updater for refreshing crypto metric")
+            trend_holder.updateTrend()
+            time.sleep(100)
+    updater_thread = threading.Thread(target=update_loop, daemon=True)
+    updater_thread.start() 
+    
+def main():
+    trend_holder = TrendHolder()
+    startTrendUpdate(trend_holder)
+    runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT, trend_holder)
+
 if(__name__ == "__main__"):
-    runServer(constants.PROTOCOL, constants.IP_ADDRESS, constants.PORT)
+    main()
+    

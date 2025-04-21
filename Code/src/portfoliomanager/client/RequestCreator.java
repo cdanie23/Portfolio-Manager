@@ -13,11 +13,10 @@ public class RequestCreator {
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String CONFIRM_PASSWORD = "confirmPassword";
-
 	public static final String NAME = "name";
 	public static final String AMOUNT = "amount";
-
 	public static final String AUTH = "token";
+	public static final String FUNDS = "funds";
 
 	/**
 	 * Creates a request 
@@ -72,18 +71,20 @@ public class RequestCreator {
 	/**
 	 * Creates a request for a holding of an authorized account
 	 * @param requestMade type of request 
-	 * @param crypto type of crypto
+	 * @param string type of crypto
 	 * @param amount the amount of crypto
 	 * @param authtoken the authorization token used
+	 * @param totalCost amount to change for the user
 	 * @return a request for the client to send to the server
 	 */
 
-	public Map<String, String> createHoldingRequest(Requests requestMade, CryptoCurrencies crypto, double amount, String authtoken) {
+	public Map<String, String> createHoldingRequest(Requests requestMade, String string, double amount, String authtoken, double totalCost) {
 		Map<String, String> request = new HashMap<>();
 		request.put(TYPE, requestMade.toString());
-		request.put(NAME, crypto.toString());
+		request.put(NAME, string.toString());
 		request.put(AMOUNT, String.valueOf(amount));
 		request.put(AUTH, authtoken);
+		request.put(FUNDS, String.valueOf(totalCost));
 		return request;
 	}
 	
@@ -122,8 +123,6 @@ public class RequestCreator {
 	 * @return the request needed to get a response from the server to return a property associated with the account
 	 */
 	public Map<String, String> createPriceRequestByCrypto(Requests requestMade, String cryptoName) {
-
-		System.out.println(requestMade.toString() + cryptoName);
 		Map<String, String> request = new HashMap<String, String>();
 		request.put(TYPE, requestMade.toString());
 		request.put("cryptoName", cryptoName);

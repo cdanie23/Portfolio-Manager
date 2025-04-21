@@ -20,7 +20,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import portfoliomanager.client.Client;
-import portfoliomanager.client.CryptoCurrencies;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -62,7 +61,7 @@ class TestBuyCodeViewModel {
 	@BeforeEach
 	void setup() {
 		this.user = new Account("testuser", "pass@word", "$123");
-		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, 9.1);
+		Crypto crypto = new Crypto("Bitcoin", 9.1);
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.fundsAvailableProperty = new SimpleStringProperty();
 		this.cryptoList = FXCollections.observableArrayList();
@@ -82,7 +81,7 @@ class TestBuyCodeViewModel {
 	@Test
 	void testConstructor() {
 		BuyCryptoViewModel viewModel = new BuyCryptoViewModel(this.user, this.holdingsProperty, this.fundsAvailableProperty);
-		Crypto crypto = new Crypto(CryptoCurrencies.Bitcoin, 9.1);
+		Crypto crypto = new Crypto("Bitcoin", 9.1);
 		viewModel.getSelectedCrypto().set(crypto);
 		assertAll(()-> assertEquals("testuser", viewModel.getUser().getUserName()),
 				()-> assertEquals("pass@word", viewModel.getUser().getPassword()),
@@ -111,7 +110,7 @@ class TestBuyCodeViewModel {
 		()-> assertEquals("$954.50", this.vm.getFundsAvailableProperty().get()),
 		() -> assertEquals(response.get("auth"), "$123"),
 		() -> assertEquals(response.get("success code"), 1)
-		);
+				);
 	}
 	
 	@Test
@@ -148,6 +147,14 @@ class TestBuyCodeViewModel {
 	void testNullRange() {
 		assertThrows(IllegalArgumentException.class, ()->{
 			this.vm.updateLineChart(null);
+		});
+	}
+	
+	@Test
+	void testNullSelectedCrypto() {
+		this.vm.getSelectedCrypto().set(null);
+		assertThrows(NullPointerException.class, ()-> {
+			this.vm.updateLineChart(String.valueOf(15));
 		});
 	}
 
