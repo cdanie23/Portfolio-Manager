@@ -199,7 +199,7 @@ public class BuyCryptoViewModel {
 		}
 		holding.setAmountHeld(updatedHoldingAmount.doubleValue());
 		this.user.addHolding(holding);
-		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
+		this.holdingsProperty.get().setAll(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.user.setFundsAvailable(updatedUserFunds.doubleValue());
 		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}
