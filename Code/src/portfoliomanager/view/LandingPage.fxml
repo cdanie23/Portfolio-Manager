@@ -51,6 +51,9 @@
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </Label>
+                  <Label layoutX="550.0" layoutY="137.0" />
+                  <ListView fx:id="cryptoListView" layoutX="18.0" layoutY="164.0" prefHeight="238.0" prefWidth="706.0" style="-fx-font-family: Monospaced;" />
+                  <ImageView fx:id="logoImageView" fitHeight="66.0" fitWidth="66.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
                </children></AnchorPane>
       </content>
     </Tab>
