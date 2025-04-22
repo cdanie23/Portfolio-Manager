@@ -28,7 +28,7 @@ class TestHolding {
 	
 	@Test
 	void testToString() {
-		String expected = String.format("%10s%25s%25s", this.holding.getName(), this.holding.getTotalPrice(), this.holding.getAmountHeld());
+		String expected = String.format("%-10s %12.2f %8.2f", this.holding.getName(), this.holding.getTotalPrice(), this.holding.getAmountHeld());
 		String actual = this.holding.toString();
 		
 		assertTrue(expected.equals(actual));
