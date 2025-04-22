@@ -103,6 +103,14 @@ public class TestSignUpPageViewModel {
 		});
 	}
 	@Test
+	public void testBadUsername() {
+		this.page.getUserNameProperty().set("uglyName");
+		this.page.getPasswordProperty().set("testPassword123");
+		this.page.getPasswordConfirmProperty().set("testPassword123");
+		
+		assertThrows(IllegalArgumentException.class, () -> this.page.createAccount());
+	}
+	@Test
 	public void testNotSignedIn() {
 		assertFalse(page.getSignedUpStatus().get());
 	}

@@ -56,7 +56,7 @@ public class LandingPageViewModel {
 		
 		this.client = Client.getInstance();
 		this.dataReader = null;
-		this.cryptoListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
+		this.cryptoListProperty = null;
 		
 		this.fundsAvailable = new SimpleStringProperty();
 	
@@ -226,6 +226,9 @@ public class LandingPageViewModel {
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
+		if (this.cryptoListProperty == null) {
+			this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+		}
 		this.cryptoListProperty.setAll(this.dataReader.getCryptoCollection());
 	}
 	

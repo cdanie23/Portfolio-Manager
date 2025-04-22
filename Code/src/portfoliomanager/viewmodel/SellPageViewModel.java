@@ -117,7 +117,11 @@ public class SellPageViewModel {
 			String errorMsg = (String) response.get("error description");
 			throw new UnsupportedOperationException(errorMsg);
 		} else {
+			if (response.get("amount") instanceof Integer) {
+				updatedHoldingAmount = BigDecimal.valueOf((Integer) response.get("amount"));
+			} else {
 			updatedHoldingAmount = (BigDecimal) response.get("amount");
+			}
 			updatedUserFunds = (BigDecimal) response.get("funds");
 		}
 		holding.setAmountHeld(updatedHoldingAmount.doubleValue());
@@ -163,6 +167,15 @@ public class SellPageViewModel {
 	
 	public Client getClient() {
 		return this.client;
+	}
+	/**
+	 * Sets the user
+	 * @param user the user to set
+	 * @post this.user == user
+	 */
+	
+	public void setUser(Account user) {
+		this.user = user;
 	}
 	
 }

@@ -71,16 +71,7 @@ public class TestLoginPageViewModel {
 		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
 	}
 	
-//	@Test
-//	public void testValidLoginPageViewModelConstructorEmptyAccounts() {
-//		MockServer.ACCOUNTS.clear();
-//		
-//		assertTrue(MockServer.ACCOUNTS.isEmpty());
-//		
-//		new LoginPageViewModel(new SimpleObjectProperty<Boolean>(false), new Account("Sam", "pw", "$123"));
-//		
-//		assertFalse(SignUpPageViewModel.getAccounts().isEmpty());
-//	}
+	
 	
 	@Test
 	public void testValidVerifyAccount() {
@@ -110,5 +101,9 @@ public class TestLoginPageViewModel {
 		assertThrows(IllegalArgumentException.class, () -> {
 			this.page.verifyLogin();
 		});
+	}
+	@Test
+	public void testValidUserWithFunds() {
+		
 	}
 }

@@ -29,7 +29,9 @@
                      </font>
                   </Label>
                   
+
                   <Label fx:id="listNameLabel" layoutX="18.0" layoutY="137.0" onMouseClicked="#sortByNameClicked" text="Name" textFill="#f8f8f8">
+
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>

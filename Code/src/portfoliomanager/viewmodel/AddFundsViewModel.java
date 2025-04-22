@@ -66,7 +66,7 @@ public class AddFundsViewModel {
 		if (this.amountProperty.get() == null || this.amountProperty.get().isEmpty()) {
 			throw new IllegalArgumentException("Please enter a valid number.");
 		}
-		double newFunds = Integer.parseInt(this.amountProperty.get());
+		double newFunds = Double.valueOf(this.amountProperty.get());
 		this.client.makeAddFundsRequest(this.user.getAuth(), newFunds);
 		Map<String, Object> response = this.client.getResponse();
 		int successCode = (int) response.get("success code");

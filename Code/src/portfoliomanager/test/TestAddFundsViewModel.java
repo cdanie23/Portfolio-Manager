@@ -94,4 +94,11 @@ class TestAddFundsViewModel {
 			this.vm.addFunds();
 		});
 	}
+	@Test
+	void testNegativeFundsAmount() {
+		this.vm.getAmountProperty().setValue("-5.0");
+		assertThrows(UnsupportedOperationException.class, () -> {
+			this.vm.addFunds();
+		});
+	}
  }
