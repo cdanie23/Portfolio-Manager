@@ -102,6 +102,7 @@ public class BuyCryptoCodeBehind {
     public void setData(Account user, ListProperty<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
     	this.viewModel = new BuyCryptoViewModel(user, holdingsProperty, fundsAvailable);
     	this.buyCryptoListView.itemsProperty().bindBidirectional(cryptoList);
+    	this.viewModel.startTrendUpdates(this.buyCryptoListView);
     	this.viewModel.getAmountProperty().bind(this.amountTextBox.textProperty());
     	this.lineGraph.getData().add(this.viewModel.getLineChartSeriesProperty());
     	CategoryAxis xAxis = (CategoryAxis) this.lineGraph.getXAxis();

@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,9 +18,11 @@ import javafx.collections.FXCollections;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import portfoliomanager.client.Client;
+import portfoliomanager.client.TrendClient;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -38,6 +42,7 @@ public class BuyCryptoViewModel {
 	private StringProperty fundsAvailableProperty;
 	private Series<String, Double> lineChartSeriesProperty;
 	private Client client;
+	private TrendClient trendSubscriber;
 	
 	/**
 	 * Instantiates a new buy crypto view model class
@@ -58,6 +63,7 @@ public class BuyCryptoViewModel {
 		this.fundsAvailableProperty = fundsAvailable;
 		this.lineChartSeriesProperty = new Series<>();
 		this.client = Client.getInstance();
+		this.trendSubscriber = new TrendClient();
 	}
 	
 	/**
@@ -247,6 +253,26 @@ public class BuyCryptoViewModel {
 		line.setStroke(Color.RED);
 		data.setNode(line);
 	}
+	
+	/**
+	 * Starts current crypto price updater
+	 * 
+	 * @param cryptoListView the list in the UI
+	 */
+	public void startTrendUpdates(ListView<Crypto> cryptoListView) {
+		this.trendSubscriber.start(trendUpdate -> {
+			Platform.runLater(() ->  {
+				for (Crypto currCrypto : cryptoListView.getItems()) {
+					if (trendUpdate.containsKey(currCrypto.getName())) {
+						currCrypto.setCurrentPrice(trendUpdate.get(currCrypto.getName()).doubleValue());
+						System.out.println(currCrypto);
+					}
+				}
+				cryptoListView.refresh();
+			});
+		});
+	}
+	
 	/**
 	 * Sets the client for a specific port
 	 * 

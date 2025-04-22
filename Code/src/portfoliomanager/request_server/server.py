@@ -53,14 +53,23 @@ def runServer(protocol, ip_address, port, trend_holder):
             socket.send_string(json_response)
             
 def startTrendUpdate(trend_holder):
+    pub_context = zmq.Context()
+    pub_socket = pub_context.socket(zmq.PUB)
+    pub_socket.bind(f"{constants.PROTOCOL}://{constants.IP_ADDRESS}:5554")
+    
     def update_loop():
         while True:
             print("Started updater for refreshing crypto metric")
             trend_holder.updateTrend()
-            time.sleep(100)
+            updated_data = trend_holder.getCurrTrend().curr_trend
+            json_data = json.dumps({
+                constants.KEY_REQUEST_TYPE: "trend_update",
+                constants.GET_CRYPTO_DATA: updated_data})
+            pub_socket.send_string(json_data)
+            time.sleep(60)
     updater_thread = threading.Thread(target=update_loop, daemon=True)
     updater_thread.start() 
-    
+
 def main():
     trend_holder = TrendHolder()
     startTrendUpdate(trend_holder)
