@@ -241,7 +241,6 @@ public final class Client extends Thread {
 		Holder.client = null;
 	}
 
-
 	/** Makes the request to get price for the specified crypto
 	 * 
 	 * @param request the request to be made to the server
@@ -255,7 +254,5 @@ public final class Client extends Thread {
 		this.sendRequest();
 		
 	}
-
-	
 
 }
