@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -199,7 +198,7 @@ public class BuyCryptoViewModel {
 		}
 		holding.setAmountHeld(updatedHoldingAmount.doubleValue());
 		this.user.addHolding(holding);
-		this.holdingsProperty.bindBidirectional(new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings())));
+		this.holdingsProperty.get().setAll(FXCollections.observableArrayList(this.user.getHoldings()));
 		this.user.setFundsAvailable(updatedUserFunds.doubleValue());
 		this.fundsAvailableProperty.setValue(String.format("$%.2f", this.user.getFundsAvailable()));
 	}

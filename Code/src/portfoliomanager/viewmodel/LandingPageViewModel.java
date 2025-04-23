@@ -62,7 +62,8 @@ public class LandingPageViewModel {
 	
 		this.holdings = new ArrayList<Holding>(); 
 
-		this.holdingsProperty = new SimpleListProperty<Holding>();
+		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList());
+		
 		this.user = new SimpleObjectProperty<Account>();
 		
 		this.listNameLabel = new SimpleStringProperty("Name");
@@ -159,7 +160,7 @@ public class LandingPageViewModel {
 		    }
 		}
 		this.user.getValue().setHoldings(holdings);
-		this.holdingsProperty.setValue(FXCollections.observableList(this.user.getValue().getHoldings()));
+		this.holdingsProperty.setAll(FXCollections.observableList(this.user.getValue().getHoldings()));
 	}
 	
 	/**
@@ -225,7 +226,10 @@ public class LandingPageViewModel {
 	private void readCryptoList() {
 		this.dataReader = new DataReader(this.client);
 		this.dataReader.readCryptoData();
-		this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+		if (this.cryptoListProperty == null) {
+			this.cryptoListProperty = new SimpleListProperty<Crypto>(FXCollections.observableArrayList(this.dataReader.getCryptoCollection()));
+		}
+		this.cryptoListProperty.setAll(this.dataReader.getCryptoCollection());
 	}
 	
 	/**

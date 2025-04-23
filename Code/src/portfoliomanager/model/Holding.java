@@ -32,7 +32,7 @@ public class Holding extends Crypto {
 	
 	@Override
 	public String toString() {
-		return String.format("%10s%25s%25s", super.getName(), this.getTotalPrice(), this.amount);
+		return String.format("%-10s %12.2f %8.2f", super.getName(), this.getTotalPrice(), this.amount);
 	}
 	/**
 	 * Gets the amount held

@@ -130,7 +130,7 @@ class TestCrypto {
 		historicalData.put(yesterday, null);
 		historicalData.put(dayBefore, new BigDecimal(70));
 		btc.setHistoricalPrices(historicalData);
-		assertTrue((String.format("%25s%68.2f%66.2f", btc.getName(), btc.getCurrentPrice(), btc.getOneDayPriceChange()) + "%").equals(btc.toString()));
+		assertTrue((String.format("%-25s %25.2f %25.2f%%", btc.getName(), btc.getCurrentPrice(), btc.getOneDayPriceChange())).equals(btc.toString()));
 	}
 	
 	@Test
