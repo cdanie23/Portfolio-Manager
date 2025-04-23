@@ -60,7 +60,6 @@ public class AddFundsViewModel {
 	/**
 	 * Adds the funds to the user's already available fund
 	 * 
-
 	 */
 	public void addFunds() {
 		if (this.amountProperty.get() == null || this.amountProperty.get().isEmpty()) {

@@ -63,9 +63,9 @@ public class AddFundsCodeBehind {
                 return change;
             }
 
-            if (newText.matches("[0-9]*")) {
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
                 try {
-                    int value = Integer.parseInt(newText);
+                	Double value = Double.parseDouble(newText);
                     if (value >= 0) {
                         return change; 
                     }
@@ -87,5 +87,4 @@ public class AddFundsCodeBehind {
     	this.viewModel = new AddFundsViewModel(user, fundsAvailable);
     	this.viewModel.getAmountProperty().bind(this.amountTextBox.textProperty());
     }
-
 }
