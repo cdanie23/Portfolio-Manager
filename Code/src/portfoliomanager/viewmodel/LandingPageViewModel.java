@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -13,10 +12,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.scene.control.ListView;
+import javafx.collections.ObservableList;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
-import portfoliomanager.client.TrendClient;
 import portfoliomanager.datareader.DataReader;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
@@ -45,7 +43,6 @@ public class LandingPageViewModel {
 	private StringProperty portfolioNameProperty;
 	private StringProperty fundsAvailable;
 	private Client client;
-	private TrendClient trendSubscriber;
 	
 	/**
 	 * Instantiates an instance of the view-model
@@ -73,7 +70,6 @@ public class LandingPageViewModel {
 		this.listNameLabel = new SimpleStringProperty("Name");
 	    this.listPriceLabel = new SimpleStringProperty("Price");
 	    this.listTrendLabel = new SimpleStringProperty("24hr Price Trend");
-	    this.trendSubscriber = new TrendClient();
 	}
 
 	/**
@@ -241,21 +237,16 @@ public class LandingPageViewModel {
 	 * Starts current crypto price updater
 	 * 
 	 * @param cryptoListView the list in the UI
+	 * @param trendUpdate map with new updates
 	 */
-	public void startTrendUpdates(ListView<Crypto> cryptoListView) {
-		this.trendSubscriber.start(trendUpdate -> {
-			Platform.runLater(() ->  {
-				for (Crypto currCrypto : cryptoListView.getItems()) {
-					if (trendUpdate.containsKey(currCrypto.getName())) {
-						currCrypto.setCurrentPrice(trendUpdate.get(currCrypto.getName()).doubleValue());
-						System.out.println(currCrypto);
-					}
-				}
-				cryptoListView.refresh();
-			});
-		});
+	public void updateCryptoPrice(ObservableList<Crypto> cryptoListView, Map<String, BigDecimal> trendUpdate) {
+		for (Crypto currCrypto : cryptoListView) {
+			if (trendUpdate.containsKey(currCrypto.getName())) {
+				currCrypto.setCurrentPrice(trendUpdate.get(currCrypto.getName()).doubleValue());
+			}
+		}
 	}
-
+	
 	/**
 	 * Gets the name label.
 	 *

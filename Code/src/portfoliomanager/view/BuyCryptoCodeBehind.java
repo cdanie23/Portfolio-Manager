@@ -20,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
+import portfoliomanager.client.TrendClient;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -60,6 +61,8 @@ public class BuyCryptoCodeBehind {
 	private ObjectProperty<Crypto> selectedCrypto;
     
     private BuyCryptoViewModel viewModel;
+
+	private TrendClient trendSubscriber;
 
     @FXML
     void cancelButtonClicked(MouseEvent event) {
@@ -102,14 +105,23 @@ public class BuyCryptoCodeBehind {
     public void setData(Account user, ListProperty<Crypto> cryptoList, ListProperty<Holding> holdingsProperty, StringProperty fundsAvailable) {
     	this.viewModel = new BuyCryptoViewModel(user, holdingsProperty, fundsAvailable);
     	this.buyCryptoListView.itemsProperty().bindBidirectional(cryptoList);
-    	this.viewModel.startTrendUpdates(this.buyCryptoListView);
+    	this.trendSubscriber = new TrendClient();
+    	this.startTrendUpdates(this.buyCryptoListView);
     	this.viewModel.getAmountProperty().bind(this.amountTextBox.textProperty());
     	this.lineGraph.getData().add(this.viewModel.getLineChartSeriesProperty());
     	CategoryAxis xAxis = (CategoryAxis) this.lineGraph.getXAxis();
     	xAxis.setAutoRanging(true);
     }
     
-    private void setUpListeners() {
+    private void startTrendUpdates(ListView<Crypto> buyCryptoListView2) {
+		this.trendSubscriber.start(trendUpdate -> {
+			this.viewModel.updateCryptoPrice(this.buyCryptoListView.getItems(), trendUpdate);
+			this.buyCryptoListView.refresh();
+		});
+		
+	}
+
+	private void setUpListeners() {
 		this.buyCryptoListView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
 			if (newVal != null) {
 				this.selectedCrypto.setValue(newVal);

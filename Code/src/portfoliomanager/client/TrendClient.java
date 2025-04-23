@@ -16,11 +16,23 @@ import java.util.function.Consumer;
  * @version Spring 2025
  */
 public class TrendClient {
-	private static final String SUBSCRIBE_ENDPOINT = "tcp://127.0.0.1:5554";
+	private static final String SUBSCRIBE_ENDPOINT = "tcp://127.0.0.1:";
     private ZMQ.Context context;
     private ZMQ.Socket subscriberSocket;
     private Thread subscriberThread;
     private volatile boolean keepListening;
+    private String serverPort = "5554";
+    
+    /**
+     * Sets a different serverPort to listen to
+     * 
+     * @param port to listen/subscribe to
+     */
+    public void setServerPort(String port) {
+    	if (port != null) {
+    		this.serverPort = port;
+    	}
+    }
     
     /**
      *  Starts the trend subscriber thread
@@ -29,7 +41,7 @@ public class TrendClient {
     public void start(Consumer<Map<String, BigDecimal>> callback) {
     	this.context = ZMQ.context(1);
         this.subscriberSocket = this.context.socket(ZMQ.SUB);
-        this.subscriberSocket.connect(SUBSCRIBE_ENDPOINT);
+        this.subscriberSocket.connect(SUBSCRIBE_ENDPOINT + this.serverPort);
         this.subscriberSocket.subscribe("".getBytes(ZMQ.CHARSET));
 
         this.keepListening = true;
@@ -37,18 +49,16 @@ public class TrendClient {
         this.subscriberThread = new Thread(() -> {
             System.out.println("Trend subscriber started and listening...");
             while (this.keepListening && !Thread.currentThread().isInterrupted()) {
-                String message = this.subscriberSocket.recvStr(0);
                 try {
-                    JSONObject jsonResponse = new JSONObject(message);
+                    String message = this.subscriberSocket.recvStr(0);
+                	JSONObject jsonResponse = new JSONObject(message);
                     JSONArray data = (JSONArray) jsonResponse.get("getData");
                     callback.accept(this.extractCryptoPriceMap(data));
-                } catch (Exception exception) {
-                    System.err.println("TrendSubscriber - Error parsing update: " + exception.getMessage());
+                } catch (Exception caughtException) {
+                	System.out.println("The connection between publisher and subscriber has been terminated.");
                 }
             }
-            this.close();
         });
-
         this.subscriberThread.setDaemon(true);
         this.subscriberThread.start();
     }
@@ -61,6 +71,7 @@ public class TrendClient {
     	if (this.subscriberThread != null && this.subscriberThread.isAlive()) {
             this.subscriberThread.interrupt();
         }
+    	this.close();
     }
     
     private void close() {
