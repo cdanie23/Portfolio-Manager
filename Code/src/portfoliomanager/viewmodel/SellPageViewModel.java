@@ -83,7 +83,9 @@ public class SellPageViewModel {
 	public double getAmountLeft() {
 		double amountToSell = Double.parseDouble(this.amountToSell.getValue());
 		
-		return this.holdingToSell.getAmountHeld() - amountToSell;
+		double amountLeft = this.holdingToSell.getAmountHeld() - amountToSell;
+		BigDecimal roundedProfit = new BigDecimal(amountLeft).setScale(2, RoundingMode.HALF_UP);
+		return roundedProfit.doubleValue();
 	}
 	
 	/**
