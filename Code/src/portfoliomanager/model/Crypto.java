@@ -162,13 +162,13 @@ public class Crypto {
 	    String formattedDate = yesterday.format(formatter);
 	    Object price = this.historicalPrices.get(formattedDate);
 	    BigDecimal yesterdaysPrice = this.returnBigDecimal(price);
-	    if (yesterdaysPrice == null) {
-	    	String dayBeforeDate = today.minusDays(2).format(formatter);
-	    	Object backupPrice = this.historicalPrices.get(dayBeforeDate);
+	    while (yesterdaysPrice == null) {
+	    	yesterday = yesterday.minusDays(1);
+	    	Object backupPrice = this.historicalPrices.get(yesterday.format(formatter));
 	    	try {
 	    		yesterdaysPrice = this.returnBigDecimal(backupPrice);
 	    	} catch (ClassCastException exception) {
-	    		yesterdaysPrice = this.returnBigDecimal(this.historicalPrices.get(dayBeforeDate));
+	    		yesterdaysPrice = this.returnBigDecimal(this.historicalPrices.get(yesterday.format(formatter)));
 	    	}
 	    }
 		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
