@@ -113,7 +113,7 @@ class TestClient {
 
 	@Test
 	void testHandleSignUp() {
-		client.makeAuthRequest(Requests.signUp, "user1", "pass123", "pass123");
+		client.makeAuthRequest(Requests.signUp, "user", "pass123", "pass123");
 		Map<String, Object> response = client.getResponse();
 		assertAll(() -> assertEquals(1, response.get("success code")), () -> assertTrue(response.containsKey("token")));
 	}

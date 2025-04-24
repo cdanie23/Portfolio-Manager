@@ -8,13 +8,12 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.zeromq.ZMQ;
-import portfoliomanager.model.Account;
 
 public class MockServer {
 	private ZMQ.Context context;
 	private ZMQ.Socket socket;
-	public static List<Account> ACCOUNTS = new ArrayList<>(List.of(new Account("user", "pass123", "$123")));
-
+	private List<String> testingList = new ArrayList<String>();
+	
 	public void mockServer(String bindingPort) {
 		this.context = ZMQ.context(1);
 		this.socket = this.context.socket(ZMQ.REP);
@@ -40,16 +39,23 @@ public class MockServer {
 				jsonResponse.put("History", history);
 			} else if (jsonRequest.getString("type").equals("signUp")) {
 				int successCode = 1;
-				if (jsonRequest.getString("username").equals("uglyName")) {
+				String username = jsonRequest.getString("username");
+				if (username.equals("uglyName") || this.testingList.contains(username)) {
 					successCode = -1;
 				}
 				jsonResponse.put("success code", successCode);
 				jsonResponse.put("token", "abs");
+				this.testingList.add(username);
 			} else if (jsonRequest.getString("type").equals("login")) {
 				int successCode = 1;
-				
-				jsonResponse.put("success code", successCode);
-				jsonResponse.put("token", "abd");
+				String username = jsonRequest.getString("username");
+				if (this.testingList.contains(username)) {
+					jsonResponse.put("success code", successCode);
+					jsonResponse.put("token", "abs");
+				} else {
+					successCode = -1;
+					jsonResponse.put("success code", successCode);
+				}
 			} else if (jsonRequest.getString("type").equals("addFunds")) {
 				int successCode = 1;
 				if (jsonRequest.get("amount").equals("-5.0")) {

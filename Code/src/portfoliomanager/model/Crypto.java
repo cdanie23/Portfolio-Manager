@@ -173,8 +173,13 @@ public class Crypto {
 	    }
 		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
 	}
-
-	private BigDecimal returnBigDecimal(Object price) {
+	
+	/**
+	 * Returns a big decimal representation of a price
+	 * @param price the price
+	 * @return a big decimal object that holds the price
+	 */
+	public BigDecimal returnBigDecimal(Object price) {
 		BigDecimal amount = null;
 		if (price instanceof Integer) {
 	    	amount = new BigDecimal((Integer) price);
