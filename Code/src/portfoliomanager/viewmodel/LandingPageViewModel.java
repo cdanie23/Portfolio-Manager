@@ -162,6 +162,7 @@ public class LandingPageViewModel {
 		}
 		this.user.getValue().setHoldings(holdings);
 		this.holdingsProperty.setAll(FXCollections.observableList(this.user.getValue().getHoldings()));
+		
 	}
 	
 	/**

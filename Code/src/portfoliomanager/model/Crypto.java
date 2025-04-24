@@ -155,7 +155,6 @@ public class Crypto {
 	 * Gets the one day change of price
 	 * @return the price change
 	 */
-	
 	public double getOneDayPriceChange() {
 		LocalDate today = this.getTodaysDate();
 		LocalDate yesterday = today.minusDays(1);
@@ -163,9 +162,14 @@ public class Crypto {
 	    String formattedDate = yesterday.format(formatter);
 	    Object price = this.historicalPrices.get(formattedDate);
 	    BigDecimal yesterdaysPrice = this.returnBigDecimal(price);
-	    if (yesterdaysPrice == null) {
-	    	String dayBeforeDate = today.minusDays(2).format(formatter);
-	    	yesterdaysPrice = this.historicalPrices.get(dayBeforeDate);
+	    while (yesterdaysPrice == null) {
+	    	yesterday = yesterday.minusDays(1);
+	    	Object backupPrice = this.historicalPrices.get(yesterday.format(formatter));
+	    	try {
+	    		yesterdaysPrice = this.returnBigDecimal(backupPrice);
+	    	} catch (ClassCastException exception) {
+	    		yesterdaysPrice = this.returnBigDecimal(this.historicalPrices.get(yesterday.format(formatter)));
+	    	}
 	    }
 		return ((this.currentPrice.doubleValue() - yesterdaysPrice.doubleValue()) / yesterdaysPrice.doubleValue()) * 100;
 	}

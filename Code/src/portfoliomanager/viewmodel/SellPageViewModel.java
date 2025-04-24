@@ -1,6 +1,7 @@
 package portfoliomanager.viewmodel;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 import javafx.beans.property.ListProperty;
@@ -58,11 +59,11 @@ public class SellPageViewModel {
 		this.holdingToSell = holdingToSell;
 		this.holdingsProperty = new SimpleListProperty<Holding>(FXCollections.observableArrayList(this.user.getHoldings()));
 	}
+	
 	/**
 	 * Gets the holdings of the user
 	 * @return the holdings
 	 */
-	
 	public ListProperty<Holding> getHoldingsProperty() {
 		return this.holdingsProperty;
 	}
@@ -74,11 +75,11 @@ public class SellPageViewModel {
 	public StringProperty getAmountToSell() {
 		return this.amountToSell;
 	}
+	
 	/**
 	 * Gets the amount left after selling of the holding
 	 * @return the amount left
 	 */
-	
 	public double getAmountLeft() {
 		double amountToSell = Double.parseDouble(this.amountToSell.getValue());
 		
@@ -91,8 +92,12 @@ public class SellPageViewModel {
 	 */
 	public double getProfit() {
 		double amountToSell = Double.parseDouble(this.amountToSell.getValue());
-		return this.holdingToSell.getProfit(amountToSell);
+		double profit = this.holdingToSell.getProfit(amountToSell);
+	    BigDecimal roundedProfit = new BigDecimal(profit).setScale(2, RoundingMode.HALF_UP);
+	    
+	    return roundedProfit.doubleValue();
 	}
+	
 	/**
 	 * Gets the holding the user wants to sell
 	 * @return the holding
