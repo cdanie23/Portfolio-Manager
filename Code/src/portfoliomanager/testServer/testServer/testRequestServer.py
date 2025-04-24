@@ -54,7 +54,7 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         auth_token = response.get(constants.KEY_TOKEN)
         return auth_token
-        
+    
     def testUnsupportedRequestType(self):
         request = {constants.KEY_REQUEST_TYPE:-33}
         jsonRequest = json.dumps(request)
@@ -206,7 +206,7 @@ class TestRequestServer(unittest.TestCase):
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.SUCCESS_STATUS)
-        
+    
     def testModifyHoldingSelling(self):
         auth_token = self._login()
         add_holding_request= {
@@ -265,7 +265,7 @@ class TestRequestServer(unittest.TestCase):
         jsonResponse = self._socket.recv_string()
         response = json.loads(jsonResponse)
         self.assertEqual(response[constants.KEY_STATUS], constants.BAD_MESSAGE_STATUS)
-        
+    
     def testModifyHoldingsNoTotalCost(self):
         auth_token = self._login()
         add_holding_request= {
@@ -346,7 +346,7 @@ class TestRequestServer(unittest.TestCase):
     
         self.assertEqual(2, len(_request_Handler._users))
     
-
+    
     
     def testHandleLogout(self):
         signupRequest = {
@@ -414,12 +414,12 @@ class TestRequestServer(unittest.TestCase):
         response = json.loads(jsonResponse)
         successCode = response["success code"]
         self.assertEqual(-1, successCode)
-        
+    
     def testCmGetHistoricalData(self):
         _request_Handler = RequestHandler(self.mock_trend_holder)
         cryptoData = _request_Handler.trend.getCurrTrend().getHistoricalData("bitcoin")
         self.assertIsInstance(cryptoData, dict)
-        
+    
     def testStartTrendUpdateCallsUpdateTrend(self):
         mock_trend_holder = self.mock_trend_holder
         mock_trend_holder.updateTrend = MagicMock()

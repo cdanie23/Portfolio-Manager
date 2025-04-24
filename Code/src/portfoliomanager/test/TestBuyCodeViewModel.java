@@ -3,16 +3,16 @@ package portfoliomanager.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -162,5 +162,45 @@ class TestBuyCodeViewModel {
 		this.vm.getAmountProperty().setValue(String.valueOf(-5.00));
 		assertThrows(UnsupportedOperationException.class, () ->this.vm.buyCrypto());
 	}
+	
+	@Test
+	void testUpdateThread() {
+		ObservableList<Crypto> cryptoList = this.setUpList();
+		Map<String, BigDecimal> trendUpdate = new HashMap<String, BigDecimal>();
+		trendUpdate.put("Bitcoin", new BigDecimal(5000.00));
+		trendUpdate.put("Ethereum", new BigDecimal(55.230));
+		this.vm.updateCryptoPrice(cryptoList, trendUpdate);
 
+		assertAll(()-> assertEquals(3, cryptoList.size()),
+				()-> assertEquals(5000.00, cryptoList.get(0).getCurrentPrice()),
+				()-> assertEquals(55.230, cryptoList.get(1).getCurrentPrice()),
+				()-> assertEquals(15.56, cryptoList.get(2).getCurrentPrice()));
+	}
+	
+	private ObservableList<Crypto> setUpList() {
+		ObservableList<Crypto> cryptoList= FXCollections.observableArrayList();
+		Crypto btc = new Crypto("Bitcoin", 7555.00);
+		LocalDate today= LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+		String todaysDate = today.format(formatter);
+		String yesterdayDate = today.minusDays(1).format(formatter);
+		HashMap<String, BigDecimal> btcHist = new HashMap<String, BigDecimal>();
+		btcHist.put(todaysDate, new BigDecimal(7555.00));
+		btcHist.put(yesterdayDate, new BigDecimal(8890));
+		btc.setHistoricalPrices(btcHist);
+		Crypto eth = new Crypto("Ethereum", 15.561);
+		HashMap<String, BigDecimal> ethHist = new HashMap<String, BigDecimal>();
+		ethHist.put(todaysDate, new BigDecimal(55.300));
+		ethHist.put(yesterdayDate, new BigDecimal(89.550));
+		eth.setHistoricalPrices(ethHist);
+		cryptoList.add(btc);
+		cryptoList.add(eth);
+		Crypto th = new Crypto("Tether", 15.561);
+		HashMap<String, BigDecimal> thHist = new HashMap<String, BigDecimal>();
+		thHist.put(todaysDate, new BigDecimal(55.300));
+		thHist.put(yesterdayDate, new BigDecimal(89.550));
+		th.setHistoricalPrices(ethHist);
+		cryptoList.add(th);
+		return cryptoList;
+	}
 }

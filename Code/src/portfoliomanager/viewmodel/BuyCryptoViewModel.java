@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
@@ -247,6 +248,21 @@ public class BuyCryptoViewModel {
 		line.setStroke(Color.RED);
 		data.setNode(line);
 	}
+	
+	/**
+	 * Starts current crypto price updater
+	 * 
+	 * @param cryptoListView the list in the UI
+	 * @param trendUpdate map with new updates
+	 */
+	public void updateCryptoPrice(ObservableList<Crypto> cryptoListView, Map<String, BigDecimal> trendUpdate) {
+		for (Crypto currCrypto : cryptoListView) {
+			if (trendUpdate.containsKey(currCrypto.getName())) {
+				currCrypto.setCurrentPrice(trendUpdate.get(currCrypto.getName()).doubleValue());
+			}
+		}
+	}
+	
 	/**
 	 * Sets the client for a specific port
 	 * 
@@ -267,6 +283,7 @@ public class BuyCryptoViewModel {
 	public Client getClient() {
 		return this.client;
 	}
+
 }
 
 

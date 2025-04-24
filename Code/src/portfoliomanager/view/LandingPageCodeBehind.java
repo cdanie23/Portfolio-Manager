@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+import portfoliomanager.client.TrendClient;
 import portfoliomanager.model.Account;
 import portfoliomanager.model.Crypto;
 import portfoliomanager.model.Holding;
@@ -100,6 +101,8 @@ public class LandingPageCodeBehind implements Initializable {
 	private Label listPriceLabel;
 	@FXML
 	private Label listTrendLabel;
+
+	private TrendClient trendSubscriber;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -108,11 +111,14 @@ public class LandingPageCodeBehind implements Initializable {
 		this.viewModel = new LandingPageViewModel();
 		this.selectedHolding = new SimpleObjectProperty<Holding>();
 		this.setUpDataBinding();
+		this.cryptoListView.refresh();
 		this.portfolioTabPage.setDisable(true);
 		this.setUpListeners();
 		this.sellButton.setDisable(true);
 		this.disableLogOutButtons();
 		this.loginPageCodeBehind = null;
+		this.trendSubscriber = new TrendClient();
+		this.startTrendUpdates();
 	}
 
 	private void setUpDataBinding() {
@@ -211,7 +217,7 @@ public class LandingPageCodeBehind implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/portfoliomanager/view/BuyCrypto.fxml"));
 			Parent root = loader.load();
 			BuyCryptoCodeBehind buyCryptoController = loader.getController();
-			buyCryptoController.setData(this.viewModel.getUser().getValue(), this.viewModel.getCryptoListProperty(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
+			buyCryptoController.setData(this.viewModel.getUser().getValue(), this.viewModel.getCryptoList(), this.viewModel.getHoldingsProperty(), this.viewModel.getFundsAvailabe());
 
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
@@ -349,5 +355,12 @@ public class LandingPageCodeBehind implements Initializable {
 		this.logOutPortfolioButton.setDisable(true);
 		this.logOutPortfolioButton.setVisible(false);
 		this.landingTabPage.getSelectionModel().select(this.cryptoTabPage);
+	}
+	
+	private void startTrendUpdates() {
+		this.trendSubscriber.start(trendUpdate -> {
+			this.viewModel.updateCryptoPrice(this.cryptoListView.getItems(), trendUpdate);
+			this.cryptoListView.refresh();
+		});
 	}
 }

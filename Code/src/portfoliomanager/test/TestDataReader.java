@@ -27,7 +27,7 @@ class TestDataReader {
 	static void startServer() {
 		try {
 			mockServer = new MockServer();
-			port = "5554";
+			port = "5564";
 			serverThread = new Thread(() -> mockServer.mockServer(PROTOCOL_IP + port));
 			serverThread.start();
 		} catch (Exception e){
