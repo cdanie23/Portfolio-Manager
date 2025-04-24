@@ -58,12 +58,6 @@ public class TestSignUpPageViewModel {
 	}
 	
 	@Test
-	public void testValidSignUpPageViewModelConstructor() {
-		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
-		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
-		assertEquals("$123", MockServer.ACCOUNTS.get(0).getAuth());
-	}
-	@Test
 	public void testValidConstructor() {
 		SignUpPageViewModel viewModel = new SignUpPageViewModel(user, isLoggedIn);
 		assertFalse(viewModel.getSignedUpStatus().get());
@@ -77,9 +71,8 @@ public class TestSignUpPageViewModel {
 		this.page.getPasswordConfirmProperty().set("testPassword123");
 		this.page.createAccount();
 		
-		assertAll(()-> assertEquals(2, MockServer.ACCOUNTS.size()),
-				()-> assertEquals("testuser", MockServer.ACCOUNTS.get(1).getUserName()),
-				()-> assertEquals("testPassword123", MockServer.ACCOUNTS.get(1).getPassword()));
+		assertAll(()-> assertEquals("testuser", this.page.getUser().get().getUserName()),
+				()-> assertEquals("testPassword123", this.page.getUser().get().getPassword()));
 	}
 	
 	@Test

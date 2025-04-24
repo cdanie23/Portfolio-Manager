@@ -9,7 +9,6 @@ import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
-import portfoliomanager.test.MockServer;
 
 /**
  * The Sign Up Page View Model
@@ -123,17 +122,6 @@ public class LoginPageViewModel {
 		String username = this.usernameProperty.get().trim();
 		String password = this.passwordProperty.get().trim();
 		
-		boolean userInSystem = false;
-		for (Account user : MockServer.ACCOUNTS) {
-			if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
-				userInSystem = true;
-				break;
-			}
-		}
-		if (!userInSystem) {
-			throw new IllegalArgumentException("credentials do not match anything in our system");
-		}
-		
 		this.client.makeAuthRequest(Requests.login, username, password, password);
 		Map<String, Object> response = this.client.getResponse();
 		int successCode = (int) response.get("success code");
@@ -152,6 +140,6 @@ public class LoginPageViewModel {
 			this.isLoggedIn.setValue(true);
 			return;
 		} 
-		throw new IllegalArgumentException("Username or password are incorrect.");
+		throw new IllegalArgumentException("Username and password does not match");
 	}
 }

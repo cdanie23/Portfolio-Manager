@@ -20,6 +20,7 @@ import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
 import portfoliomanager.viewmodel.LoginPageViewModel;
+import portfoliomanager.viewmodel.SignUpPageViewModel;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class TestLoginPageViewModel {
@@ -67,8 +68,8 @@ public class TestLoginPageViewModel {
 	}
 	@Test
 	public void testValidLoginPageViewModelConstructor() {
-		assertEquals("user", MockServer.ACCOUNTS.get(0).getUserName());
-		assertEquals("pass123", MockServer.ACCOUNTS.get(0).getPassword());
+		assertEquals("user", this.page.getUser().get().getUserName());
+		assertEquals("pass123", this.page.getUser().get().getPassword());
 	}
 	
 	
@@ -77,9 +78,13 @@ public class TestLoginPageViewModel {
 	public void testValidVerifyAccount() {
 		this.page.getUserNameProperty().set("user");
 		this.page.getPasswordProperty().set("pass123");
-		
+		SignUpPageViewModel supm = new SignUpPageViewModel("test");
+		supm.getUserNameProperty().set("user");
+		supm.getPasswordProperty().set("pass123");
+		supm.getPasswordConfirmProperty().set("pass123");
+		supm.setClient(port);
+		supm.createAccount();
 		this.page.verifyLogin();
-		
 		assertTrue(this.page.getLoginStatus().getValue());
 	}
 	

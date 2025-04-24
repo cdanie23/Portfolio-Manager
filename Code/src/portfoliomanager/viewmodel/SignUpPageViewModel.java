@@ -8,7 +8,6 @@ import javafx.beans.property.StringProperty;
 import portfoliomanager.client.Client;
 import portfoliomanager.client.Requests;
 import portfoliomanager.model.Account;
-import portfoliomanager.test.MockServer;
 
 /**
  * The Sign Up Page View Model
@@ -140,10 +139,6 @@ public class SignUpPageViewModel {
 		this.isSignedUp.setValue(true);
 		String auth = (String) response.get("token");
 		Account account = new Account(username, password, auth);
-		if (MockServer.ACCOUNTS.contains(account)) {
-			throw new IllegalArgumentException("Cannot create a duplicate account");
-		}
-		MockServer.ACCOUNTS.add(account);
 		this.user.setValue(account);
 	}
 	
