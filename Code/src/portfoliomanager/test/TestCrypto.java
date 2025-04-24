@@ -166,4 +166,28 @@ class TestCrypto {
 		assertAll(()-> assertTrue(crypto.getPriceForRange(-1).isEmpty()),
 				()-> assertEquals(0, crypto.getPriceForRange(-1).size()));
 	}
+	@Test
+	void testBigDecimalWhenPriceIsBigDecimal() {
+		BigDecimal decimal = new BigDecimal(100.23458);
+		Double currentPrice = 54.36;
+
+		Crypto crypto = new Crypto("Bitcoin", currentPrice);
+		
+		
+		
+		assertTrue(crypto.returnBigDecimal(decimal) instanceof BigDecimal);
+	}
+	
+	@Test
+	void testBigDecimalWhenPriceIsInteger() {
+		Integer num = Integer.valueOf(35);
+		
+		Double currentPrice = 54.36;
+
+		Crypto crypto = new Crypto("Bitcoin", currentPrice);
+		
+		
+		
+		assertTrue(crypto.returnBigDecimal(num) instanceof BigDecimal);
+	}
 }
