@@ -6,13 +6,22 @@ Created on Apr 16, 2025
 import json
 from datetime import datetime
 from datareader.readCache import ReadCache
-
+from pathlib import Path
+import os 
+current_file = Path(__file__).resolve()
+cache_dir_crypto_metrics = current_file.parent.parent.parent.parent / "cache" 
 class CacheData:
     def __init__(self, fileName):
         '''
         Creates an instance of the CacheData class
         @post self.fileName == fileName
         '''
+    
+        if (fileName == None):
+            fileName = "cryptometrics.txt"
+            filePath = os.path.join(cache_dir_crypto_metrics, fileName)
+            fileName = filePath
+            
         self.fileName = fileName
         
     def cacheData(self, data):
@@ -43,4 +52,7 @@ class CacheData:
             if (curr_crypto.get('name').upper() == crypto_name.upper()):
                 price = curr_crypto.get('current_price')
         return price
+if (__name__ == "__main__"):
+    cacheData = CacheData(None)
+    cacheData.cacheData("hello world")
             
