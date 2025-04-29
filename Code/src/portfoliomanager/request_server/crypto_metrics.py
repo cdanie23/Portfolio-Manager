@@ -17,7 +17,7 @@ class CryptoMetric():
             self.curr_trend = curr_trend
         else:
             self.curr_trend = cg.get_coins_markets("usd")
-    
+            
     def getCurrCryptoPrice(self, crypto_id):
         '''
         Gets the price from the previous days closing price
@@ -52,11 +52,24 @@ class CryptoMetric():
         @returns a dictionary of dictionaries where the key is the name of the bitcoin and the dictionary
         returned has a key of dates and value of the price of that day
         '''
+        
+        if (os.path.exists(filepath)):
+            readCache = ReadCache(filepath)
+            return readCache.readCache()
+        else:
+            data = {}
+            for i in range(10):
+                coinData = self.curr_trend[i]
+                coinId = coinData["id"]
+                coinName = coinData["name"]
+                historicalData = self.getHistoricalData(coinId)
+                data[coinName] = historicalData
+            cacheData = CacheData(None)
+            cacheData.cacheData(data)
+            return data
+            
         cacheData = CacheData(cache_dir_crypto_metrics)
         new_data_thread = threading.Thread(target=cacheData.addNewData(self.curr_trend))
         new_data_thread.daemon = True
         new_data_thread.start()
-        if (os.path.exists(filepath)):
-            readCache = ReadCache(filepath)
-            return readCache.readCache()
         return None
