@@ -135,7 +135,7 @@ public class Crypto {
 	private List<String> getDates(int days) {
 		List<String> dateList = new ArrayList<String>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-		for (int idx = days; idx > 0; idx--) {
+		for (int idx = days; idx >= 0; idx--) {
 			String date = this.getTodaysDate().minusDays(idx).format(formatter);
 			dateList.add(date);
 		}
